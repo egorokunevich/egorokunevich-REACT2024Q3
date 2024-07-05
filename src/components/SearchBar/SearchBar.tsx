@@ -13,27 +13,39 @@ interface SearchBarState {
 class SearchBar extends Component<SearchBarProps, SearchBarState> {
   constructor(props: SearchBarProps) {
     super(props);
-
-    this.state = { query: "" };
+    const lastQuery = localStorage.getItem("lastQuery");
+    if (lastQuery) {
+      this.state = { query: lastQuery };
+    } else {
+      this.state = { query: "" };
+    }
+    this.handleSearch();
   }
 
   handleSearch() {
     this.props.onSearch(this.state.query);
 
-    this.setState({ query: "" });
+    // this.setState({ query: '' });
   }
 
   render() {
-    console.log("render searchBar");
     return (
-      <div>
+      <div className={styles.searchBar}>
         <input
+          className={styles.searchInput}
           type="text"
           placeholder="Search query..."
           onChange={(e) => {
             this.setState({
               query: e.target.value,
             });
+          }}
+          onKeyDown={(e) => {
+            if (!e.repeat) {
+              if (e.key === "Enter") {
+                this.handleSearch();
+              }
+            }
           }}
           value={this.state.query}
         />

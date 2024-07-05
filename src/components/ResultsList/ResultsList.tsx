@@ -7,7 +7,10 @@ interface ResultsListProps {
     name: string;
     sprites: {
       front_default: string;
+      front_shiny: string;
     };
+    height: number;
+    weight: number;
     id?: number;
     url?: string;
   }[];
@@ -19,7 +22,6 @@ export default class ResultsList extends Component<ResultsListProps> {
   }
 
   render() {
-    console.log("render resultsList");
     return (
       <div className={styles.listContainer}>
         <>
@@ -27,6 +29,9 @@ export default class ResultsList extends Component<ResultsListProps> {
             <PokeCard
               name={item.name}
               imgUrl={item.sprites.front_default}
+              shinyImgUrl={item.sprites.front_shiny}
+              height={item.height}
+              weight={item.weight}
               key={item.id || Math.random()}
             />
           ))}
