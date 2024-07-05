@@ -1,6 +1,7 @@
 import { Component } from "react";
 import styles from "./SearchBar.module.scss";
 import React from "react";
+import ErrorButton from "components/ErrorButton/ErrorButton";
 
 type SearchBarProps = {
   onSearch: (query: string) => void;
@@ -30,31 +31,34 @@ class SearchBar extends Component<SearchBarProps, SearchBarState> {
 
   render() {
     return (
-      <div className={styles.searchBar}>
-        <input
-          className={styles.searchInput}
-          type="text"
-          placeholder="Search query..."
-          onChange={(e) => {
-            this.setState({
-              query: e.target.value,
-            });
-          }}
-          onKeyDown={(e) => {
-            if (!e.repeat) {
-              if (e.key === "Enter") {
-                this.handleSearch();
+      <div className={styles.searchWrapper}>
+        <div className={styles.searchBar}>
+          <input
+            className={styles.searchInput}
+            type="text"
+            placeholder="Search query..."
+            onChange={(e) => {
+              this.setState({
+                query: e.target.value,
+              });
+            }}
+            onKeyDown={(e) => {
+              if (!e.repeat) {
+                if (e.key === "Enter") {
+                  this.handleSearch();
+                }
               }
-            }
-          }}
-          value={this.state.query}
-        />
-        <button
-          className={styles.searchBtn}
-          onClick={() => {
-            this.handleSearch();
-          }}
-        ></button>
+            }}
+            value={this.state.query}
+          />
+          <button
+            className={styles.searchBtn}
+            onClick={() => {
+              this.handleSearch();
+            }}
+          ></button>
+        </div>
+        <ErrorButton />
       </div>
     );
   }
