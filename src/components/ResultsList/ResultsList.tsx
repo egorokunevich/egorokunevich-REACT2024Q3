@@ -1,5 +1,4 @@
 import PokeCard from "components/PokeCard";
-import { Component } from "react";
 import styles from "./ResultsList.module.scss";
 
 interface ResultsListProps {
@@ -16,27 +15,23 @@ interface ResultsListProps {
   }[];
 }
 
-export default class ResultsList extends Component<ResultsListProps> {
-  constructor(props: ResultsListProps) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <div className={styles.listContainer}>
-        <>
-          {this.props.items.map((item) => (
-            <PokeCard
-              name={item.name}
-              imgUrl={item.sprites.front_default}
-              shinyImgUrl={item.sprites.front_shiny}
-              height={item.height}
-              weight={item.weight}
-              key={item.id || Math.random()}
-            />
-          ))}
-        </>
-      </div>
-    );
-  }
+function ResultsList(props: ResultsListProps) {
+  return (
+    <div className={styles.listContainer}>
+      <>
+        {props.items.map((item) => (
+          <PokeCard
+            name={item.name}
+            imgUrl={item.sprites.front_default}
+            shinyImgUrl={item.sprites.front_shiny}
+            height={item.height}
+            weight={item.weight}
+            key={item.id || Math.random()}
+          />
+        ))}
+      </>
+    </div>
+  );
 }
+
+export default ResultsList;

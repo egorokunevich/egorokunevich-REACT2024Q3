@@ -1,6 +1,6 @@
-import { Component } from "react";
+import { useState } from "react";
 import SearchBar from "components/SearchBar";
-import PokeApi from "api/PokeApi";
+import { getPokemon, getPokemons } from "api/PokeApi";
 import ResultsList from "components/ResultsList";
 import styles from "./SearchPage.module.scss";
 import Loader from "components/Loader";
@@ -21,25 +21,29 @@ interface SearchPageState {
   }[];
 }
 
-class SearchPage extends Component<{}, SearchPageState> {
-  state: SearchPageState = {
+function SearchPage() {
+  const [state, setState] = useState<SearchPageState>({
     searchResults: [],
     isLoading: false,
     notFound: false,
-  };
+  });
 
-  handleSearch = async (query: string) => {
+  async function handleSearch(query: string) {
     localStorage.setItem("lastQuery", query);
-    this.setState({ isLoading: true });
-    this.setState({ notFound: false });
+    setState((prevState) => {
+      const newState = { ...prevState };
+      newState.isLoading = true;
+      newState.notFound = false;
+      return newState;
+    });
     // If the query is empty — show the list of pokemons
     if (!query.trim().length) {
-      const results = (await PokeApi.getPokemons())?.results;
+      const results = (await getPokemons())?.results;
 
       if (results) {
         const pokemons = await Promise.all(
           results.map(async (item) => {
-            const pokemon = await PokeApi.getPokemon(item.name);
+            const pokemon = await getPokemon(item.name);
             if (pokemon) {
               return pokemon;
             }
@@ -49,17 +53,19 @@ class SearchPage extends Component<{}, SearchPageState> {
         const fulfilled = pokemons.filter((item) => {
           return item !== undefined;
         });
-
-        this.setState({
-          searchResults: [...fulfilled],
+        setState((prevState) => {
+          const newState = { ...prevState };
+          newState.searchResults = [...fulfilled];
+          return newState;
         });
       }
     } else {
       // If there is a query — show the searched item
-      const pokemon = await PokeApi.getPokemon(query.toLowerCase());
+      const pokemon = await getPokemon(query.toLowerCase());
       if (pokemon) {
-        this.setState({
-          searchResults: [
+        setState((prevState) => {
+          const newState = { ...prevState };
+          newState.searchResults = [
             {
               name: pokemon.name,
               id: pokemon.id,
@@ -70,25 +76,34 @@ class SearchPage extends Component<{}, SearchPageState> {
               height: pokemon.height,
               weight: pokemon.weight,
             },
-          ],
+          ];
+          return newState;
         });
       } else {
-        this.setState({ notFound: true });
+        setState((prevState) => {
+          const newState = { ...prevState };
+          newState.notFound = true;
+          return newState;
+        });
       }
     }
-    this.setState({ isLoading: false });
-  };
+    setState((prevState) => {
+      const newState = { ...prevState };
+      newState.isLoading = false;
+      return newState;
+    });
+  }
 
-  renderLoader() {
-    if (this.state.isLoading) {
+  function renderLoader() {
+    if (state.isLoading) {
       return <Loader />;
     } else {
-      return this.renderResults();
+      return renderResults();
     }
   }
 
-  renderResults() {
-    if (this.state.notFound) {
+  function renderResults() {
+    if (state.notFound) {
       return (
         <div className={styles.notFoundWrapper}>
           <div className={styles.notFoundMessage}>
@@ -97,18 +112,16 @@ class SearchPage extends Component<{}, SearchPageState> {
         </div>
       );
     } else {
-      return <ResultsList items={this.state.searchResults} />;
+      return <ResultsList items={state.searchResults} />;
     }
   }
 
-  render() {
-    return (
-      <div className={styles.pageContainer}>
-        <SearchBar onSearch={this.handleSearch} />
-        {this.renderLoader()}
-      </div>
-    );
-  }
+  return (
+    <div className={styles.pageContainer}>
+      <SearchBar onSearch={handleSearch} />
+      {renderLoader()}
+    </div>
+  );
 }
 
 export default SearchPage;

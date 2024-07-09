@@ -15,27 +15,25 @@ interface Pokemons {
   results: { name: string; url: string }[];
 }
 
-export default class PokeApi {
-  static instance: Axios = axios.create({
-    baseURL: "https://pokeapi.co/api/v2",
-  });
+export const ApiInstance: Axios = axios.create({
+  baseURL: "https://pokeapi.co/api/v2",
+});
 
-  static async getPokemon(query: string): Promise<Pokemon | null> {
-    try {
-      const result = await this.instance.get<Pokemon>(`/pokemon/${query}`);
-      return result.data;
-    } catch {
-      return null;
-    }
+export async function getPokemon(query: string): Promise<Pokemon | null> {
+  try {
+    const result = await ApiInstance.get<Pokemon>(`/pokemon/${query}`);
+    return result.data;
+  } catch {
+    return null;
   }
+}
 
-  static async getPokemons(): Promise<Pokemons | null> {
-    try {
-      const results = (await this.instance.get<Pokemons>(`/pokemon`)).data;
+export async function getPokemons(): Promise<Pokemons | null> {
+  try {
+    const results = (await ApiInstance.get<Pokemons>(`/pokemon`)).data;
 
-      return results;
-    } catch {
-      return null;
-    }
+    return results;
+  } catch {
+    return null;
   }
 }

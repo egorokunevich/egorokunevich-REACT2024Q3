@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { useEffect, useState } from "react";
 import styles from "./SearchBar.module.scss";
 import React from "react";
 import ErrorButton from "components/Buttons/ErrorButton/ErrorButton";
@@ -11,55 +11,52 @@ interface SearchBarState {
   query: string;
 }
 
-class SearchBar extends Component<SearchBarProps, SearchBarState> {
-  constructor(props: SearchBarProps) {
-    super(props);
-    const lastQuery = localStorage.getItem("lastQuery");
-    if (lastQuery) {
-      this.state = { query: lastQuery };
-    } else {
-      this.state = { query: "" };
-    }
-    this.handleSearch();
+function SearchBar(props: SearchBarProps) {
+  const lastQuery = localStorage.getItem("lastQuery") || "";
+  const [state, setState] = useState<SearchBarState>(() => {
+    return { query: lastQuery };
+  });
+
+  function handleSearch() {
+    props.onSearch(state.query);
   }
 
-  handleSearch() {
-    this.props.onSearch(this.state.query);
-  }
+  // This will run only during initialization
+  useEffect(() => {
+    handleSearch();
+  }, []);
 
-  render() {
-    return (
-      <div className={styles.searchWrapper}>
-        <div className={styles.searchBar}>
-          <input
-            className={styles.searchInput}
-            type="text"
-            placeholder="Search query..."
-            onChange={(e) => {
-              this.setState({
-                query: e.target.value,
-              });
-            }}
-            onKeyDown={(e) => {
-              if (!e.repeat) {
-                if (e.key === "Enter") {
-                  this.handleSearch();
-                }
+  return (
+    <div className={styles.searchWrapper}>
+      <div className={styles.searchBar}>
+        <input
+          className={styles.searchInput}
+          type="text"
+          placeholder="Search query..."
+          onChange={(e) => {
+            setState({
+              query: e.target.value,
+            });
+          }}
+          onKeyDown={(e) => {
+            if (!e.repeat) {
+              if (e.key === "Enter") {
+                handleSearch();
               }
-            }}
-            value={this.state.query}
-          />
-          <button
-            className={styles.searchBtn}
-            onClick={() => {
-              this.handleSearch();
-            }}
-          ></button>
-        </div>
-        <ErrorButton />
+            }
+          }}
+          value={state.query}
+        />
+        <button
+          className={styles.searchBtn}
+          onClick={() => {
+            handleSearch();
+          }}
+        ></button>
       </div>
-    );
-  }
+      <ErrorButton />
+    </div>
+  );
 }
 
 export default React.memo(SearchBar);
