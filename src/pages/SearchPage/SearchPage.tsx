@@ -7,6 +7,7 @@ import Loader from "components/Loader";
 
 interface SearchPageState {
   isLoading: boolean;
+  notFound: boolean;
   searchResults: {
     name: string;
     sprites: {
@@ -20,12 +21,17 @@ interface SearchPageState {
   }[];
 }
 
-export class SearchPage extends Component<{}, SearchPageState> {
-  state: SearchPageState = { searchResults: [], isLoading: false };
+class SearchPage extends Component<{}, SearchPageState> {
+  state: SearchPageState = {
+    searchResults: [],
+    isLoading: false,
+    notFound: false,
+  };
 
   handleSearch = async (query: string) => {
     localStorage.setItem("lastQuery", query);
     this.setState({ isLoading: true });
+    this.setState({ notFound: false });
     // If the query is empty — show the list of pokemons
     if (!query.trim().length) {
       const results = (await PokeApi.getPokemons())?.results;
@@ -45,18 +51,15 @@ export class SearchPage extends Component<{}, SearchPageState> {
         });
 
         this.setState({
-          searchResults: [
-            // ...this.state.searchResults,
-            ...fulfilled,
-          ],
+          searchResults: [...fulfilled],
         });
       }
     } else {
+      // If there is a query — show the searched item
       const pokemon = await PokeApi.getPokemon(query.toLowerCase());
       if (pokemon) {
         this.setState({
           searchResults: [
-            // ...this.state.searchResults,
             {
               name: pokemon.name,
               id: pokemon.id,
@@ -70,22 +73,39 @@ export class SearchPage extends Component<{}, SearchPageState> {
           ],
         });
       } else {
-        console.log("Unknown pokemon!");
+        this.setState({ notFound: true });
       }
     }
     this.setState({ isLoading: false });
   };
 
+  renderLoader() {
+    if (this.state.isLoading) {
+      return <Loader />;
+    } else {
+      return this.renderResults();
+    }
+  }
+
+  renderResults() {
+    if (this.state.notFound) {
+      return (
+        <div className={styles.notFoundWrapper}>
+          <div className={styles.notFoundMessage}>
+            There is no such Pokemon!
+          </div>
+        </div>
+      );
+    } else {
+      return <ResultsList items={this.state.searchResults} />;
+    }
+  }
+
   render() {
-    console.log(this.state);
     return (
       <div className={styles.pageContainer}>
         <SearchBar onSearch={this.handleSearch} />
-        {this.state.isLoading ? (
-          <Loader />
-        ) : (
-          <ResultsList items={this.state.searchResults} />
-        )}
+        {this.renderLoader()}
       </div>
     );
   }

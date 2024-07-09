@@ -25,8 +25,6 @@ class SearchBar extends Component<SearchBarProps, SearchBarState> {
 
   handleSearch() {
     this.props.onSearch(this.state.query);
-
-    // this.setState({ query: '' });
   }
 
   render() {

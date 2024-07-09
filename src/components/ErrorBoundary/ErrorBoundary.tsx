@@ -25,7 +25,6 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
       return (
         <>
           <ErrorPage />
-          {/* {Insert this.props.children to also render the rest of the page} */}
         </>
       );
     }

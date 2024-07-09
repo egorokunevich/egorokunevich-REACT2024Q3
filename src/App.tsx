@@ -1,6 +1,6 @@
 import { Component } from "react";
 import "./App.css";
-import SearchPage from "./pages/SearchPage/SearchPage";
+import SearchPage from "./pages/SearchPage";
 import ErrorBoundary from "components/ErrorBoundary/ErrorBoundary";
 
 class App extends Component {
