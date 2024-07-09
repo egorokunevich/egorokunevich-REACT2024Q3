@@ -1,0 +1,14 @@
+.btn {
+  transition: 0.2s;
+  border: 1px solid rgb(206, 206, 206);
+  border-radius: 0;
+  &:hover {
+    background-color: rgb(87, 167, 233);
+    color: white;
+    background-color: rgb(87, 167, 233);
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
