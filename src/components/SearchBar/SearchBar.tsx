@@ -1,30 +1,26 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import styles from "./SearchBar.module.scss";
 import React from "react";
 import ErrorButton from "components/Buttons/ErrorButton/ErrorButton";
+import useLocalStorage, { LocalStorageKeys } from "hooks/useLocalStorage";
 
 type SearchBarProps = {
   onSearch: (query: string) => void;
 };
 
-interface SearchBarState {
-  query: string;
-}
-
 function SearchBar(props: SearchBarProps) {
-  const lastQuery = localStorage.getItem("lastQuery") || "";
-  const [state, setState] = useState<SearchBarState>(() => {
-    return { query: lastQuery };
-  });
+  const { onSearch } = props;
+  const [query, setQuery, saveQuery] = useLocalStorage(
+    LocalStorageKeys.LastQuery,
+  );
 
-  function handleSearch() {
-    props.onSearch(state.query);
-  }
+  const handleSearch = () => {
+    onSearch(query);
+    saveQuery();
+  };
 
-  // This will run only during initialization
-  useEffect(() => {
-    handleSearch();
-  }, []);
+  //This will run only during initialization
+  useEffect(handleSearch, []);
 
   return (
     <div className={styles.searchWrapper}>
@@ -34,9 +30,7 @@ function SearchBar(props: SearchBarProps) {
           type="text"
           placeholder="Search query..."
           onChange={(e) => {
-            setState({
-              query: e.target.value,
-            });
+            setQuery(e.target.value);
           }}
           onKeyDown={(e) => {
             if (!e.repeat) {
@@ -45,7 +39,7 @@ function SearchBar(props: SearchBarProps) {
               }
             }
           }}
-          value={state.query}
+          value={query}
         />
         <button
           className={styles.searchBtn}

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import SearchBar from "components/SearchBar";
-import { getPokemon, getPokemons } from "api/PokeApi";
+import PokeApi from "api/PokeApi";
 import ResultsList from "components/ResultsList";
 import styles from "./SearchPage.module.scss";
 import Loader from "components/Loader";
@@ -29,7 +29,7 @@ function SearchPage() {
   });
 
   async function handleSearch(query: string) {
-    localStorage.setItem("lastQuery", query);
+    // localStorage.setItem('lastQuery', query);
     setState((prevState) => {
       const newState = { ...prevState };
       newState.isLoading = true;
@@ -38,12 +38,12 @@ function SearchPage() {
     });
     // If the query is empty — show the list of pokemons
     if (!query.trim().length) {
-      const results = (await getPokemons())?.results;
+      const results = (await PokeApi.getPokemons())?.results;
 
       if (results) {
         const pokemons = await Promise.all(
           results.map(async (item) => {
-            const pokemon = await getPokemon(item.name);
+            const pokemon = await PokeApi.getPokemon(item.name);
             if (pokemon) {
               return pokemon;
             }
@@ -61,7 +61,8 @@ function SearchPage() {
       }
     } else {
       // If there is a query — show the searched item
-      const pokemon = await getPokemon(query.toLowerCase());
+      // const pokemon = await PokeApi.getPokemon(query.toLowerCase());
+      const pokemon = await PokeApi.getPokemon(query.toLowerCase());
       if (pokemon) {
         setState((prevState) => {
           const newState = { ...prevState };
