@@ -7,7 +7,7 @@ class App extends Component {
   render() {
     return (
       <ErrorBoundary>
-        <SearchPage />;
+        <SearchPage />
       </ErrorBoundary>
     );
   }

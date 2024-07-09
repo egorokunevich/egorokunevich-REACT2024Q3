@@ -1,5 +1,5 @@
 import React, { Component, ErrorInfo } from "react";
-import styles from "./ErrorBoundary.module.scss";
+import ErrorPage from "pages/ErrorPage";
 
 interface ErrorBoundaryProps {
   children: React.ReactNode;
@@ -24,8 +24,8 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     if (this.state.hasError) {
       return (
         <>
-          <h1 className={styles.errorTitle}>Oops! Something went wrong.</h1>
-          {this.props.children}
+          <ErrorPage />
+          {/* {Insert this.props.children to also render the rest of the page} */}
         </>
       );
     }

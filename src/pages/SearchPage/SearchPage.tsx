@@ -3,8 +3,10 @@ import SearchBar from "components/SearchBar";
 import PokeApi from "api/PokeApi";
 import ResultsList from "components/ResultsList";
 import styles from "./SearchPage.module.scss";
+import Loader from "components/Loader";
 
 interface SearchPageState {
+  isLoading: boolean;
   searchResults: {
     name: string;
     sprites: {
@@ -19,10 +21,11 @@ interface SearchPageState {
 }
 
 export class SearchPage extends Component<{}, SearchPageState> {
-  state: SearchPageState = { searchResults: [] };
+  state: SearchPageState = { searchResults: [], isLoading: false };
 
   handleSearch = async (query: string) => {
     localStorage.setItem("lastQuery", query);
+    this.setState({ isLoading: true });
     // If the query is empty — show the list of pokemons
     if (!query.trim().length) {
       const results = (await PokeApi.getPokemons())?.results;
@@ -70,6 +73,7 @@ export class SearchPage extends Component<{}, SearchPageState> {
         console.log("Unknown pokemon!");
       }
     }
+    this.setState({ isLoading: false });
   };
 
   render() {
@@ -77,7 +81,11 @@ export class SearchPage extends Component<{}, SearchPageState> {
     return (
       <div className={styles.pageContainer}>
         <SearchBar onSearch={this.handleSearch} />
-        <ResultsList items={this.state.searchResults} />
+        {this.state.isLoading ? (
+          <Loader />
+        ) : (
+          <ResultsList items={this.state.searchResults} />
+        )}
       </div>
     );
   }

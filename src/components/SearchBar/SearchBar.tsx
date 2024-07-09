@@ -1,7 +1,7 @@
 import { Component } from "react";
 import styles from "./SearchBar.module.scss";
 import React from "react";
-import ErrorButton from "components/ErrorButton/ErrorButton";
+import ErrorButton from "components/Buttons/ErrorButton/ErrorButton";
 
 type SearchBarProps = {
   onSearch: (query: string) => void;
