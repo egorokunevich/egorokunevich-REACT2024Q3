@@ -1,4 +1,4 @@
-import styles from "./Button.module.scss";
+import styles from './Button.module.scss';
 
 interface ButtonProps {
   txt: string;
@@ -10,7 +10,7 @@ function Button(props: ButtonProps) {
   return (
     <>
       <button
-        className={styles.btn + " " + props.className}
+        className={styles.btn + ' ' + props.className}
         onClick={props.onClick}
       >
         {props.txt}

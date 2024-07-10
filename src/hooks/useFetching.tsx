@@ -1,5 +1,5 @@
-import { Pokemons } from "api/PokeApi";
-import { useState } from "react";
+import { Pokemons } from 'api/PokeApi';
+import { useState } from 'react';
 
 interface FetchError extends Error {
   message: string;
@@ -10,10 +10,10 @@ interface FetchError extends Error {
 
 export const useFetching = (callback: () => Pokemons) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setError] = useState("");
+  const [errorMessage, setError] = useState('');
 
   function isFetchError(error: unknown): error is FetchError {
-    return typeof error === "object" && error !== null && "statusCode" in error;
+    return typeof error === 'object' && error !== null && 'statusCode' in error;
   }
 
   const fetchFunction = async (): Promise<Pokemons | null> => {

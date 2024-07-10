@@ -1,9 +1,9 @@
-import { useState } from "react";
-import SearchBar from "components/SearchBar";
-import PokeApi from "api/PokeApi";
-import ResultsList from "components/ResultsList";
-import styles from "./SearchPage.module.scss";
-import Loader from "components/Loader";
+import { useState } from 'react';
+import SearchBar from 'components/SearchBar';
+import PokeApi from 'api/PokeApi';
+import ResultsList from 'components/ResultsList';
+import styles from './SearchPage.module.scss';
+import Loader from 'components/Loader';
 
 interface SearchPageState {
   isLoading: boolean;
@@ -47,7 +47,7 @@ function SearchPage() {
             if (pokemon) {
               return pokemon;
             }
-          }),
+          })
         );
 
         const fulfilled = pokemons.filter((item) => {

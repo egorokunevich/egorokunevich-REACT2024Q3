@@ -1,16 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 export enum LocalStorageKeys {
-  LastQuery = "lastQuery",
+  LastQuery = 'lastQuery',
 }
 
 export default function useLocalStorage(key: string) {
-  const [query, setQuery] = useState<string>(localStorage.getItem(key) || "");
+  const [query, setQuery] = useState<string>(localStorage.getItem(key) || '');
 
   useEffect(() => {
     //Save query on component unmount
     return () => {
-      console.log("Component UNMOUNT");
+      console.log('Component UNMOUNT');
       localStorage.setItem(key, query);
     };
   }, []);

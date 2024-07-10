@@ -1,5 +1,5 @@
-import PokeCard from "components/PokeCard";
-import styles from "./ResultsList.module.scss";
+import PokeCard from 'components/PokeCard';
+import styles from './ResultsList.module.scss';
 
 interface ResultsListProps {
   items: {

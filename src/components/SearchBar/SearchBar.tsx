@@ -1,8 +1,6 @@
-import { useEffect } from "react";
-import styles from "./SearchBar.module.scss";
-import React from "react";
-import ErrorButton from "components/Buttons/ErrorButton/ErrorButton";
-import useLocalStorage, { LocalStorageKeys } from "hooks/useLocalStorage";
+import useLocalStorage, { LocalStorageKeys } from 'hooks/useLocalStorage';
+import React, { useEffect } from 'react';
+import styles from './SearchBar.module.scss';
 
 type SearchBarProps = {
   onSearch: (query: string) => void;
@@ -11,7 +9,7 @@ type SearchBarProps = {
 function SearchBar(props: SearchBarProps) {
   const { onSearch } = props;
   const [query, setQuery, saveQuery] = useLocalStorage(
-    LocalStorageKeys.LastQuery,
+    LocalStorageKeys.LastQuery
   );
 
   const handleSearch = () => {
@@ -34,7 +32,7 @@ function SearchBar(props: SearchBarProps) {
           }}
           onKeyDown={(e) => {
             if (!e.repeat) {
-              if (e.key === "Enter") {
+              if (e.key === 'Enter') {
                 handleSearch();
               }
             }
@@ -48,7 +46,6 @@ function SearchBar(props: SearchBarProps) {
           }}
         ></button>
       </div>
-      <ErrorButton />
     </div>
   );
 }

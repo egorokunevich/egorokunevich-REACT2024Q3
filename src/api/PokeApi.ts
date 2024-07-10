@@ -1,4 +1,4 @@
-import axios, { Axios } from "axios";
+import axios, { Axios } from 'axios';
 
 export interface Pokemon {
   id: number;
@@ -17,7 +17,7 @@ export interface Pokemons {
 
 export default class PokeApi {
   static instance: Axios = axios.create({
-    baseURL: "https://pokeapi.co/api/v2",
+    baseURL: 'https://pokeapi.co/api/v2',
   });
 
   static async getPokemon(query: string): Promise<Pokemon | null> {
@@ -31,7 +31,7 @@ export default class PokeApi {
 
   static async getPokemons(): Promise<Pokemons | null> {
     try {
-      const results = (await this.instance.get<Pokemons>(`/pokemon`)).data;
+      const results = (await this.instance.get<Pokemons>('/pokemon')).data;
 
       return results;
     } catch {

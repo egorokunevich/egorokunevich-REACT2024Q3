@@ -1,5 +1,5 @@
-import styles from "./ErrorPage.module.scss";
-import Button from "components/Buttons/Button";
+import styles from './ErrorPage.module.scss';
+import Button from 'components/Buttons/Button';
 
 function ErrorPage() {
   return (

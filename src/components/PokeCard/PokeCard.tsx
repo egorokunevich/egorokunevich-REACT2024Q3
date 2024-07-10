@@ -1,4 +1,4 @@
-import styles from "./PokeCard.module.scss";
+import styles from './PokeCard.module.scss';
 
 type PokeCardProps = {
   name: string;
