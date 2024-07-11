@@ -15,7 +15,7 @@ interface ResultsListProps {
     };
     height: number;
     weight: number;
-    id?: number;
+    id: number;
     url?: string;
   }[];
 }
@@ -26,13 +26,14 @@ function ResultsList(props: ResultsListProps) {
       <>
         {props.items.map((item) => (
           <PokeCard
+            id={item.id}
             name={item.name}
             imgUrl={item.sprites.front_default}
             shinyImgUrl={item.sprites.front_shiny}
             artWork={item.sprites.other['official-artwork'].front_default}
             height={item.height}
             weight={item.weight}
-            key={item.id || Math.random()}
+            key={item.id}
           />
         ))}
       </>

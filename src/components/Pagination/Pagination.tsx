@@ -18,13 +18,12 @@ const Pagination = (props: PaginationProps) => {
     currentPage,
   });
 
-  console.log('current page', currentPage);
   return (
     <div className={styles.container}>
       <div className={styles.pagination}>
-        {paginationRange?.map((item) => (
+        {paginationRange?.map((item, i) => (
           <PageButton
-            key={Math.random()}
+            key={i}
             txt={item.toString()}
             isActive={+item === currentPage}
             handleClick={handleClick}

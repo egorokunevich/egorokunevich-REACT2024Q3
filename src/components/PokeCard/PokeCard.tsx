@@ -1,6 +1,8 @@
 import styles from './PokeCard.module.scss';
+import { useNavigate } from 'react-router-dom';
 
 type PokeCardProps = {
+  id: number;
   name: string;
   imgUrl: string;
   shinyImgUrl: string;
@@ -10,6 +12,7 @@ type PokeCardProps = {
 };
 
 function PokeCard(props: PokeCardProps) {
+  const navigate = useNavigate();
   const renderImage = () => {
     if (props.imgUrl) {
       return (
@@ -24,7 +27,12 @@ function PokeCard(props: PokeCardProps) {
   };
 
   return (
-    <div className={styles.card}>
+    <div
+      className={styles.card}
+      onClick={() => {
+        navigate(`/pokemon/${props.name}`);
+      }}
+    >
       <div className={styles.cardTitle}>{props.name}</div>
       <div className={styles.picContainer}>{renderImage()}</div>
       <p>Weight: {props.weight}</p>

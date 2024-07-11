@@ -5,56 +5,59 @@ import ResultsList from 'components/ResultsList';
 import styles from './SearchPage.module.scss';
 import Loader from 'components/Loader';
 import Pagination from 'components/Pagination';
-import useLocalStorage, { LocalStorageKeys } from 'hooks/useLocalStorage';
 import { useFetching } from 'hooks/useFetching';
+import { useSearchParams } from 'react-router-dom';
+import useLocalStorage, { LocalStorageKeys } from 'hooks/useLocalStorage';
 
 function SearchPage() {
   const [displayedPokemons, setDisplayedPokemons] = useState<Pokemon[]>([]);
 
-  // const [isLoading, setIsLoading] = useState(false);
   const [notFound, setNotFound] = useState(false);
-  const [limit] = useState(12); // Items per page
-  const [offset, setOffset] = useState(0);
-  const [lastOffset, setLastOffset, saveLastOffset] = useLocalStorage(
-    LocalStorageKeys.LastOffset,
-    0
+
+  const [fetchPokemons, arePokemonsLoading] = useFetching(handleSearch);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const limitParam = searchParams.get('limit') || '12';
+  const pageParam = searchParams.get('page') || '1';
+
+  const [offsetParam, setOffsetParam] = useState(
+    Math.ceil((+pageParam - 1) * +limitParam)
   );
 
-  const [currentPage, setCurrentPage] = useState(
-    Math.ceil(+lastOffset / limit)
-  );
-  const [lastQuery, setLastQuery] = useLocalStorage(
+  const [queryParam, setQueryParam] = useLocalStorage(
     LocalStorageKeys.LastQuery,
     ''
   );
 
-  const [fetchPokemons, arePokemonsLoading] = useFetching(handleSearch);
-
   async function handleSearch(query: string) {
-    setLastQuery(query);
-    // setIsLoading(true);
+    setSearchParams({ page: pageParam });
     setNotFound(false);
-
-    const pokemons = await PokeApi.getPokemonData(query, limit, offset);
+    setQueryParam(query);
+    const pokemons = await PokeApi.getPokemonData(
+      query,
+      +limitParam,
+      +offsetParam
+    );
     if (pokemons && pokemons.length > 0) {
+      console.log(pokemons);
       setDisplayedPokemons([...pokemons]);
     } else {
       setNotFound(true);
     }
-    // setIsLoading(false);
   }
 
   useEffect(() => {
-    setOffset(+lastOffset);
-    fetchPokemons(lastQuery.toString());
-  }, [offset]);
+    fetchPokemons(queryParam.toString());
+  }, [offsetParam]);
+
+  useEffect(() => {
+    console.log('init', queryParam);
+    fetchPokemons(queryParam.toString());
+  }, []);
 
   const updatePage = (pageNumber: number) => {
-    const newOffset = limit * (pageNumber - 1);
-    setOffset(newOffset);
-    setCurrentPage(pageNumber);
-    setLastOffset(newOffset);
-    saveLastOffset(newOffset);
+    setSearchParams({ page: pageNumber.toString() });
+    setOffsetParam((pageNumber - 1) * +limitParam);
   };
 
   function renderResults() {
@@ -74,9 +77,9 @@ function SearchPage() {
           <>
             <ResultsList items={displayedPokemons} />
             <Pagination
-              limit={limit}
+              limit={+limitParam}
               totalCount={PokeApi.totalCount}
-              currentPage={+currentPage}
+              currentPage={+pageParam}
               handleClick={(pageNumber: number) => {
                 updatePage(pageNumber);
               }}
