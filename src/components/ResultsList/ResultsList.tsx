@@ -7,6 +7,11 @@ interface ResultsListProps {
     sprites: {
       front_default: string;
       front_shiny: string;
+      other: {
+        'official-artwork': {
+          front_default: string;
+        };
+      };
     };
     height: number;
     weight: number;
@@ -24,6 +29,7 @@ function ResultsList(props: ResultsListProps) {
             name={item.name}
             imgUrl={item.sprites.front_default}
             shinyImgUrl={item.sprites.front_shiny}
+            artWork={item.sprites.other['official-artwork'].front_default}
             height={item.height}
             weight={item.weight}
             key={item.id || Math.random()}

@@ -1,4 +1,3 @@
-import { Pokemons } from 'api/PokeApi';
 import { useState } from 'react';
 
 interface FetchError extends Error {
@@ -8,7 +7,9 @@ interface FetchError extends Error {
 
 // type FetchedData = [() => Promise<Pokemons | null>, boolean, string];
 
-export const useFetching = (callback: () => Pokemons) => {
+export const useFetching = <T, Args extends unknown[]>(
+  callback: (...args: Args) => Promise<T> | T
+) => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setError] = useState('');
 
@@ -16,10 +17,10 @@ export const useFetching = (callback: () => Pokemons) => {
     return typeof error === 'object' && error !== null && 'statusCode' in error;
   }
 
-  const fetchFunction = async (): Promise<Pokemons | null> => {
+  const fetchFunction = async (...args: Args) => {
     try {
       setIsLoading(true);
-      return await callback();
+      return await callback(...args);
     } catch (error) {
       if (isFetchError(error)) {
         setError(error.message);

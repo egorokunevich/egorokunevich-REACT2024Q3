@@ -9,11 +9,12 @@ type SearchBarProps = {
 function SearchBar(props: SearchBarProps) {
   const { onSearch } = props;
   const [query, setQuery, saveQuery] = useLocalStorage(
-    LocalStorageKeys.LastQuery
+    LocalStorageKeys.LastQuery,
+    ''
   );
 
   const handleSearch = () => {
-    onSearch(query);
+    onSearch(query.toString());
     saveQuery();
   };
 

@@ -2,23 +2,32 @@ import { useEffect, useState } from 'react';
 
 export enum LocalStorageKeys {
   LastQuery = 'lastQuery',
+  LastOffset = 'lastOffset',
 }
 
-export default function useLocalStorage(key: string) {
-  const [query, setQuery] = useState<string>(localStorage.getItem(key) || '');
+export default function useLocalStorage(
+  key: string,
+  initialValue: string | number
+) {
+  const [value, setValue] = useState<string | number>(
+    localStorage.getItem(key) || initialValue
+  );
 
   useEffect(() => {
-    //Save query on component unmount
+    //Save value on component unmount
     return () => {
-      console.log('Component UNMOUNT');
-      localStorage.setItem(key, query);
+      localStorage.setItem(key, value.toString());
     };
   }, []);
 
   // Update localStorage
-  const saveQuery = () => {
-    localStorage.setItem(key, query);
+  const saveValue = (newValue?: string | number) => {
+    if (newValue || newValue === 0) {
+      localStorage.setItem(key, newValue.toString());
+    } else {
+      localStorage.setItem(key, value.toString());
+    }
   };
 
-  return [query, setQuery, saveQuery] as const;
+  return [value, setValue, saveValue] as const;
 }
