@@ -10,35 +10,45 @@ interface PaginationProps {
   currentPage: number;
 }
 
+const PAGE_BTNS_MIN_COUNT = 5; // The minimum amount of displayed buttons
+const SELECTED_BTN_SIBLINGS_COUNT = 2; // The number of buttons near current button. Should be at least 1
+
 export const usePagination = (props: PaginationProps) => {
   const { pagesCount, currentPage } = props;
   const paginationRange = useMemo(() => {
-    const siblingsCount = 2; // The number of buttons near current button
-    // Pages count is determined as siblingsCount + firstPage + lastPage + currentPage + 2*'...'
-    const pageBtnsCount = siblingsCount + 5;
+    const pageBtnsCount = SELECTED_BTN_SIBLINGS_COUNT + PAGE_BTNS_MIN_COUNT;
 
     if (pageBtnsCount >= pagesCount) {
       return createRange(1, pagesCount);
     }
 
-    const leftSiblingIndex = Math.max(currentPage - siblingsCount, 1);
-    const rightSiblingIndex = Math.min(currentPage + siblingsCount, pagesCount);
+    const leftSiblingIndex = Math.max(
+      currentPage - SELECTED_BTN_SIBLINGS_COUNT,
+      1
+    );
+    const rightSiblingIndex = Math.min(
+      currentPage + SELECTED_BTN_SIBLINGS_COUNT,
+      pagesCount
+    );
 
-    const shouldShowLeftDots = leftSiblingIndex > 2;
-    const shouldShowRightDots = rightSiblingIndex < pagesCount - 2;
+    const shouldShowLeftDots = leftSiblingIndex > SELECTED_BTN_SIBLINGS_COUNT;
+    const shouldShowRightDots =
+      rightSiblingIndex < pagesCount - SELECTED_BTN_SIBLINGS_COUNT;
 
     const firstPageIndex = 1;
     const lastPageIndex = pagesCount;
 
     if (!shouldShowLeftDots && shouldShowRightDots) {
-      const leftItemCount = 3 + 2 * siblingsCount;
+      const leftItemCount =
+        3 + SELECTED_BTN_SIBLINGS_COUNT * SELECTED_BTN_SIBLINGS_COUNT;
       const leftRange = createRange(1, leftItemCount);
 
       return [...leftRange, '...', pagesCount];
     }
 
     if (shouldShowLeftDots && !shouldShowRightDots) {
-      const rightItemCount = 3 + 2 * siblingsCount;
+      const rightItemCount =
+        3 + SELECTED_BTN_SIBLINGS_COUNT * SELECTED_BTN_SIBLINGS_COUNT;
       const rightRange = createRange(
         pagesCount - rightItemCount + 1,
         pagesCount

@@ -1,5 +1,5 @@
 import styles from './PokeCard.module.scss';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 type PokeCardProps = {
   id: number;
@@ -12,6 +12,8 @@ type PokeCardProps = {
 };
 
 function PokeCard(props: PokeCardProps) {
+  const [searchParams] = useSearchParams();
+  const page = searchParams.get('page') || '1';
   const navigate = useNavigate();
   const renderImage = () => {
     if (props.imgUrl) {
@@ -21,16 +23,16 @@ function PokeCard(props: PokeCardProps) {
           <img className={styles.picShiny} src={props.shinyImgUrl}></img>
         </>
       );
-    } else {
-      return <img className={styles.pic} src={props.artWork}></img>;
     }
+    return <img className={styles.pic} src={props.artWork}></img>;
   };
 
   return (
     <div
       className={styles.card}
-      onClick={() => {
-        navigate(`/pokemon/${props.name}`);
+      onClick={(e) => {
+        e.stopPropagation();
+        navigate(`/pokemon/${props.name}?page=${page}`);
       }}
     >
       <div className={styles.cardTitle}>{props.name}</div>

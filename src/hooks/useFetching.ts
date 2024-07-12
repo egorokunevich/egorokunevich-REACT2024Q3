@@ -5,8 +5,6 @@ interface FetchError extends Error {
   statusCode?: number;
 }
 
-// type FetchedData = [() => Promise<Pokemons | null>, boolean, string];
-
 export const useFetching = <T, Args extends unknown[]>(
   callback: (...args: Args) => Promise<T> | T
 ) => {

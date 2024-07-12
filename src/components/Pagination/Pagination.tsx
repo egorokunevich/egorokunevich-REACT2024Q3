@@ -17,7 +17,6 @@ const Pagination = (props: PaginationProps) => {
     pagesCount,
     currentPage,
   });
-
   return (
     <div className={styles.container}>
       <div className={styles.pagination}>

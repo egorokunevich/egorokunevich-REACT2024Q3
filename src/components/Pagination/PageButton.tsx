@@ -16,7 +16,8 @@ const PageButton = (props: PageButtonProps) => {
         width: '100%',
         padding: '0.6em',
       }}
-      onClick={() => {
+      onClick={(e) => {
+        e.stopPropagation();
         if (+txt) {
           handleClick(+txt);
         }

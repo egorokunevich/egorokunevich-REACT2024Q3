@@ -1,5 +1,5 @@
 import useLocalStorage, { LocalStorageKeys } from 'hooks/useLocalStorage';
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import styles from './SearchBar.module.scss';
 
 type SearchBarProps = {
@@ -8,18 +8,13 @@ type SearchBarProps = {
 
 function SearchBar(props: SearchBarProps) {
   const { onSearch } = props;
-  const [query, setQuery, saveQuery] = useLocalStorage(
-    LocalStorageKeys.LastQuery,
-    ''
-  );
+  const [query, , saveQuery] = useLocalStorage(LocalStorageKeys.LastQuery, '');
+  const [searchParam, setSearchParam] = useState(query ? query.toString() : '');
 
   const handleSearch = () => {
-    onSearch(query.toString());
-    saveQuery();
+    saveQuery(query);
+    onSearch(searchParam);
   };
-
-  //This will run only during initialization
-  useEffect(handleSearch, []);
 
   return (
     <div className={styles.searchWrapper}>
@@ -29,7 +24,7 @@ function SearchBar(props: SearchBarProps) {
           type="text"
           placeholder="Search query..."
           onChange={(e) => {
-            setQuery(e.target.value);
+            setSearchParam(e.target.value);
           }}
           onKeyDown={(e) => {
             if (!e.repeat) {
@@ -38,7 +33,7 @@ function SearchBar(props: SearchBarProps) {
               }
             }
           }}
-          value={query}
+          value={searchParam}
         />
         <button
           className={styles.searchBtn}
