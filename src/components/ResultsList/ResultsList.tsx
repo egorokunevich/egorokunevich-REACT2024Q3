@@ -1,42 +1,27 @@
-import PokeCard from 'components/PokeCard';
+import PokeCard from '../PokeCard';
 import styles from './ResultsList.module.scss';
 
 interface ResultsListProps {
-  items: {
-    name: string;
-    sprites: {
-      front_default: string;
-      front_shiny: string;
-      other: {
-        'official-artwork': {
-          front_default: string;
-        };
-      };
-    };
-    height: number;
-    weight: number;
-    id: number;
-    url?: string;
-  }[];
+  items:
+    | {
+        name: string;
+      }[]
+    | null;
 }
 
-function ResultsList(props: ResultsListProps) {
+function ResultsList({ items }: ResultsListProps) {
+  if (!items || (items && !items.length)) {
+    return (
+      <div className={styles.notFoundWrapper}>
+        <div className={styles.notFoundMessage}>There is no such Pokemon!</div>
+      </div>
+    );
+  }
   return (
-    <div className={styles.listContainer}>
-      <>
-        {props.items.map((item) => (
-          <PokeCard
-            id={item.id}
-            name={item.name}
-            imgUrl={item.sprites.front_default}
-            shinyImgUrl={item.sprites.front_shiny}
-            artWork={item.sprites.other['official-artwork'].front_default}
-            height={item.height}
-            weight={item.weight}
-            key={item.id}
-          />
-        ))}
-      </>
+    <div className={styles.listContainer} data-testid="resultsListWrapper">
+      {items.map((item, id) => (
+        <PokeCard key={item.name + id} name={item.name} />
+      ))}
     </div>
   );
 }

@@ -1,7 +1,7 @@
-import PokeApi, { Pokemon } from 'api/PokeApi';
+import PokeApi from 'api/PokeApi';
 import Loader from 'components/Loader';
 import { useFetching } from 'hooks/useFetching';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import styles from './DetailsPage.module.scss';
 import useTabTitle, { TabTitles } from 'hooks/useTabTitle';
@@ -10,36 +10,35 @@ import { CapitalizeFirstLetter } from 'utils/CapitalizeFirstLetter';
 function DetailsPage() {
   const { id, pokeName } = useParams();
 
-  const [data, setData] = useState<Pokemon | null>(null);
-  const pokeTabName = data?.name || '';
-  useTabTitle(TabTitles.Empty, CapitalizeFirstLetter(pokeTabName));
-  const [fetchPokemon, isPokemonLoading] = useFetching(async () => {
+  const {
+    fetchFunction: fetchPokemon,
+    isLoading: isPokemonLoading,
+    results: data,
+  } = useFetching(async () => {
     if (id) {
       return await PokeApi.getPokemon(id);
     } else if (pokeName) {
       return await PokeApi.getPokemon(pokeName);
     }
   });
+  const pokeTabName = data?.[0].name || '';
+  useTabTitle(TabTitles.Empty, CapitalizeFirstLetter(pokeTabName));
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
   useEffect(() => {
-    (async () => {
-      const fetched = await fetchPokemon();
-      if (fetched) {
-        setData(fetched);
-      }
-    })();
+    fetchPokemon();
   }, [id, pokeName]);
 
   const handleLoading = () => {
-    if (isPokemonLoading) {
+    if (isPokemonLoading === 'loading' || !data) {
       return (
         <div className={styles.loaderContainer}>
           <Loader />
         </div>
       );
     }
+    const pokemon = data[0];
     return (
       <>
         <div className={styles.buttonContainer}>
@@ -50,14 +49,14 @@ function DetailsPage() {
             }}
           ></button>
         </div>
-        <h1 className={styles.name}>{data?.name}</h1>
+        <h1 className={styles.name}>{pokemon.name}</h1>
         <img
           className={styles.pic}
-          src={data?.sprites.other['official-artwork'].front_default}
+          src={pokemon.sprites.other['official-artwork'].front_default}
         />
 
-        <div className={styles.infoText}>Height: {data?.height}</div>
-        <div className={styles.infoText}>Weight: {data?.weight}</div>
+        <div className={styles.infoText}>Height: {pokemon.height}</div>
+        <div className={styles.infoText}>Weight: {pokemon.weight}</div>
       </>
     );
   };

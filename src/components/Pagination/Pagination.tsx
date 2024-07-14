@@ -1,22 +1,39 @@
-import { GetPagesCount } from 'components/utils/GetPagesCount';
 import { usePagination } from 'hooks/usePagination';
 import styles from './Pagination.module.scss';
 import PageButton from './PageButton';
+import { GetPagesCount } from 'utils/GetPagesCount';
+import PokeApi from 'api/PokeApi';
+import { useFetching } from 'hooks/useFetching';
+import { useEffect } from 'react';
+import Loader from 'components/Loader';
 
 export interface PaginationProps {
   limit: number;
-  totalCount: number;
   currentPage: number;
   handleClick: (pageNumber: number) => void;
 }
 
 const Pagination = (props: PaginationProps) => {
-  const { limit, totalCount, currentPage, handleClick } = props;
-  const pagesCount = GetPagesCount(limit, totalCount);
+  const { limit, currentPage, handleClick } = props;
+  const {
+    fetchFunction: getPagination,
+    isLoading: isPaginationLoading,
+    results: paginationResults,
+  } = useFetching(async () => PokeApi.getPaginationData());
+
   const paginationRange = usePagination({
-    pagesCount,
+    pagesCount: GetPagesCount(limit, paginationResults!),
     currentPage,
   });
+
+  useEffect(() => {
+    getPagination();
+  }, []);
+
+  if (isPaginationLoading === 'loading' || !paginationResults) {
+    return <Loader />;
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.pagination}>

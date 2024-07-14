@@ -22,80 +22,29 @@ export interface Pokemons {
 }
 
 export default class PokeApi {
-  static totalCount = 0;
   static instance: Axios = axios.create({
     baseURL: 'https://pokeapi.co/api/v2',
   });
 
-  static async getPokemon(query: string): Promise<Pokemon | null> {
-    try {
-      const result = await this.instance.get<Pokemon>(`/pokemon/${query}`);
-      return result.data;
-    } catch {
-      return null;
-    }
+  static async getPaginationData() {
+    const results = await this.instance.get<Pokemons>('/pokemon');
+
+    return results.data.count;
+  }
+
+  static async getPokemon(query: string): Promise<Pokemon[]> {
+    const result = await this.instance.get<Pokemon>(`/pokemon/${query}`);
+    return [result.data];
   }
 
   static async getPokemons(limit: number = 12, offset: number = 0) {
-    try {
-      const results = await this.instance.get<Pokemons>('/pokemon', {
-        params: {
-          limit,
-          offset,
-        },
-      });
+    const results = await this.instance.get<Pokemons>('/pokemon', {
+      params: {
+        limit,
+        offset,
+      },
+    });
 
-      return results;
-    } catch {
-      return null;
-    }
+    return results.data.results.map((item) => ({ name: item.name }));
   }
-
-  static getPokemonData = async (
-    query: string,
-    limit: number = 12,
-    offset: number = 0
-  ) => {
-    try {
-      const isQueryEmpty = !query.trim().length;
-      if (isQueryEmpty) {
-        const response = await this.instance.get<Pokemons>('/pokemon', {
-          params: {
-            limit,
-            offset,
-          },
-        });
-
-        this.totalCount = response.data.count;
-        const results = response?.data.results;
-
-        if (results) {
-          const pokemons = await Promise.all(
-            results.map(async (item) => {
-              const pokemon = await PokeApi.getPokemon(item.name);
-              if (pokemon) {
-                return pokemon;
-              }
-            })
-          );
-
-          if (pokemons && pokemons.length > 0) {
-            const filtered = pokemons.filter((item) => {
-              return item !== undefined;
-            });
-
-            return filtered;
-          }
-        }
-      } else {
-        const result = await this.instance.get<Pokemon>(
-          `/pokemon/${query.toLowerCase()}`
-        );
-        this.totalCount = 0;
-        return [result.data];
-      }
-    } catch {
-      return null;
-    }
-  };
 }

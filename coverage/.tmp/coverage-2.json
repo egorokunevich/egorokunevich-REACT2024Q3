@@ -1,0 +1,109 @@
+{
+  "result": [
+    {
+      "scriptId": "1007",
+      "url": "file:///E:/Program%20Files/VS%20Code/egorokunevich-REACT2024Q3/src/tests/PokeCard.test.tsx",
+      "functions": [
+        {
+          "functionName": "",
+          "ranges": [{ "startOffset": 0, "endOffset": 5469, "count": 1 }],
+          "isBlockCoverage": true
+        },
+        {
+          "functionName": "",
+          "ranges": [{ "startOffset": 13, "endOffset": 5469, "count": 1 }],
+          "isBlockCoverage": true
+        },
+        {
+          "functionName": "",
+          "ranges": [{ "startOffset": 1343, "endOffset": 2587, "count": 1 }],
+          "isBlockCoverage": true
+        },
+        {
+          "functionName": "",
+          "ranges": [{ "startOffset": 2502, "endOffset": 2583, "count": 2 }],
+          "isBlockCoverage": true
+        }
+      ]
+    },
+    {
+      "scriptId": "1476",
+      "url": "file:///E:/Program%20Files/VS%20Code/egorokunevich-REACT2024Q3/src/components/PokeCard/index.ts",
+      "functions": [
+        {
+          "functionName": "",
+          "ranges": [{ "startOffset": 0, "endOffset": 826, "count": 1 }],
+          "isBlockCoverage": true
+        },
+        {
+          "functionName": "",
+          "ranges": [{ "startOffset": 13, "endOffset": 826, "count": 1 }],
+          "isBlockCoverage": true
+        },
+        {
+          "functionName": "get",
+          "ranges": [{ "startOffset": 410, "endOffset": 455, "count": 1 }],
+          "isBlockCoverage": true
+        }
+      ]
+    },
+    {
+      "scriptId": "1477",
+      "url": "file:///E:/Program%20Files/VS%20Code/egorokunevich-REACT2024Q3/src/components/PokeCard/PokeCard.tsx",
+      "functions": [
+        {
+          "functionName": "",
+          "ranges": [{ "startOffset": 0, "endOffset": 7396, "count": 1 }],
+          "isBlockCoverage": true
+        },
+        {
+          "functionName": "",
+          "ranges": [{ "startOffset": 13, "endOffset": 7396, "count": 1 }],
+          "isBlockCoverage": true
+        },
+        {
+          "functionName": "PokeCard",
+          "ranges": [
+            { "startOffset": 622, "endOffset": 4007, "count": 3 },
+            { "startOffset": 755, "endOffset": 761, "count": 1 }
+          ],
+          "isBlockCoverage": true
+        },
+        {
+          "functionName": "renderImage",
+          "ranges": [
+            { "startOffset": 841, "endOffset": 2167, "count": 2 },
+            { "startOffset": 1847, "endOffset": 2166, "count": 0 }
+          ],
+          "isBlockCoverage": true
+        },
+        {
+          "functionName": "onClick",
+          "ranges": [{ "startOffset": 2309, "endOffset": 2411, "count": 1 }],
+          "isBlockCoverage": true
+        }
+      ]
+    },
+    {
+      "scriptId": "1478",
+      "url": "file:///E:/Program%20Files/VS%20Code/egorokunevich-REACT2024Q3/src/components/PokeCard/PokeCard.module.scss",
+      "functions": [
+        {
+          "functionName": "",
+          "ranges": [{ "startOffset": 0, "endOffset": 1385, "count": 1 }],
+          "isBlockCoverage": true
+        },
+        {
+          "functionName": "",
+          "ranges": [{ "startOffset": 13, "endOffset": 1385, "count": 1 }],
+          "isBlockCoverage": true
+        },
+        {
+          "functionName": "get",
+          "ranges": [{ "startOffset": 261, "endOffset": 331, "count": 10 }],
+          "isBlockCoverage": true
+        }
+      ]
+    }
+  ]
+}
