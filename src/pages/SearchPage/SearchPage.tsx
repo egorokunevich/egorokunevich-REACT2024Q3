@@ -22,7 +22,6 @@ function SearchPage() {
     isLoading: arePokemonsLoading,
     results,
   } = useFetching(handleSearch);
-  console.log({ results });
 
   const [currentPage, setCurrentPage] = useState(pageParam);
 

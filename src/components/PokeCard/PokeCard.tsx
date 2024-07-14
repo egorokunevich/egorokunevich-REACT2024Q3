@@ -26,7 +26,6 @@ function PokeCard(props: PokeCardProps) {
   }
 
   const pokemon = results[0];
-  console.log({ pokemon });
   const renderImage = () => {
     if (pokemon.sprites.front_default) {
       return (
