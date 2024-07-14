@@ -12,14 +12,14 @@ function App() {
     <ErrorBoundary>
       <BrowserRouter>
         <Routes>
-          <Route path="/">
+          <Route path="/" errorElement={<NotFoundPage />}>
             <Route index element={<SearchPage />} />
             <Route path="*" element={<NotFoundPage />} />
             <Route path="test" element={<TestPage />} />
 
-            <Route path="/:page" element={<SearchPage />}>
+            <Route element={<SearchPage />}>
               <Route path="pokemon/:id" element={<DetailsPage />} />
-              <Route path="/:page/:pokeName" element={<DetailsPage />} />
+              <Route path="pokemon/:pokeName" element={<DetailsPage />} />
             </Route>
           </Route>
         </Routes>
