@@ -1,4 +1,4 @@
-import PokeApi from 'api/PokeApi';
+import PokeApi from '@/api/PokeApi';
 import Loader from 'components/Loader';
 import { useFetching } from 'hooks/useFetching';
 import { useEffect } from 'react';

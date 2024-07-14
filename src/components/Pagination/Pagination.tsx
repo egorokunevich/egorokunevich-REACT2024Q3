@@ -2,7 +2,7 @@ import { usePagination } from 'hooks/usePagination';
 import styles from './Pagination.module.scss';
 import PageButton from './PageButton';
 import { GetPagesCount } from 'utils/GetPagesCount';
-import PokeApi from 'api/PokeApi';
+import PokeApi from '@/api/PokeApi';
 import { useFetching } from 'hooks/useFetching';
 import { useEffect } from 'react';
 import Loader from 'components/Loader';

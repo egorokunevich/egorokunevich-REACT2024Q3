@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import SearchBar from 'components/SearchBar';
-import PokeApi from 'api/PokeApi';
+import PokeApi from '@/api/PokeApi';
 import ResultsList from 'components/ResultsList';
 import styles from './SearchPage.module.scss';
 import Loader from 'components/Loader';
@@ -22,6 +22,7 @@ function SearchPage() {
     isLoading: arePokemonsLoading,
     results,
   } = useFetching(handleSearch);
+  console.log({ results });
 
   const [currentPage, setCurrentPage] = useState(pageParam);
 
@@ -61,7 +62,7 @@ function SearchPage() {
       return <Loader />;
     }
 
-    const shouldRenderPagination = results!.length > 1;
+    const shouldRenderPagination = results && results.length > 1;
     return (
       <div className={styles.wrapper}>
         <div

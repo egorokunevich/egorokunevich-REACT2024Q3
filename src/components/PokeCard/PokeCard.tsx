@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import styles from './PokeCard.module.scss';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import PokeApi from 'api/PokeApi';
+import PokeApi from '@/api/PokeApi';
 import Loader from 'components/Loader';
 import { useFetching } from 'hooks/useFetching';
 
@@ -26,6 +26,7 @@ function PokeCard(props: PokeCardProps) {
   }
 
   const pokemon = results[0];
+  console.log({ pokemon });
   const renderImage = () => {
     if (pokemon.sprites.front_default) {
       return (
