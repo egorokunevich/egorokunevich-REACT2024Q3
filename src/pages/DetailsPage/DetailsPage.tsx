@@ -4,10 +4,15 @@ import { useFetching } from 'hooks/useFetching';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import styles from './DetailsPage.module.scss';
+import useTabTitle, { TabTitles } from 'hooks/useTabTitle';
+import { CapitalizeFirstLetter } from 'utils/CapitalizeFirstLetter';
 
 function DetailsPage() {
   const { id, pokeName } = useParams();
+
   const [data, setData] = useState<Pokemon | null>(null);
+  const pokeTabName = data?.name || '';
+  useTabTitle(TabTitles.Empty, CapitalizeFirstLetter(pokeTabName));
   const [fetchPokemon, isPokemonLoading] = useFetching(async () => {
     if (id) {
       return await PokeApi.getPokemon(id);

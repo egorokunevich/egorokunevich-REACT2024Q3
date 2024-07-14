@@ -8,8 +8,10 @@ import Pagination from 'components/Pagination';
 import { useFetching } from 'hooks/useFetching';
 import { Outlet, useNavigate, useSearchParams } from 'react-router-dom';
 import useLocalStorage, { LocalStorageKeys } from 'hooks/useLocalStorage';
+import useTabTitle, { TabTitles } from 'hooks/useTabTitle';
 
 function SearchPage() {
+  useTabTitle(TabTitles.PokemonWiki);
   const [displayedPokemons, setDisplayedPokemons] = useState<Pokemon[]>([]);
 
   const [notFound, setNotFound] = useState(false);
