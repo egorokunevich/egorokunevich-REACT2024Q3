@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import styles from './PokeCard.module.scss';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import PokeApi from '@/api/PokeApi';
-import Loader from 'components/Loader';
-import { useFetching } from 'hooks/useFetching';
+import PokeApi from '../../api/PokeApi';
+import Loader from '../../components/Loader';
+import { useFetching } from '../../hooks/useFetching';
 
 type PokeCardProps = {
   name: string;
@@ -50,7 +50,7 @@ function PokeCard(props: PokeCardProps) {
         e.stopPropagation();
         navigate(`/pokemon/${pokemon.name}?page=${page}`);
       }}
-      data-testid={'card'}
+      data-testid={'poke-card'}
     >
       <div className={styles.cardTitle}>{pokemon.name}</div>
       <div className={styles.picContainer}>{renderImage()}</div>

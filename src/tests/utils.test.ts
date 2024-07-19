@@ -1,6 +1,5 @@
-import { expect, test } from 'vitest';
-import { CapitalizeFirstLetter } from '../utils/CapitalizeFirstLetter.ts';
-import { GetPagesCount } from '../utils/GetPagesCount.ts';
+import { CapitalizeFirstLetter } from '../utils/CapitalizeFirstLetter';
+import { GetPagesCount } from '../utils/GetPagesCount';
 
 test('Capitalize first letter', () => {
   expect(CapitalizeFirstLetter('asd')).toBe('Asd');
