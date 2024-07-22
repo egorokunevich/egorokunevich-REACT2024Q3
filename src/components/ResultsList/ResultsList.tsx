@@ -1,16 +1,17 @@
+import { Pokemon } from '@/api/reduxApi';
 import PokeCard from '../PokeCard';
 import styles from './ResultsList.module.scss';
+import { useAppSelector } from '@/hooks/reduxHooks';
+import { getSelectedPokemonsSelector } from '@/store/selectors';
 
 interface ResultsListProps {
-  items:
-    | {
-        name: string;
-      }[]
-    | null;
+  items: Pokemon[];
 }
 
 function ResultsList({ items }: ResultsListProps) {
-  if (!items || (items && !items.length)) {
+  const selectedPokemons = useAppSelector(getSelectedPokemonsSelector);
+
+  if (!items.length) {
     return (
       <div className={styles.notFoundWrapper} data-testid="no-results">
         <div className={styles.notFoundMessage}>There is no such Pokemon!</div>
@@ -20,7 +21,11 @@ function ResultsList({ items }: ResultsListProps) {
   return (
     <div className={styles.listContainer} data-testid="resultsListWrapper">
       {items.map((item, id) => (
-        <PokeCard key={item.name + id} name={item.name} />
+        <PokeCard
+          key={item.name + id}
+          name={item.name}
+          isSelected={selectedPokemons.includes(item.name)}
+        />
       ))}
     </div>
   );

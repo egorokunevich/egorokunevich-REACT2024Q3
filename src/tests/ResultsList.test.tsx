@@ -10,7 +10,7 @@ describe('ResultsList', () => {
     await render(
       <BrowserRouter>
         <Routes>
-          <Route path="*" element={<ResultsList items={mockData} />}></Route>
+          <Route path="*" element={<ResultsList />}></Route>
         </Routes>
       </BrowserRouter>
     );
@@ -19,7 +19,7 @@ describe('ResultsList', () => {
     });
   });
   test('Should display a message if no cards present', async () => {
-    await render(<ResultsList items={[]} />);
+    await render(<ResultsList />);
     expect(screen.getByTestId('no-results')).toBeInTheDocument();
   });
 });

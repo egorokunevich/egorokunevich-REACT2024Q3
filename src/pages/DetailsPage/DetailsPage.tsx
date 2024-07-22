@@ -1,46 +1,31 @@
-import PokeApi from '@/api/PokeApi';
 import Loader from 'components/Loader';
-import { useFetching } from 'hooks/useFetching';
-import { useEffect } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import styles from './DetailsPage.module.scss';
 import useTabTitle, { TabTitles } from 'hooks/useTabTitle';
 import { CapitalizeFirstLetter } from 'utils/CapitalizeFirstLetter';
+import { useGetPokemonQuery } from '@/api/reduxApi';
 
 function DetailsPage() {
-  const { id, pokeName } = useParams();
-
-  const {
-    fetchFunction: fetchPokemon,
-    isLoading: isPokemonLoading,
-    results: data,
-  } = useFetching(async () => {
-    if (id) {
-      return await PokeApi.getPokemon(id);
-    } else if (pokeName) {
-      return await PokeApi.getPokemon(pokeName);
-    }
-  });
-  const pokeTabName = data?.[0].name || '';
-  useTabTitle(TabTitles.Empty, CapitalizeFirstLetter(pokeTabName));
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { id, pokeName } = useParams();
 
-  useEffect(() => {
-    fetchPokemon();
-  }, [id, pokeName]);
+  const { data: pokemon, isLoading } = useGetPokemonQuery(id || pokeName || '');
 
-  const handleLoading = () => {
-    if (isPokemonLoading === 'loading' || !data) {
-      return (
-        <div className={styles.loaderContainer}>
-          <Loader />
-        </div>
-      );
-    }
-    const pokemon = data[0];
+  const pokeTabName = pokemon?.name || '';
+  useTabTitle(TabTitles.Empty, CapitalizeFirstLetter(pokeTabName));
+
+  if (isLoading || !pokemon) {
     return (
-      <>
+      <div className={styles.loaderContainer}>
+        <Loader />
+      </div>
+    );
+  }
+
+  return (
+    <div className={styles.pageWrapper}>
+      <div className={styles.pageContent}>
         <div className={styles.buttonContainer}>
           <button
             className={styles.closeBtn}
@@ -57,20 +42,9 @@ function DetailsPage() {
 
         <div className={styles.infoText}>Height: {pokemon.height}</div>
         <div className={styles.infoText}>Weight: {pokemon.weight}</div>
-      </>
-    );
-  };
-  const renderDetails = () => {
-    if (data) {
-      return (
-        <div className={styles.pageWrapper}>
-          <div className={styles.pageContent}>{handleLoading()}</div>
-        </div>
-      );
-    }
-  };
-
-  return <>{renderDetails()}</>;
+      </div>
+    </div>
+  );
 }
 
 export default DetailsPage;

@@ -1,28 +1,34 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import PokeCard from '../components/PokeCard';
-import { Route, Routes, BrowserRouter } from 'react-router-dom';
-
+import { MemoryRouter } from 'react-router-dom';
+import { store } from '../store';
+import { Provider } from 'react-redux';
+import { useGetPokemonQuery } from 'api/reduxApi';
+jest.mock('./useGetPokemonQuery');
 describe('PokeCard', () => {
-  test('PokeCard should render in the document', async () => {
-    await render(
-      <BrowserRouter>
-        <Routes>
-          <Route path="*" element={<PokeCard name={'Pikachu'} />}></Route>
-        </Routes>
-      </BrowserRouter>
-    );
-    waitFor(() => {
-      expect(screen.getByTestId('poke-card')).toBeInTheDocument();
-    });
+  beforeEach(() => {
+    useGetPokemonQuery.mockClear();
   });
-  test('Loader should render in the document', async () => {
-    await render(
-      <BrowserRouter>
-        <Routes>
-          <Route path="*" element={<PokeCard name={'Pikachu'} />}></Route>
-        </Routes>
-      </BrowserRouter>
+  test('PokeCard should render in the document', async () => {
+    render(
+      <MemoryRouter>
+        <Provider store={store}>
+          <PokeCard name={'Pikachu'} />
+        </Provider>
+      </MemoryRouter>
+    );
+
+    const card = await screen.findByTestId('poke-card');
+    expect(card).toBeInTheDocument();
+  });
+  test('Loader should render in the document', () => {
+    render(
+      <MemoryRouter>
+        <Provider store={store}>
+          <PokeCard name={'Pikachu'} />
+        </Provider>
+      </MemoryRouter>
     );
     expect(screen.getByTestId('loader')).toBeInTheDocument();
   });

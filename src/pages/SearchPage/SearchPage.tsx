@@ -1,80 +1,70 @@
-import { useEffect, useState } from 'react';
 import SearchBar from 'components/SearchBar';
-import PokeApi from '@/api/PokeApi';
 import ResultsList from 'components/ResultsList';
 import styles from './SearchPage.module.scss';
 import Loader from 'components/Loader';
 import Pagination from 'components/Pagination';
-import { useFetching } from 'hooks/useFetching';
 import { Outlet, useNavigate, useSearchParams } from 'react-router-dom';
-import useLocalStorage, { LocalStorageKeys } from 'hooks/useLocalStorage';
 import useTabTitle, { TabTitles } from 'hooks/useTabTitle';
+import { useGetPokemonsQuery } from '@/api/reduxApi';
+import { useAppDispatch, useAppSelector } from '@/hooks/reduxHooks';
+import { useEffect } from 'react';
+import { setCurrentPokemons } from '@/store/pokemonsSlice';
+import { getCurrentPokemonsSelector } from '@/store/selectors';
 
-const PAGE_LIMIT = 12;
+export const PAGE_LIMIT = 12;
+
+const getOffset = (currentPage: number, limit: number = PAGE_LIMIT) =>
+  Math.ceil((currentPage - 1) * limit);
 
 function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const pageParam = searchParams.get('page') || '1';
+  const currentPage = +(searchParams.get('page') || '1');
+
   useTabTitle(TabTitles.PokemonWiki);
 
-  const {
-    fetchFunction: fetchPokemons,
-    isLoading: arePokemonsLoading,
-    results,
-  } = useFetching(handleSearch);
-
-  const [currentPage, setCurrentPage] = useState(pageParam);
-
-  const [offsetParam, setOffsetParam] = useState(
-    Math.ceil((+pageParam - 1) * PAGE_LIMIT)
-  );
-
-  const [queryParam, setQueryParam, saveQueryParam] = useLocalStorage(
-    LocalStorageKeys.LastQuery,
-    ''
-  );
+  const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
 
-  async function handleSearch(query: string) {
-    setSearchParams({ page: pageParam });
-    setQueryParam(query);
-    saveQueryParam(query);
+  const updatePage = (pageNumber: number) => {
+    setSearchParams({ page: pageNumber.toString() });
+  };
+  const {
+    data: pokemons,
+    isLoading,
+    // refetch,
+  } = useGetPokemonsQuery({
+    limit: PAGE_LIMIT,
+    offset: getOffset(currentPage, PAGE_LIMIT),
+  });
 
-    return query.trim().length
-      ? PokeApi.getPokemon(query)
-      : PokeApi.getPokemons(PAGE_LIMIT, +offsetParam);
-  }
+  const currentPokemons = useAppSelector(getCurrentPokemonsSelector);
 
   useEffect(() => {
-    fetchPokemons(queryParam.toString());
-  }, [offsetParam]);
-
-  const updatePage = (pageNumber: number) => {
-    setCurrentPage(pageNumber.toString());
-    setSearchParams({ page: pageNumber.toString() });
-    setOffsetParam((pageNumber - 1) * PAGE_LIMIT);
-  };
-
-  function renderResults() {
-    if (arePokemonsLoading === 'loading') {
-      return <Loader />;
+    if (pokemons) {
+      dispatch(setCurrentPokemons(pokemons.results));
     }
+  }, [pokemons]);
 
-    const shouldRenderPagination = results && results.length > 1;
-    return (
+  if (isLoading) {
+    return <Loader />;
+  }
+  const shouldRenderPagination = pokemons && pokemons.results.length > 1;
+
+  return (
+    <div className={styles.pageContainer}>
       <div className={styles.wrapper}>
         <div
           className={styles.mainSection}
           onClick={() => {
-            navigate(`/?page=${pageParam}`);
+            navigate(`/?page=${currentPage}`);
           }}
         >
-          <SearchBar onSearch={fetchPokemons} />
-          <ResultsList items={results} />
+          <SearchBar onSearch={() => console.log('search')} />
+          <ResultsList items={currentPokemons} />
           {shouldRenderPagination && (
             <Pagination
-              limit={PAGE_LIMIT}
+              totalPages={Math.ceil(pokemons.count / PAGE_LIMIT)}
               currentPage={+currentPage}
               handleClick={(pageNumber: number) => {
                 updatePage(pageNumber);
@@ -84,9 +74,8 @@ function SearchPage() {
         </div>
         <Outlet />
       </div>
-    );
-  }
-  return <div className={styles.pageContainer}>{renderResults()}</div>;
+    </div>
+  );
 }
 
 export default SearchPage;
