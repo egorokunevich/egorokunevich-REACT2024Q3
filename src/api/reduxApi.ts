@@ -3,6 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 type QueryArgs = {
   limit: number;
   offset: number;
+  name?: string;
 };
 
 export interface Pokemon {
@@ -36,10 +37,25 @@ export const pokemonApi = createApi({
       query: (query: string) => ({
         url: `/pokemon/${query}`,
       }),
+      transformResponse(response: Pokemon) {
+        return {
+          name: response.name,
+          weight: response.weight,
+          height: response.height,
+          id: response.id,
+          sprites: {
+            front_default: response.sprites.front_default,
+            front_shiny: response.sprites.front_shiny,
+            other: {
+              'official-artwork': response.sprites.other['official-artwork'],
+            },
+          },
+        };
+      },
     }),
-    getPokemons: build.query<Pokemons, QueryArgs>({
-      query: ({ limit, offset }) => ({
-        url: '/pokemon',
+    getPokemons: build.query<Pokemons | Pokemon, QueryArgs>({
+      query: ({ limit, offset, name }) => ({
+        url: `/pokemon/${name || ''}`,
         params: {
           limit,
           offset,

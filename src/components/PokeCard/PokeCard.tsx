@@ -1,9 +1,6 @@
-// import { useEffect } from 'react';
 import styles from './PokeCard.module.scss';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-// import PokeApi from '../../api/PokeApi';
 import Loader from '../../components/Loader';
-// import { useFetching } from '../../hooks/useFetching';
 import { useGetPokemonQuery } from 'api/reduxApi';
 import { useAppDispatch } from '@/hooks/reduxHooks';
 import { toggleSelectedPokemons } from '@/store/pokemonsSlice';

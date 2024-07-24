@@ -13,9 +13,29 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* .app.dark {
+  --bg-color: #202026;
+  --primary-color: #ffffff;
+  --secondary-color: #fecb00;
+  --card-color: #2e2e41;
+  --card-color-hover: #4a4a64;
+}
+.app.light {
+  --bg-color: #e8e8ea;
+  --primary-color: #041c65;
+  --secondary-color: #0449e0;
+  --card-color: #e8e8ea;
+  --card-color-hover: #f8f5f5;
+} */
+
+h1 {
+  color: var(--primary-color);
+}
+
 a {
   font-weight: 500;
-  color: #646cff;
+  /* color: #646cff; */
+  color: var(--primary-color);
   text-decoration: inherit;
 }
 a:hover {

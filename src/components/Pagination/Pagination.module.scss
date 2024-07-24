@@ -13,3 +13,18 @@
   max-width: 550px;
   width: 100%;
 }
+
+.page-btn {
+  outline: none;
+  max-width: 55px;
+  width: 100%;
+  padding: 0.6em;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    border-color: var(--primary-color);
+  }
+}

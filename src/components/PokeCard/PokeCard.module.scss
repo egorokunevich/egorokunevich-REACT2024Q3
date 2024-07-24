@@ -10,9 +10,12 @@
   min-height: 200px;
   transition: 0.2s;
   cursor: pointer;
+  background-color: var(--card-color);
+  border: 1px solid var(--card-color);
+  color: var(--primary-color);
 
   &:hover {
-    background-color: rgb(235, 235, 235);
+    background-color: var(--card-color-hover);
 
     & .pic-shiny {
       opacity: 100%;
@@ -43,6 +46,7 @@
 
 .check {
   position: absolute;
+  display: block;
   left: 0;
   top: 0;
   width: 25px;

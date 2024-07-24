@@ -5,9 +5,9 @@ import Loader from 'components/Loader';
 import Pagination from 'components/Pagination';
 import { Outlet, useNavigate, useSearchParams } from 'react-router-dom';
 import useTabTitle, { TabTitles } from 'hooks/useTabTitle';
-import { useGetPokemonsQuery } from '@/api/reduxApi';
+import { Pokemon, Pokemons, useGetPokemonsQuery } from '@/api/reduxApi';
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHooks';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { setCurrentPokemons } from '@/store/pokemonsSlice';
 import { getCurrentPokemonsSelector } from '@/store/selectors';
 
@@ -20,6 +20,8 @@ function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = +(searchParams.get('page') || '1');
 
+  const [searchValue, setSearchValue] = useState('');
+
   useTabTitle(TabTitles.PokemonWiki);
 
   const dispatch = useAppDispatch();
@@ -29,27 +31,32 @@ function SearchPage() {
   const updatePage = (pageNumber: number) => {
     setSearchParams({ page: pageNumber.toString() });
   };
-  const {
-    data: pokemons,
-    isLoading,
-    // refetch,
-  } = useGetPokemonsQuery({
+  const { data: pokemons, isLoading } = useGetPokemonsQuery({
     limit: PAGE_LIMIT,
     offset: getOffset(currentPage, PAGE_LIMIT),
+    name: searchValue,
   });
 
   const currentPokemons = useAppSelector(getCurrentPokemonsSelector);
 
   useEffect(() => {
     if (pokemons) {
-      dispatch(setCurrentPokemons(pokemons.results));
+      if (
+        (pokemons as Pokemons)?.results &&
+        Array.isArray((pokemons as Pokemons).results)
+      ) {
+        dispatch(setCurrentPokemons((pokemons as Pokemons).results));
+      } else {
+        dispatch(setCurrentPokemons([pokemons as Pokemon]));
+      }
     }
   }, [pokemons]);
 
   if (isLoading) {
     return <Loader />;
   }
-  const shouldRenderPagination = pokemons && pokemons.results.length > 1;
+  const shouldRenderPagination =
+    pokemons && (pokemons as Pokemons)?.results?.length > 1;
 
   return (
     <div className={styles.pageContainer}>
@@ -60,11 +67,15 @@ function SearchPage() {
             navigate(`/?page=${currentPage}`);
           }}
         >
-          <SearchBar onSearch={() => console.log('search')} />
+          <SearchBar
+            onSearch={(name) => {
+              setSearchValue(name);
+            }}
+          />
           <ResultsList items={currentPokemons} />
           {shouldRenderPagination && (
             <Pagination
-              totalPages={Math.ceil(pokemons.count / PAGE_LIMIT)}
+              totalPages={Math.ceil((pokemons as Pokemons).count / PAGE_LIMIT)}
               currentPage={+currentPage}
               handleClick={(pageNumber: number) => {
                 updatePage(pageNumber);

@@ -32,7 +32,15 @@ function DetailsPage() {
             onClick={() => {
               navigate(`/?page=${searchParams.get('page')}`);
             }}
-          ></button>
+          >
+            <div
+              className={styles.closeIcon}
+              style={{
+                maskImage: 'url(../../../public/assets/icons/cancel.svg)',
+                WebkitMaskImage: 'url(../../../public/assets/icons/cancel.svg)',
+              }}
+            />
+          </button>
         </div>
         <h1 className={styles.name}>{pokemon.name}</h1>
         <img
