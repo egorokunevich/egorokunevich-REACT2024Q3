@@ -24,7 +24,9 @@ function ResultsList({ items }: ResultsListProps) {
         <PokeCard
           key={item.name + id}
           name={item.name}
-          isSelected={selectedPokemons.includes(item.name)}
+          isSelected={selectedPokemons.some(
+            (pokemon) => pokemon.name === item.name
+          )}
         />
       ))}
     </div>

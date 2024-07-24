@@ -36,8 +36,8 @@ function DetailsPage() {
             <div
               className={styles.closeIcon}
               style={{
-                maskImage: 'url(../../../public/assets/icons/cancel.svg)',
-                WebkitMaskImage: 'url(../../../public/assets/icons/cancel.svg)',
+                maskImage: 'url(../../../assets/icons/cancel.svg)',
+                WebkitMaskImage: 'url(../../../assets/icons/cancel.svg)',
               }}
             />
           </button>

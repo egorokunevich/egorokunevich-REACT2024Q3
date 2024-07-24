@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface PokemonsSliceInitialState {
   currentPokemons: Pokemon[];
-  selectedPokemons: string[];
+  selectedPokemons: Pokemon[];
 }
 
 const initialState: PokemonsSliceInitialState = {
@@ -18,14 +18,14 @@ const pokemonsSlice = createSlice({
     setCurrentPokemons: (state, action: PayloadAction<Pokemon[]>) => {
       state.currentPokemons = action.payload;
     },
-    toggleSelectedPokemons: (state, action: PayloadAction<string>) => {
+    toggleSelectedPokemons: (state, action: PayloadAction<Pokemon>) => {
       const isSelected = !!state.selectedPokemons.find(
-        (item) => item === action.payload
+        (item) => item.name === action.payload.name
       );
 
       if (isSelected) {
         state.selectedPokemons = state.selectedPokemons.filter(
-          (item) => item !== action.payload
+          (item) => item.name !== action.payload.name
         );
       } else {
         state.selectedPokemons.push(action.payload);

@@ -19,8 +19,6 @@ function PokeCard({ name, isSelected }: PokeCardProps) {
   const page = searchParams.get('page') || '1';
   const navigate = useNavigate();
 
-  console.log('renderCard');
-
   if (!pokemon) {
     return (
       <div className={styles.card}>
@@ -56,12 +54,14 @@ function PokeCard({ name, isSelected }: PokeCardProps) {
       data-testid={'poke-card'}
     >
       <input
+        id="checkbox"
         type="checkbox"
         className={styles.check}
         checked={isSelected}
+        onClick={(e) => e.stopPropagation()}
         onChange={(e) => {
           e.stopPropagation();
-          dispatch(toggleSelectedPokemons(pokemon.name));
+          dispatch(toggleSelectedPokemons(pokemon));
         }}
       />
       <div className={styles.cardTitle}>{pokemon.name}</div>
