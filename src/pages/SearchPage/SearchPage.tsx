@@ -7,9 +7,10 @@ import { Outlet, useNavigate, useSearchParams } from 'react-router-dom';
 import useTabTitle, { TabTitles } from 'hooks/useTabTitle';
 import { Pokemon, Pokemons, useGetPokemonsQuery } from '@/api/reduxApi';
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHooks';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { setCurrentPokemons } from '@/store/pokemonsSlice';
 import { getCurrentPokemonsSelector } from '@/store/selectors';
+import useLocalStorage, { LocalStorageKeys } from '@/hooks/useLocalStorage';
 
 export const PAGE_LIMIT = 12;
 
@@ -20,7 +21,11 @@ function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = +(searchParams.get('page') || '1');
 
-  const [searchValue, setSearchValue] = useState('');
+  // const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useLocalStorage(
+    LocalStorageKeys.LastQuery,
+    ''
+  );
 
   useTabTitle(TabTitles.PokemonWiki);
 
@@ -31,10 +36,14 @@ function SearchPage() {
   const updatePage = (pageNumber: number) => {
     setSearchParams({ page: pageNumber.toString() });
   };
-  const { data: pokemons, isLoading } = useGetPokemonsQuery({
+  const {
+    data: pokemons,
+    isLoading,
+    isError,
+  } = useGetPokemonsQuery({
     limit: PAGE_LIMIT,
     offset: getOffset(currentPage, PAGE_LIMIT),
-    name: searchValue,
+    name: searchValue as string,
   });
 
   const currentPokemons = useAppSelector(getCurrentPokemonsSelector);
@@ -50,7 +59,10 @@ function SearchPage() {
         dispatch(setCurrentPokemons([pokemons as Pokemon]));
       }
     }
-  }, [pokemons]);
+    if (isError) {
+      dispatch(setCurrentPokemons([]));
+    }
+  }, [pokemons, isError]);
 
   if (isLoading) {
     return <Loader />;

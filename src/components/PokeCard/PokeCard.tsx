@@ -53,17 +53,21 @@ function PokeCard({ name, isSelected }: PokeCardProps) {
       }}
       data-testid={'poke-card'}
     >
-      <input
-        id="checkbox"
-        type="checkbox"
-        className={styles.check}
-        checked={isSelected}
+      <label
+        className={styles.checkboxLabel}
         onClick={(e) => e.stopPropagation()}
-        onChange={(e) => {
-          e.stopPropagation();
-          dispatch(toggleSelectedPokemons(pokemon));
-        }}
-      />
+      >
+        <input
+          type="checkbox"
+          className={styles.check}
+          checked={isSelected}
+          onChange={(e) => {
+            e.stopPropagation();
+            dispatch(toggleSelectedPokemons(pokemon));
+          }}
+        />
+        {isSelected && <div className={styles.checkboxMarker}></div>}
+      </label>
       <div className={styles.cardTitle}>{pokemon.name}</div>
       <div className={styles.picContainer}>{renderImage()}</div>
       <p>Weight: {pokemon.weight}</p>

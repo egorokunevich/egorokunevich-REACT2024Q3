@@ -14,11 +14,14 @@ const ThemeToggler = () => {
   return (
     <div className={styles.themeToggleContainer}>
       <div className={styles.toggleTitle}>DARK THEME</div>
-      <div
-        className={styles.toggler}
-        onClick={handleClick}
-        aria-checked={isChecked}
-      ></div>
+      <label className={styles.toggleLabel}>
+        <input
+          type="checkbox"
+          onClick={handleClick}
+          aria-checked={isChecked}
+        ></input>
+        <div className={styles.toggler}></div>
+      </label>
     </div>
   );
 };

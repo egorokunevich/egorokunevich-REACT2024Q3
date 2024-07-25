@@ -12,7 +12,7 @@ function SearchBar(props: SearchBarProps) {
   const [searchParam, setSearchParam] = useState(query ? query.toString() : '');
 
   const handleSearch = () => {
-    saveQuery(query);
+    saveQuery(searchParam);
     onSearch(searchParam);
   };
 
@@ -40,7 +40,15 @@ function SearchBar(props: SearchBarProps) {
           onClick={() => {
             handleSearch();
           }}
-        ></button>
+        >
+          <div
+            className={styles.iconMask}
+            style={{
+              maskImage: 'url(../../../../../assets/icons/search.svg)',
+              WebkitMaskImage: 'url(../../../../../assets/icons/search.svg)',
+            }}
+          />
+        </button>
       </div>
     </div>
   );

@@ -13,9 +13,7 @@ function ResultsList({ items }: ResultsListProps) {
 
   if (!items.length) {
     return (
-      <div className={styles.notFoundWrapper} data-testid="no-results">
-        <div className={styles.notFoundMessage}>There is no such Pokemon!</div>
-      </div>
+      <div className={styles.notFoundMessage}>There is no such Pokemon!</div>
     );
   }
   return (
