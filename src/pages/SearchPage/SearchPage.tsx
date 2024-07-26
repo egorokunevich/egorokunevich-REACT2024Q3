@@ -9,8 +9,12 @@ import { Pokemon, Pokemons, useGetPokemonsQuery } from '@/api/reduxApi';
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHooks';
 import { useEffect } from 'react';
 import { setCurrentPokemons } from '@/store/pokemonsSlice';
-import { getCurrentPokemonsSelector } from '@/store/selectors';
+import {
+  getCurrentPokemonsSelector,
+  getSelectedPokemonsSelector,
+} from '@/store/selectors';
 import useLocalStorage, { LocalStorageKeys } from '@/hooks/useLocalStorage';
+import Flyout from '@/components/Flyout';
 
 export const PAGE_LIMIT = 12;
 
@@ -48,6 +52,7 @@ function SearchPage() {
   });
 
   const currentPokemons = useAppSelector(getCurrentPokemonsSelector);
+  const selectedPokemons = useAppSelector(getSelectedPokemonsSelector);
 
   useEffect(() => {
     if (pokemons) {
@@ -105,6 +110,9 @@ function SearchPage() {
           )}
         </div>
         <Outlet />
+        {selectedPokemons.length > 0 && (
+          <Flyout selectedPokemons={selectedPokemons} />
+        )}
       </div>
     </div>
   );

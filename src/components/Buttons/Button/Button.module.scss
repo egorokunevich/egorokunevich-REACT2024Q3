@@ -1,11 +1,13 @@
 .btn {
   transition: 0.2s;
-  border: 1px solid rgb(206, 206, 206);
+  border: 1px solid var(--primary-color);
   border-radius: 0;
+  background-color: var(--card-color);
+  color: var(--primary-color);
   &:hover {
-    background-color: rgb(87, 167, 233);
-    color: white;
-    background-color: rgb(87, 167, 233);
+    border: 1px solid var(--primary-color);
+    background-color: var(--card-color-hover);
+    color: var(--primary-color);
   }
 
   &:focus {

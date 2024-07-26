@@ -10,12 +10,16 @@ function DetailsPage() {
   const navigate = useNavigate();
   const { id, pokeName } = useParams();
 
-  const { data: pokemon, isLoading } = useGetPokemonQuery(id || pokeName || '');
+  const {
+    data: pokemon,
+    isLoading,
+    isFetching,
+  } = useGetPokemonQuery(id || pokeName || '');
 
   const pokeTabName = pokemon?.name || '';
   useTabTitle(TabTitles.Empty, CapitalizeFirstLetter(pokeTabName));
 
-  if (isLoading || !pokemon) {
+  if (isLoading || isFetching || !pokemon) {
     return (
       <div className={styles.loaderContainer}>
         <Loader />

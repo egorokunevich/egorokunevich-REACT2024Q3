@@ -31,10 +31,13 @@ const pokemonsSlice = createSlice({
         state.selectedPokemons.push(action.payload);
       }
     },
+    unselectPokemons: (state) => {
+      state.selectedPokemons = [];
+    },
   },
 });
 
-export const { setCurrentPokemons, toggleSelectedPokemons } =
+export const { setCurrentPokemons, toggleSelectedPokemons, unselectPokemons } =
   pokemonsSlice.actions;
 
 export default pokemonsSlice.reducer;
