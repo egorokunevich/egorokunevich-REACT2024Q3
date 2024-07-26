@@ -39,6 +39,7 @@ function SearchPage() {
   const {
     data: pokemons,
     isLoading,
+    isFetching,
     isError,
   } = useGetPokemonsQuery({
     limit: PAGE_LIMIT,
@@ -84,15 +85,23 @@ function SearchPage() {
               setSearchValue(name);
             }}
           />
-          <ResultsList items={currentPokemons} />
-          {shouldRenderPagination && (
-            <Pagination
-              totalPages={Math.ceil((pokemons as Pokemons).count / PAGE_LIMIT)}
-              currentPage={+currentPage}
-              handleClick={(pageNumber: number) => {
-                updatePage(pageNumber);
-              }}
-            />
+          {isFetching ? (
+            <Loader />
+          ) : (
+            <>
+              <ResultsList items={currentPokemons} />
+              {shouldRenderPagination && (
+                <Pagination
+                  totalPages={Math.ceil(
+                    (pokemons as Pokemons).count / PAGE_LIMIT
+                  )}
+                  currentPage={+currentPage}
+                  handleClick={(pageNumber: number) => {
+                    updatePage(pageNumber);
+                  }}
+                />
+              )}
+            </>
           )}
         </div>
         <Outlet />
