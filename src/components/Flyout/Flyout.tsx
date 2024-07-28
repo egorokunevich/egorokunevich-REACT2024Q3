@@ -26,7 +26,6 @@ const convertToCSV = (rawData: Pokemon[]) => {
       }
     });
   });
-  console.log([headers, ...mainData].join('\n'));
 
   return [headers, ...mainData].join('\n');
 };

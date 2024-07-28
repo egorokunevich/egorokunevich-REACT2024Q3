@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1722206632398" clover="3.2.0">
-  <project timestamp="1722206632398" name="All files">
+<coverage generated="1722207081233" clover="3.2.0">
+  <project timestamp="1722207081233" name="All files">
     <metrics statements="254" coveredstatements="226" conditionals="76" coveredconditionals="59" methods="71" coveredmethods="54" elements="401" coveredelements="339" complexity="0" loc="254" ncloc="254" packages="14" files="32" classes="32"/>
     <package name="api">
       <metrics statements="7" coveredstatements="7" conditionals="2" coveredconditionals="2" methods="4" coveredmethods="4"/>
@@ -350,9 +350,9 @@
       <file name="selectors.ts" path="E:\Program Files\VS Code\egorokunevich-REACT2024Q3\src\store\selectors.ts">
         <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="3" count="3" type="stmt"/>
-        <line num="4" count="39" type="stmt"/>
+        <line num="4" count="41" type="stmt"/>
         <line num="6" count="3" type="stmt"/>
-        <line num="7" count="62" type="stmt"/>
+        <line num="7" count="66" type="stmt"/>
       </file>
     </package>
     <package name="tests.mocks">

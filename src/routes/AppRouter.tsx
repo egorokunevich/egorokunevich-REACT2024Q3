@@ -4,7 +4,6 @@ import { useTheme } from '@/theme/useTheme';
 import DetailsPage from 'pages/DetailsPage';
 import NotFoundPage from 'pages/NotFoundPage';
 import SearchPage from 'pages/SearchPage';
-import TestPage from 'pages/TestPage/TestPage';
 import { Routes, Route, Outlet } from 'react-router-dom';
 
 const AppRouter = () => {
@@ -24,7 +23,6 @@ const AppRouter = () => {
         <Route path="/" errorElement={<NotFoundPage />}>
           <Route index element={<SearchPage />} />
           <Route path="*" element={<NotFoundPage />} />
-          <Route path="test" element={<TestPage />} />
 
           <Route element={<SearchPage />}>
             <Route path="pokemon/:id" element={<DetailsPage />} />

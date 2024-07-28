@@ -1,5 +1,3 @@
-// import { useMemo } from 'react';
-
 export const createRange = (start: number, end: number) => {
   if (end <= start) {
     return [1];
@@ -18,7 +16,6 @@ const SELECTED_BTN_SIBLINGS_COUNT = 2; // The number of buttons near current but
 
 export const usePagination = (props: PaginationProps) => {
   const { pagesCount, currentPage } = props;
-  // const paginationRange = useMemo(() => {
   const paginationRange = () => {
     const pageBtnsCount = SELECTED_BTN_SIBLINGS_COUNT + PAGE_BTNS_MIN_COUNT;
 
@@ -65,6 +62,5 @@ export const usePagination = (props: PaginationProps) => {
       return [firstPageIndex, '...', ...middleRange, '...', lastPageIndex];
     }
   };
-  // }, [pagesCount, currentPage]);
   return paginationRange();
 };
