@@ -4,11 +4,13 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 export interface PokemonsSliceInitialState {
   currentPokemons: Pokemon[];
   selectedPokemons: Pokemon[];
+  currentDetails: Pokemon[];
 }
 
 const initialState: PokemonsSliceInitialState = {
   currentPokemons: [],
   selectedPokemons: [],
+  currentDetails: [],
 };
 
 const pokemonsSlice = createSlice({
@@ -31,13 +33,20 @@ const pokemonsSlice = createSlice({
         state.selectedPokemons.push(action.payload);
       }
     },
-    unselectPokemons: (state) => {
+    unselectAllPokemons: (state) => {
       state.selectedPokemons = [];
+    },
+    setCurrentDetails: (state, action: PayloadAction<Pokemon[]>) => {
+      state.currentDetails = action.payload;
     },
   },
 });
 
-export const { setCurrentPokemons, toggleSelectedPokemons, unselectPokemons } =
-  pokemonsSlice.actions;
+export const {
+  setCurrentPokemons,
+  toggleSelectedPokemons,
+  unselectAllPokemons,
+  setCurrentDetails,
+} = pokemonsSlice.actions;
 
 export default pokemonsSlice.reducer;

@@ -2,7 +2,7 @@ import { useAppDispatch } from '@/hooks/reduxHooks';
 import Button from '../Buttons/Button';
 import styles from './Flyout.module.scss';
 import btnStyles from '@/components/Buttons/Button/Button.module.scss';
-import { unselectPokemons } from '@/store/pokemonsSlice';
+import { unselectAllPokemons } from '@/store/pokemonsSlice';
 import { Pokemon } from '@/api/reduxApi';
 
 interface FlyoutProps {
@@ -51,7 +51,7 @@ const Flyout = ({ selectedPokemons }: FlyoutProps) => {
 
         <Button
           txt={'Unselect All'}
-          onClick={() => dispatch(unselectPokemons())}
+          onClick={() => dispatch(unselectAllPokemons())}
         />
         <a
           style={{ padding: '0.6em 1.2em', lineHeight: '1.15' }}

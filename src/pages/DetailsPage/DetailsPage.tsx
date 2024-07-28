@@ -4,6 +4,9 @@ import styles from './DetailsPage.module.scss';
 import useTabTitle, { TabTitles } from 'hooks/useTabTitle';
 import { CapitalizeFirstLetter } from 'utils/CapitalizeFirstLetter';
 import { useGetPokemonQuery } from '@/api/reduxApi';
+import { useAppDispatch } from '@/hooks/reduxHooks';
+import { useEffect } from 'react';
+import { setCurrentDetails } from '@/store/pokemonsSlice';
 
 function DetailsPage() {
   const [searchParams] = useSearchParams();
@@ -15,6 +18,13 @@ function DetailsPage() {
     isLoading,
     isFetching,
   } = useGetPokemonQuery(id || pokeName || '');
+
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (pokemon) {
+      dispatch(setCurrentDetails([pokemon]));
+    }
+  }, [pokemon]);
 
   const pokeTabName = pokemon?.name || '';
   useTabTitle(TabTitles.Empty, CapitalizeFirstLetter(pokeTabName));
