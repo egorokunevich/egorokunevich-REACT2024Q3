@@ -1,4 +1,4 @@
-import useLocalStorage, { LocalStorageKeys } from 'hooks/useLocalStorage';
+import useLocalStorage, { LocalStorageKeys } from '@/hooks/useLocalStorage';
 import React, { useState } from 'react';
 import styles from './SearchBar.module.scss';
 
@@ -17,7 +17,7 @@ function SearchBar(props: SearchBarProps) {
   };
 
   return (
-    <div className={styles.searchWrapper}>
+    <div className={styles.searchWrapper} data-testid="search-bar">
       <div className={styles.searchBar}>
         <input
           className={styles.searchInput}

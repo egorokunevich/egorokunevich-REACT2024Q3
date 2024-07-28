@@ -1,5 +1,5 @@
 import { Pokemon } from '@/api/reduxApi';
-import PokeCard from '../PokeCard';
+import PokeCard from '@/components/PokeCard';
 import styles from './ResultsList.module.scss';
 import { useAppSelector } from '@/hooks/reduxHooks';
 import { getSelectedPokemonsSelector } from '@/store/selectors';

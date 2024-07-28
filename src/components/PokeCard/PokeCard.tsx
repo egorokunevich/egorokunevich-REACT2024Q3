@@ -1,7 +1,7 @@
 import styles from './PokeCard.module.scss';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import Loader from '../../components/Loader';
-import { useGetPokemonQuery } from 'api/reduxApi';
+import Loader from '@/components/Loader';
+import { useGetPokemonQuery } from '@/api/reduxApi';
 import { useAppDispatch } from '@/hooks/reduxHooks';
 import { toggleSelectedPokemons } from '@/store/pokemonsSlice';
 

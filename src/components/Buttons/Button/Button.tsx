@@ -12,6 +12,7 @@ function Button(props: ButtonProps) {
       <button
         className={styles.btn + ' ' + props.className}
         onClick={props.onClick}
+        data-testid="button"
       >
         {props.txt}
       </button>

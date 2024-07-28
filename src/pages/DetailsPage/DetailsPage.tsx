@@ -1,8 +1,8 @@
-import Loader from 'components/Loader';
+import Loader from '@/components/Loader';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import styles from './DetailsPage.module.scss';
-import useTabTitle, { TabTitles } from 'hooks/useTabTitle';
-import { CapitalizeFirstLetter } from 'utils/CapitalizeFirstLetter';
+import useTabTitle, { TabTitles } from '@/hooks/useTabTitle';
+import { CapitalizeFirstLetter } from '@/utils/CapitalizeFirstLetter';
 import { useGetPokemonQuery } from '@/api/reduxApi';
 import { useAppDispatch } from '@/hooks/reduxHooks';
 import { useEffect } from 'react';
@@ -38,7 +38,7 @@ function DetailsPage() {
   }
 
   return (
-    <div className={styles.pageWrapper}>
+    <div className={styles.pageWrapper} data-testid="details-page">
       <div className={styles.pageContent}>
         <div className={styles.buttonContainer}>
           <button

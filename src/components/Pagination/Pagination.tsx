@@ -1,4 +1,4 @@
-import { usePagination } from 'hooks/usePagination';
+import { usePagination } from '@/hooks/usePagination';
 import styles from './Pagination.module.scss';
 import PageButton from './PageButton';
 

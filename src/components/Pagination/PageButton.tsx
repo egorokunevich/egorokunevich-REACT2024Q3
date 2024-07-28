@@ -22,6 +22,7 @@ const PageButton = (props: PageButtonProps) => {
           handleClick(+txt);
         }
       }}
+      data-testid="page-btn"
     >
       {txt}
     </button>

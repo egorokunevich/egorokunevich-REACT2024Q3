@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-type QueryArgs = {
+export type QueryArgs = {
   limit: number;
   offset: number;
   name?: string;

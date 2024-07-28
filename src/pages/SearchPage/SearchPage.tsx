@@ -1,10 +1,10 @@
-import SearchBar from 'components/SearchBar';
-import ResultsList from 'components/ResultsList';
+import SearchBar from '@/components/SearchBar';
+import ResultsList from '@/components/ResultsList';
 import styles from './SearchPage.module.scss';
-import Loader from 'components/Loader';
-import Pagination from 'components/Pagination';
+import Loader from '@/components/Loader';
+import Pagination from '@/components/Pagination';
 import { Outlet, useNavigate, useSearchParams } from 'react-router-dom';
-import useTabTitle, { TabTitles } from 'hooks/useTabTitle';
+import useTabTitle, { TabTitles } from '@/hooks/useTabTitle';
 import { Pokemon, Pokemons, useGetPokemonsQuery } from '@/api/reduxApi';
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHooks';
 import { useEffect } from 'react';
@@ -25,7 +25,6 @@ function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = +(searchParams.get('page') || '1');
 
-  // const [searchValue, setSearchValue] = useState('');
   const [searchValue, setSearchValue] = useLocalStorage(
     LocalStorageKeys.LastQuery,
     ''
@@ -84,6 +83,7 @@ function SearchPage() {
           onClick={() => {
             navigate(`/?page=${currentPage}`);
           }}
+          data-testid="searchPage-mainSection"
         >
           <SearchBar
             onSearch={(name) => {
