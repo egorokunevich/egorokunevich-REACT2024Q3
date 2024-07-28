@@ -22,11 +22,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 
   render() {
     if (this.state.hasError) {
-      return (
-        <>
-          <ErrorPage />
-        </>
-      );
+      return <ErrorPage />;
     }
 
     return this.props.children;

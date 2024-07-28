@@ -1,53 +1,60 @@
-import PokeApi from '@/api/PokeApi';
-import Loader from 'components/Loader';
-import { useFetching } from 'hooks/useFetching';
-import { useEffect } from 'react';
+import Loader from '@/components/Loader';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import styles from './DetailsPage.module.scss';
-import useTabTitle, { TabTitles } from 'hooks/useTabTitle';
-import { CapitalizeFirstLetter } from 'utils/CapitalizeFirstLetter';
+import useTabTitle, { TabTitles } from '@/hooks/useTabTitle';
+import { CapitalizeFirstLetter } from '@/utils/CapitalizeFirstLetter';
+import { useGetPokemonQuery } from '@/api/reduxApi';
+import { useAppDispatch } from '@/hooks/reduxHooks';
+import { useEffect } from 'react';
+import { setCurrentDetails } from '@/store/pokemonsSlice';
 
 function DetailsPage() {
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const { id, pokeName } = useParams();
 
   const {
-    fetchFunction: fetchPokemon,
-    isLoading: isPokemonLoading,
-    results: data,
-  } = useFetching(async () => {
-    if (id) {
-      return await PokeApi.getPokemon(id);
-    } else if (pokeName) {
-      return await PokeApi.getPokemon(pokeName);
-    }
-  });
-  const pokeTabName = data?.[0].name || '';
-  useTabTitle(TabTitles.Empty, CapitalizeFirstLetter(pokeTabName));
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
+    data: pokemon,
+    isLoading,
+    isFetching,
+  } = useGetPokemonQuery(id || pokeName || '');
 
+  const dispatch = useAppDispatch();
   useEffect(() => {
-    fetchPokemon();
-  }, [id, pokeName]);
-
-  const handleLoading = () => {
-    if (isPokemonLoading === 'loading' || !data) {
-      return (
-        <div className={styles.loaderContainer}>
-          <Loader />
-        </div>
-      );
+    if (pokemon) {
+      dispatch(setCurrentDetails([pokemon]));
     }
-    const pokemon = data[0];
+  }, [pokemon]);
+
+  const pokeTabName = pokemon?.name || '';
+  useTabTitle(TabTitles.Empty, CapitalizeFirstLetter(pokeTabName));
+
+  if (isLoading || isFetching || !pokemon) {
     return (
-      <>
+      <div className={styles.loaderContainer}>
+        <Loader />
+      </div>
+    );
+  }
+
+  return (
+    <div className={styles.pageWrapper} data-testid="details-page">
+      <div className={styles.pageContent}>
         <div className={styles.buttonContainer}>
           <button
             className={styles.closeBtn}
             onClick={() => {
               navigate(`/?page=${searchParams.get('page')}`);
             }}
-          ></button>
+          >
+            <div
+              className={styles.closeIcon}
+              style={{
+                maskImage: 'url(../../../assets/icons/cancel.svg)',
+                WebkitMaskImage: 'url(../../../assets/icons/cancel.svg)',
+              }}
+            />
+          </button>
         </div>
         <h1 className={styles.name}>{pokemon.name}</h1>
         <img
@@ -57,20 +64,9 @@ function DetailsPage() {
 
         <div className={styles.infoText}>Height: {pokemon.height}</div>
         <div className={styles.infoText}>Weight: {pokemon.weight}</div>
-      </>
-    );
-  };
-  const renderDetails = () => {
-    if (data) {
-      return (
-        <div className={styles.pageWrapper}>
-          <div className={styles.pageContent}>{handleLoading()}</div>
-        </div>
-      );
-    }
-  };
-
-  return <>{renderDetails()}</>;
+      </div>
+    </div>
+  );
 }
 
 export default DetailsPage;

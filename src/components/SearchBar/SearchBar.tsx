@@ -1,4 +1,4 @@
-import useLocalStorage, { LocalStorageKeys } from 'hooks/useLocalStorage';
+import useLocalStorage, { LocalStorageKeys } from '@/hooks/useLocalStorage';
 import React, { useState } from 'react';
 import styles from './SearchBar.module.scss';
 
@@ -12,12 +12,12 @@ function SearchBar(props: SearchBarProps) {
   const [searchParam, setSearchParam] = useState(query ? query.toString() : '');
 
   const handleSearch = () => {
-    saveQuery(query);
+    saveQuery(searchParam);
     onSearch(searchParam);
   };
 
   return (
-    <div className={styles.searchWrapper}>
+    <div className={styles.searchWrapper} data-testid="search-bar">
       <div className={styles.searchBar}>
         <input
           className={styles.searchInput}
@@ -40,7 +40,15 @@ function SearchBar(props: SearchBarProps) {
           onClick={() => {
             handleSearch();
           }}
-        ></button>
+        >
+          <div
+            className={styles.iconMask}
+            style={{
+              maskImage: 'url(../../../../../assets/icons/search.svg)',
+              WebkitMaskImage: 'url(../../../../../assets/icons/search.svg)',
+            }}
+          />
+        </button>
       </div>
     </div>
   );

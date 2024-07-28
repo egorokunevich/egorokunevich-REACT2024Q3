@@ -1,3 +1,6 @@
+import styles from './Pagination.module.scss';
+import '@/theme/colorConstants.scss';
+
 interface PageButtonProps {
   txt: string;
   isActive: boolean;
@@ -8,13 +11,10 @@ const PageButton = (props: PageButtonProps) => {
   const { txt, isActive, handleClick } = props;
   return (
     <button
+      className={styles.pageBtn}
       style={{
-        color: isActive ? 'white' : 'black',
-        backgroundColor: isActive ? '#2291be' : '#f9f9f9',
-        outline: 'none',
-        maxWidth: '55px',
-        width: '100%',
-        padding: '0.6em',
+        color: isActive ? 'var(--bg-color)' : 'var(--primary-color)',
+        backgroundColor: isActive ? 'var(--primary-color)' : 'var(--bg-color)',
       }}
       onClick={(e) => {
         e.stopPropagation();
@@ -22,6 +22,7 @@ const PageButton = (props: PageButtonProps) => {
           handleClick(+txt);
         }
       }}
+      data-testid="page-btn"
     >
       {txt}
     </button>

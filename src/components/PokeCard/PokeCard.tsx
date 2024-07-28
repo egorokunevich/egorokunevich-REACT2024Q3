@@ -1,31 +1,32 @@
-import { useEffect } from 'react';
 import styles from './PokeCard.module.scss';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import PokeApi from '../../api/PokeApi';
-import Loader from '../../components/Loader';
-import { useFetching } from '../../hooks/useFetching';
+import Loader from '@/components/Loader';
+import { useGetPokemonQuery } from '@/api/reduxApi';
+import { useAppDispatch } from '@/hooks/reduxHooks';
+import { toggleSelectedPokemons } from '@/store/pokemonsSlice';
 
-type PokeCardProps = {
+interface PokeCardProps {
   name: string;
-};
+  isSelected: boolean;
+}
 
-function PokeCard(props: PokeCardProps) {
-  const { results, fetchFunction } = useFetching(async () => {
-    return PokeApi.getPokemon(props.name);
-  });
+function PokeCard({ name, isSelected }: PokeCardProps) {
+  const { data: pokemon } = useGetPokemonQuery(name);
+
+  const dispatch = useAppDispatch();
+
   const [searchParams] = useSearchParams();
   const page = searchParams.get('page') || '1';
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchFunction();
-  }, []);
-
-  if (!results?.length) {
-    return <Loader />;
+  if (!pokemon) {
+    return (
+      <div className={styles.card}>
+        <Loader />
+      </div>
+    );
   }
 
-  const pokemon = results[0];
   const renderImage = () => {
     if (pokemon.sprites.front_default) {
       return (
@@ -52,6 +53,21 @@ function PokeCard(props: PokeCardProps) {
       }}
       data-testid={'poke-card'}
     >
+      <label
+        className={styles.checkboxLabel}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <input
+          type="checkbox"
+          className={styles.check}
+          checked={isSelected}
+          onChange={(e) => {
+            e.stopPropagation();
+            dispatch(toggleSelectedPokemons(pokemon));
+          }}
+        />
+        {isSelected && <div className={styles.checkboxMarker}></div>}
+      </label>
       <div className={styles.cardTitle}>{pokemon.name}</div>
       <div className={styles.picContainer}>{renderImage()}</div>
       <p>Weight: {pokemon.weight}</p>

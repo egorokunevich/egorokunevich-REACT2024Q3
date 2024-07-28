@@ -1,11 +1,12 @@
-import { useMemo } from 'react';
-
-const createRange = (start: number, end: number) => {
+export const createRange = (start: number, end: number) => {
+  if (end <= start) {
+    return [1];
+  }
   const length = end - start + 1;
   return Array.from({ length }, (_, i) => i + start);
 };
 
-interface PaginationProps {
+export interface PaginationProps {
   pagesCount: number;
   currentPage: number;
 }
@@ -15,7 +16,7 @@ const SELECTED_BTN_SIBLINGS_COUNT = 2; // The number of buttons near current but
 
 export const usePagination = (props: PaginationProps) => {
   const { pagesCount, currentPage } = props;
-  const paginationRange = useMemo(() => {
+  const paginationRange = () => {
     const pageBtnsCount = SELECTED_BTN_SIBLINGS_COUNT + PAGE_BTNS_MIN_COUNT;
 
     if (pageBtnsCount >= pagesCount) {
@@ -60,6 +61,6 @@ export const usePagination = (props: PaginationProps) => {
       const middleRange = createRange(leftSiblingIndex, rightSiblingIndex);
       return [firstPageIndex, '...', ...middleRange, '...', lastPageIndex];
     }
-  }, [pagesCount, currentPage]);
-  return paginationRange;
+  };
+  return paginationRange();
 };
