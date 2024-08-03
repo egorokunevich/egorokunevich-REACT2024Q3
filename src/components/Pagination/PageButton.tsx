@@ -1,5 +1,4 @@
 import styles from './Pagination.module.scss';
-import '@/theme/colorConstants.scss';
 
 interface PageButtonProps {
   txt: string;

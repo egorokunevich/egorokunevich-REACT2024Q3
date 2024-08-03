@@ -18,18 +18,18 @@
   &:hover {
     background-color: var(--card-color-hover);
 
-    & .pic-shiny {
+    & .picShiny {
       opacity: 100%;
     }
   }
 }
 
-.card-title {
+.cardTitle {
   font-size: 1.5rem;
   text-transform: capitalize;
 }
 
-.pic-container {
+.picContainer {
   position: relative;
 }
 
@@ -37,7 +37,7 @@
   width: 100%;
 }
 
-.pic-shiny {
+.picShiny {
   position: absolute;
   left: 0;
   top: 0;
@@ -45,7 +45,7 @@
   transition: 0.5s;
 }
 
-.checkbox-label {
+.checkboxLabel {
   position: absolute;
   display: block;
   left: 0;
@@ -63,7 +63,7 @@
   }
 }
 
-.checkbox-marker {
+.checkboxMarker {
   position: absolute;
   left: 50%;
   top: 50%;

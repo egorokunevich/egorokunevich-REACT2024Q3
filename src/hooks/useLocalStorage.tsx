@@ -1,4 +1,6 @@
-import { useState } from 'react';
+'use client';
+
+import { useEffect, useState } from 'react';
 
 export enum LocalStorageKeys {
   LastQuery = 'lastQuery',
@@ -9,10 +11,10 @@ export default function useLocalStorage(
   key: string,
   initialValue: string | number
 ) {
-  const [value, setValue] = useState<string | number>(
-    localStorage.getItem(key) || initialValue
-  );
-
+  const [value, setValue] = useState<string | number>(initialValue);
+  useEffect(() => {
+    setValue(localStorage.getItem(key) || initialValue);
+  }, []);
   // Update localStorage
   const saveValue = (newValue: string | number) => {
     localStorage.setItem(key, newValue.toString());

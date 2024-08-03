@@ -1,19 +1,18 @@
-.search-wrapper {
+.searchWrapper {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 1rem;
 }
 
-.search-bar {
+.searchBar {
   display: flex;
   align-items: center;
   padding: 1rem;
 }
 
-.search-input {
+.searchInput {
   border: none;
-
   border-bottom: 3px solid var(--card-color);
   background-color: var(--bg-color);
   height: 36px;
@@ -36,7 +35,7 @@
   }
 }
 
-.search-btn {
+.searchBtn {
   width: 100%;
   max-width: 36px;
   height: 36px;
@@ -57,7 +56,7 @@
   }
 }
 
-.icon-mask {
+.iconMask {
   width: 100%;
   height: 100%;
   background-color: var(--primary-color);

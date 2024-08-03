@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import styles from './ThemeToggler.module.scss';
 import { useTheme } from '@/theme/useTheme';

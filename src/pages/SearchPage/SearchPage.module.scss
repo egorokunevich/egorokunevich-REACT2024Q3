@@ -3,14 +3,14 @@
   justify-content: space-between;
 }
 
-.main-section {
+.mainSection {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
 }
 
-.page-container {
+.pageContainer {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -19,7 +19,7 @@
   padding-bottom: 4rem;
 }
 
-.not-found-wrapper {
+.notFoundWrapper {
   width: 100%;
   display: flex;
   justify-content: center;
@@ -27,7 +27,7 @@
   padding: 2rem;
 }
 
-.not-found-message {
+.notFoundMessage {
   font-size: 2rem;
   letter-spacing: 0.1rem;
 }

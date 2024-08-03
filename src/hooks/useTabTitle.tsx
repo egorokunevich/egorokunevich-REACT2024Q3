@@ -1,3 +1,7 @@
+'use client';
+
+import { useEffect } from 'react';
+
 export enum TabTitles {
   PokemonWiki = 'Pokemon Wiki',
   NotFound = '404 Not Found',
@@ -5,7 +9,9 @@ export enum TabTitles {
 }
 
 export const useTabTitle = (title: TabTitles, info?: string) => {
-  document.title = info ? title + ' ' + info : title;
+  useEffect(() => {
+    document.title = info ? title + ' ' + info : title;
+  }, []);
 };
 
 export default useTabTitle;

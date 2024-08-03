@@ -1,9 +1,10 @@
 import styles from './PokeCard.module.scss';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import Loader from '@/components/Loader';
 import { useGetPokemonQuery } from '@/api/reduxApi';
 import { useAppDispatch } from '@/hooks/reduxHooks';
 import { toggleSelectedPokemons } from '@/store/pokemonsSlice';
+import { useRouter } from 'next/router';
 
 interface PokeCardProps {
   name: string;
@@ -15,9 +16,11 @@ function PokeCard({ name, isSelected }: PokeCardProps) {
 
   const dispatch = useAppDispatch();
 
-  const [searchParams] = useSearchParams();
-  const page = searchParams.get('page') || '1';
-  const navigate = useNavigate();
+  const router = useRouter();
+  // const page = router.
+  // const [searchParams] = useSearchParams();
+  // const page = searchParams.get('page') || '1';
+  const page = 1;
 
   if (!pokemon) {
     return (
@@ -49,7 +52,7 @@ function PokeCard({ name, isSelected }: PokeCardProps) {
       className={styles.card}
       onClick={(e) => {
         e.stopPropagation();
-        navigate(`/pokemon/${pokemon.name}?page=${page}`);
+        router.push(`/pokemon/${pokemon.name}?page=${page}`);
       }}
       data-testid={'poke-card'}
     >

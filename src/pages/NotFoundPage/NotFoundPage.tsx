@@ -1,9 +1,9 @@
-import { useNavigate } from 'react-router-dom';
 import styles from './NotFoundPage.module.scss';
 import useTabTitle, { TabTitles } from 'hooks/useTabTitle';
+import { useRouter } from 'next/router';
 
 const NotFoundPage = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   useTabTitle(TabTitles.NotFound);
 
   return (
@@ -12,7 +12,7 @@ const NotFoundPage = () => {
       <button
         className={styles.homeBtn}
         onClick={() => {
-          navigate('/');
+          router.push('/');
         }}
       ></button>
     </div>

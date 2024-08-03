@@ -1,9 +1,11 @@
+'use client';
+
 import SearchBar from '@/components/SearchBar';
 import ResultsList from '@/components/ResultsList';
 import styles from './SearchPage.module.scss';
 import Loader from '@/components/Loader';
 import Pagination from '@/components/Pagination';
-import { Outlet, useNavigate, useSearchParams } from 'react-router-dom';
+import { Outlet, useSearchParams } from 'react-router-dom';
 import useTabTitle, { TabTitles } from '@/hooks/useTabTitle';
 import { Pokemon, Pokemons, useGetPokemonsQuery } from '@/api/reduxApi';
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHooks';
@@ -15,6 +17,7 @@ import {
 } from '@/store/selectors';
 import useLocalStorage, { LocalStorageKeys } from '@/hooks/useLocalStorage';
 import Flyout from '@/components/Flyout';
+import { useRouter } from 'next/router';
 
 export const PAGE_LIMIT = 12;
 
@@ -22,8 +25,11 @@ const getOffset = (currentPage: number, limit: number = PAGE_LIMIT) =>
   Math.ceil((currentPage - 1) * limit);
 
 function SearchPage() {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const currentPage = +(searchParams.get('page') || '1');
+  // const [searchParams, setSearchParams] = useSearchParams();
+  const router = useRouter();
+  console.log(router);
+  // const currentPage = +(searchParams.get('page') || '1');
+  const currentPage = 1;
 
   const [searchValue, setSearchValue] = useLocalStorage(
     LocalStorageKeys.LastQuery,
@@ -34,10 +40,8 @@ function SearchPage() {
 
   const dispatch = useAppDispatch();
 
-  const navigate = useNavigate();
-
   const updatePage = (pageNumber: number) => {
-    setSearchParams({ page: pageNumber.toString() });
+    // setSearchParams({ page: pageNumber.toString() });
   };
   const {
     data: pokemons,
@@ -81,7 +85,7 @@ function SearchPage() {
         <div
           className={styles.mainSection}
           onClick={() => {
-            navigate(`/?page=${currentPage}`);
+            router.push(`/?page=${currentPage}`);
           }}
           data-testid="searchPage-mainSection"
         >

@@ -1,5 +1,5 @@
 import Loader from '@/components/Loader';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import styles from './DetailsPage.module.scss';
 import useTabTitle, { TabTitles } from '@/hooks/useTabTitle';
 import { CapitalizeFirstLetter } from '@/utils/CapitalizeFirstLetter';
@@ -7,10 +7,11 @@ import { useGetPokemonQuery } from '@/api/reduxApi';
 import { useAppDispatch } from '@/hooks/reduxHooks';
 import { useEffect } from 'react';
 import { setCurrentDetails } from '@/store/pokemonsSlice';
+import { useRouter } from 'next/router';
 
 function DetailsPage() {
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
+  // const [searchParams] = useSearchParams();
+  const router = useRouter();
   const { id, pokeName } = useParams();
 
   const {
@@ -44,7 +45,7 @@ function DetailsPage() {
           <button
             className={styles.closeBtn}
             onClick={() => {
-              navigate(`/?page=${searchParams.get('page')}`);
+              router.push(`/?page=${1}`);
             }}
           >
             <div
