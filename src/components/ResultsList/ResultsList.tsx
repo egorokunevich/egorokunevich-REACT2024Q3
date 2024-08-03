@@ -21,7 +21,7 @@ function ResultsList({ items }: ResultsListProps) {
       {items.map((item, id) => (
         <PokeCard
           key={item.name + id}
-          name={item.name}
+          pokemon={item}
           isSelected={selectedPokemons.some(
             (pokemon) => pokemon.name === item.name
           )}

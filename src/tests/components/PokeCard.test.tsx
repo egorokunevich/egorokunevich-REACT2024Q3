@@ -1,4 +1,4 @@
-import SearchPage from '@/pages/SearchPage';
+import SearchPage from '@/components/pages/SearchPage';
 import { store } from '@/store';
 import { mockedPokemon, mockedPokemons } from '@/tests/mocks/mockedPokemon';
 import { server } from '@/tests/mocks/server';

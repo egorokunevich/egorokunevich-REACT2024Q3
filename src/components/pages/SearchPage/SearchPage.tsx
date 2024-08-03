@@ -1,13 +1,11 @@
-'use client';
-
 import SearchBar from '@/components/SearchBar';
 import ResultsList from '@/components/ResultsList';
 import styles from './SearchPage.module.scss';
-import Loader from '@/components/Loader';
+// import Loader from '@/components/Loader';
 import Pagination from '@/components/Pagination';
-import { Outlet, useSearchParams } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import useTabTitle, { TabTitles } from '@/hooks/useTabTitle';
-import { Pokemon, Pokemons, useGetPokemonsQuery } from '@/api/reduxApi';
+import { Pokemon, Pokemons } from '@/api/reduxApi';
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHooks';
 import { useEffect } from 'react';
 import { setCurrentPokemons } from '@/store/pokemonsSlice';
@@ -21,15 +19,14 @@ import { useRouter } from 'next/router';
 
 export const PAGE_LIMIT = 12;
 
-const getOffset = (currentPage: number, limit: number = PAGE_LIMIT) =>
-  Math.ceil((currentPage - 1) * limit);
+// const getOffset = (currentPage: number, limit: number = PAGE_LIMIT) =>
+//   Math.ceil((currentPage - 1) * limit);
 
-function SearchPage() {
+function SearchPage({ pokemons }: { pokemons: Pokemons | Pokemon }) {
   // const [searchParams, setSearchParams] = useSearchParams();
   const router = useRouter();
-  console.log(router);
   // const currentPage = +(searchParams.get('page') || '1');
-  const currentPage = 1;
+  const currentPage = router.query.page || 1;
 
   const [searchValue, setSearchValue] = useLocalStorage(
     LocalStorageKeys.LastQuery,
@@ -41,18 +38,19 @@ function SearchPage() {
   const dispatch = useAppDispatch();
 
   const updatePage = (pageNumber: number) => {
+    router.replace({ query: { ...router.query, page: pageNumber } });
     // setSearchParams({ page: pageNumber.toString() });
   };
-  const {
-    data: pokemons,
-    isLoading,
-    isFetching,
-    isError,
-  } = useGetPokemonsQuery({
-    limit: PAGE_LIMIT,
-    offset: getOffset(currentPage, PAGE_LIMIT),
-    name: searchValue as string,
-  });
+  // const {
+  //   data: pokemons,
+  //   isLoading,
+  //   isFetching,
+  //   isError,
+  // } = useGetPokemonsQuery({
+  //   limit: PAGE_LIMIT,
+  //   offset: getOffset(currentPage, PAGE_LIMIT),
+  //   name: searchValue as string,
+  // });
 
   const currentPokemons = useAppSelector(getCurrentPokemonsSelector);
   const selectedPokemons = useAppSelector(getSelectedPokemonsSelector);
@@ -68,14 +66,14 @@ function SearchPage() {
         dispatch(setCurrentPokemons([pokemons as Pokemon]));
       }
     }
-    if (isError) {
-      dispatch(setCurrentPokemons([]));
-    }
-  }, [pokemons, isError]);
+    // if (isError) {
+    //   dispatch(setCurrentPokemons([]));
+    // }
+  }, [pokemons]);
 
-  if (isLoading) {
-    return <Loader />;
-  }
+  // if (isLoading) {
+  //   return <Loader />;
+  // }
   const shouldRenderPagination =
     pokemons && (pokemons as Pokemons)?.results?.length > 1;
 
@@ -94,25 +92,19 @@ function SearchPage() {
               setSearchValue(name);
             }}
           />
-          {isFetching ? (
-            <Loader />
-          ) : (
-            <>
-              <ResultsList items={currentPokemons} />
-              {shouldRenderPagination && (
-                <Pagination
-                  totalPages={Math.ceil(
-                    (pokemons as Pokemons).count / PAGE_LIMIT
-                  )}
-                  currentPage={+currentPage}
-                  handleClick={(pageNumber: number) => {
-                    updatePage(pageNumber);
-                  }}
-                />
-              )}
-            </>
+
+          <ResultsList items={currentPokemons} />
+          {shouldRenderPagination && (
+            <Pagination
+              totalPages={Math.ceil((pokemons as Pokemons).count / PAGE_LIMIT)}
+              currentPage={+currentPage}
+              handleClick={(pageNumber: number) => {
+                updatePage(pageNumber);
+              }}
+            />
           )}
         </div>
+
         <Outlet />
         {selectedPokemons.length > 0 && (
           <Flyout selectedPokemons={selectedPokemons} />

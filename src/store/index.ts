@@ -8,7 +8,10 @@ export const store = configureStore({
     pokemons: pokemonsReducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(pokemonApi.middleware),
+    getDefaultMiddleware({
+      immutableCheck: { warnAfter: 128 },
+      serializableCheck: { warnAfter: 128 },
+    }).concat(pokemonApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

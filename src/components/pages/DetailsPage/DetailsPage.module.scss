@@ -1,4 +1,4 @@
-.page-wrapper {
+.pageWrapper {
   position: relative;
   display: flex;
   justify-content: center;
@@ -7,7 +7,7 @@
   height: 100%;
 }
 
-.page-content {
+.pageContent {
   position: fixed;
   display: flex;
   flex-direction: column;
@@ -37,24 +37,24 @@
   max-width: 400px;
 }
 
-.info-text {
+.infoText {
   font-size: 2rem;
 }
 
-.loader-container {
+.loaderContainer {
   position: relative;
   width: 100%;
   height: 100%;
 }
 
-.button-container {
+.buttonContainer {
   display: flex;
   align-items: center;
   justify-content: flex-end;
   width: 100%;
 }
 
-.close-btn {
+.closeBtn {
   width: 50px;
   height: 50px;
   border: none;
@@ -73,7 +73,7 @@
   }
 }
 
-.close-icon {
+.closeIcon {
   width: 100%;
   height: 100%;
   background-color: var(--primary-color);
