@@ -1,33 +1,20 @@
-import Header from '@/components/Header';
 import SearchPage from '../components/pages/SearchPage';
-import ThemeToggler from '@/components/ThemeToggler';
-import { useTheme } from '@/theme/useTheme';
-
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { Pokemon, Pokemons } from '@/api/reduxApi';
-import { useRouter } from 'next/router';
 import { PAGE_LIMIT } from '@/components/pages/SearchPage/SearchPage';
 
 const Index = ({
-  data,
+  pokes,
+  totalCount,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { theme } = useTheme();
-  const router = useRouter();
-  console.log('router: ', router);
-  return (
-    <div className={`app ${theme}`}>
-      <Header>
-        <ThemeToggler />
-      </Header>
-      <SearchPage pokemons={data} />
-    </div>
-  );
+  return <SearchPage pokemons={pokes} totalCount={totalCount} />;
 };
 
 export default Index;
 
-export const getServerSideProps = (async ({ query }) => {
+export const getServerSideProps = (async (context) => {
   let offset = 0;
+  const query = context.query;
   if (query.page) {
     offset = (+query.page - 1) * PAGE_LIMIT;
   }
@@ -36,6 +23,7 @@ export const getServerSideProps = (async ({ query }) => {
     `https://pokeapi.co/api/v2/pokemon/?limit=${PAGE_LIMIT}&offset=${offset}`
   );
   const data: Pokemons = await res.json();
+  const totalCount = data.count;
   const pokes = await Promise.all(
     data.results.map(async (item) => {
       const pokemonResponse = await fetch(
@@ -45,7 +33,7 @@ export const getServerSideProps = (async ({ query }) => {
       return pokemonData;
     })
   );
-  data.results = pokes;
+  // data.results = pokes;
   // Pass data to the page via props
-  return { props: { data } };
-}) satisfies GetServerSideProps<{ data: Pokemons }>;
+  return { props: { pokes, totalCount } };
+}) satisfies GetServerSideProps<{ pokes: Pokemon[] }>;

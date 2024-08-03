@@ -20,7 +20,7 @@ function PokeCard({ pokemon, isSelected }: PokeCardProps) {
   // const page = router.
   // const [searchParams] = useSearchParams();
   // const page = searchParams.get('page') || '1';
-  const page = 1;
+  const page = router.query.page || 1;
 
   if (!pokemon) {
     return (

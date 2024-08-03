@@ -12,6 +12,7 @@ import { useRouter } from 'next/router';
 function DetailsPage({ pokemon }: { pokemon: Pokemon }) {
   // const [searchParams] = useSearchParams();
   const router = useRouter();
+  const currentPage = router.query.page || 1;
 
   // const {
   //   data: pokemon,
@@ -44,7 +45,7 @@ function DetailsPage({ pokemon }: { pokemon: Pokemon }) {
           <button
             className={styles.closeBtn}
             onClick={() => {
-              router.push(`/?page=${1}`);
+              router.push(`/?page=${currentPage}`);
             }}
           >
             <div
