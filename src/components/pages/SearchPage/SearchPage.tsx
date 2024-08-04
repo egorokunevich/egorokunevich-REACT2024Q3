@@ -44,7 +44,6 @@ function SearchPage({
         <div
           className={styles.mainSection}
           onClick={() => {
-            console.log(router.query);
             if (router.query.name) {
               router.push(
                 `/?page=${currentPage}${searchValue ? `&search=${searchValue}` : ''}`

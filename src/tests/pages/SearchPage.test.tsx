@@ -11,7 +11,7 @@ import { useRouter } from 'next/router';
 jest.mock('next/router', () => {
   const router = {
     push: jest.fn(),
-    query: {},
+    query: { name: 'pikachu' },
   };
   return {
     useRouter: jest.fn().mockReturnValue(router),
