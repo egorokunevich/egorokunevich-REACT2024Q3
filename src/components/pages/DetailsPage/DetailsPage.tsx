@@ -6,6 +6,8 @@ import { useAppDispatch } from '@/hooks/reduxHooks';
 import { useEffect } from 'react';
 import { setCurrentDetails } from '@/store/pokemonsSlice';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
+import noImage from '../../../../public/assets/icons/no-image.png';
 
 function DetailsPage({ pokemon }: { pokemon: Pokemon }) {
   const router = useRouter();
@@ -41,10 +43,27 @@ function DetailsPage({ pokemon }: { pokemon: Pokemon }) {
           </button>
         </div>
         <h1 className={styles.name}>{pokemon.name}</h1>
-        <img
-          className={styles.pic}
-          src={pokemon.sprites.other['official-artwork'].front_default}
-        />
+        {pokemon.sprites.other['official-artwork'].front_default ? (
+          <Image
+            className={styles.pic}
+            src={pokemon.sprites.other['official-artwork'].front_default}
+            width={0}
+            height={0}
+            sizes="100vw"
+            style={{ width: '100%', height: 'auto' }}
+            alt={pokemon.name + ' official artwork'}
+            priority={false}
+          />
+        ) : (
+          <Image
+            className={styles.noImage}
+            src={noImage}
+            width={96}
+            height={96}
+            alt={pokemon.name + 'No icon'}
+            priority={false}
+          />
+        )}
 
         <div className={styles.infoText}>Height: {pokemon.height}</div>
         <div className={styles.infoText}>Weight: {pokemon.weight}</div>

@@ -4,6 +4,8 @@ import { Pokemon } from '@/api/reduxApi';
 import { useAppDispatch } from '@/hooks/reduxHooks';
 import { toggleSelectedPokemons } from '@/store/pokemonsSlice';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
+import noImage from '../../../public/assets/icons/no-image.png';
 
 interface PokeCardProps {
   pokemon: Pokemon;
@@ -28,15 +30,47 @@ function PokeCard({ pokemon, isSelected }: PokeCardProps) {
     if (pokemon.sprites.front_default) {
       return (
         <>
-          <img className={styles.pic} src={pokemon.sprites.front_default} />
-          <img className={styles.picShiny} src={pokemon.sprites.front_shiny} />
+          <Image
+            className={styles.pic}
+            src={pokemon.sprites.front_default}
+            width={96}
+            height={96}
+            alt={pokemon.name + ' front_default'}
+            priority={false}
+          />
+          <Image
+            className={styles.picShiny}
+            src={pokemon.sprites.front_shiny}
+            width={96}
+            height={96}
+            alt={pokemon.name + ' front_shiny'}
+            priority={false}
+          />
         </>
       );
     }
+    if (pokemon.sprites.other['official-artwork'].front_default) {
+      return (
+        <Image
+          className={styles.pic}
+          src={pokemon.sprites.other['official-artwork'].front_default}
+          width={0}
+          height={0}
+          sizes="100vw"
+          style={{ width: '100%', height: 'auto' }}
+          alt={pokemon.name + ' official artwork'}
+          priority={false}
+        />
+      );
+    }
     return (
-      <img
-        className={styles.pic}
-        src={pokemon.sprites.other['official-artwork'].front_default}
+      <Image
+        className={styles.noImage}
+        src={noImage}
+        width={96}
+        height={96}
+        alt={pokemon.name + 'No image'}
+        priority={false}
       />
     );
   };

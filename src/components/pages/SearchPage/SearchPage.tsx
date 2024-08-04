@@ -23,7 +23,10 @@ function SearchPage({
   const router = useRouter();
   const currentPage = router.query.page || 1;
 
-  const [, setSearchValue] = useLocalStorage(LocalStorageKeys.LastQuery, '');
+  const [searchValue, setSearchValue] = useLocalStorage(
+    LocalStorageKeys.LastQuery,
+    ''
+  );
 
   useTabTitle(TabTitles.PokemonWiki);
 
@@ -41,7 +44,12 @@ function SearchPage({
         <div
           className={styles.mainSection}
           onClick={() => {
-            router.push(`/?page=${currentPage}`);
+            console.log(router.query);
+            if (router.query.name) {
+              router.push(
+                `/?page=${currentPage}${searchValue ? `&search=${searchValue}` : ''}`
+              );
+            }
           }}
           data-testid="searchPage-mainSection"
         >
