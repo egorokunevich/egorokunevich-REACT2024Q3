@@ -1,35 +1,30 @@
-import SearchPage from '@/components/pages/SearchPage';
 import { store } from '@/store';
 import { mockedPokemon, mockedPokemons } from '@/tests/mocks/mockedPokemon';
-import { server } from '@/tests/mocks/server';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import 'whatwg-fetch';
 import userEvent from '@testing-library/user-event';
 import PokeCard from '@/components/PokeCard';
+import { Provider } from 'react-redux';
+import { useRouter } from 'next/router';
+
+// Mock useRouter hook
+jest.mock('next/router', () => {
+  const router = {
+    push: jest.fn(),
+    query: {},
+  };
+  return {
+    useRouter: jest.fn().mockReturnValue(router),
+  };
+});
 
 describe('PokeCard', () => {
-  beforeAll(() => {
-    server.listen();
-  });
   beforeEach(() => {
     render(
-      <MemoryRouter>
-        <Provider store={store}>
-          <Routes>
-            <Route index element={<SearchPage />} />
-          </Routes>
-        </Provider>
-      </MemoryRouter>
+      <Provider store={store}>
+        <PokeCard pokemon={mockedPokemon} isSelected={false} />
+      </Provider>
     );
-  });
-  afterEach(() => server.resetHandlers());
-  afterAll(() => server.close());
-
-  test('Loader should render in the document', async () => {
-    expect(screen.getByTestId('loader')).toBeInTheDocument();
   });
   test('PokeCard should render in the document', async () => {
     const card = await screen.findByTestId('poke-card');
@@ -48,34 +43,20 @@ describe('PokeCard', () => {
   });
 });
 
-// Mock navigate function
-const mockedNavigate = jest.fn();
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useNavigate: () => mockedNavigate,
-}));
-
 describe('PokeCard Integration testing', () => {
-  beforeAll(() => {
-    server.listen();
-  });
-  afterEach(() => server.resetHandlers());
-  afterAll(() => server.close());
-
   test('Click on a card should call a navigate function', async () => {
     const user = userEvent.setup();
     render(
-      <MemoryRouter>
-        <Provider store={store}>
-          <PokeCard name={mockedPokemon.name} isSelected={false} />
-        </Provider>
-      </MemoryRouter>
+      <Provider store={store}>
+        <PokeCard pokemon={mockedPokemon} isSelected={false} />
+      </Provider>
     );
+
     const card = await screen.findByTestId('poke-card');
     await user.click(card);
 
-    expect(mockedNavigate).toHaveBeenCalledTimes(1);
-    expect(mockedNavigate).toHaveBeenCalledWith(
+    expect(useRouter().push).toHaveBeenCalledTimes(1);
+    expect(useRouter().push).toHaveBeenCalledWith(
       `/pokemon/${mockedPokemon.name}?page=${mockedPokemons.count}`
     );
   });

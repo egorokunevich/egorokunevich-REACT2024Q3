@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import Button from '@/components/Buttons/Button';
+import Button from '../../components/Buttons/Button';
 
 const mockProps = {
   txt: 'mockText',
