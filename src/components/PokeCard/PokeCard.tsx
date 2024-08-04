@@ -1,5 +1,4 @@
 import styles from './PokeCard.module.scss';
-// import { useSearchParams } from 'react-router-dom';
 import Loader from '@/components/Loader';
 import { Pokemon } from '@/api/reduxApi';
 import { useAppDispatch } from '@/hooks/reduxHooks';
@@ -12,14 +11,9 @@ interface PokeCardProps {
 }
 
 function PokeCard({ pokemon, isSelected }: PokeCardProps) {
-  // const { data: pokemon } = useGetPokemonQuery(name);
-
   const dispatch = useAppDispatch();
 
   const router = useRouter();
-  // const page = router.
-  // const [searchParams] = useSearchParams();
-  // const page = searchParams.get('page') || '1';
   const page = router.query.page || 1;
 
   if (!pokemon) {

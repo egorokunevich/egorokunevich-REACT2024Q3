@@ -33,7 +33,6 @@ export const getServerSideProps = (async (context) => {
       return pokemonData;
     })
   );
-  // data.results = pokes;
   // Pass data to the page via props
   return { props: { pokes, totalCount } };
 }) satisfies GetServerSideProps<{ pokes: Pokemon[] }>;

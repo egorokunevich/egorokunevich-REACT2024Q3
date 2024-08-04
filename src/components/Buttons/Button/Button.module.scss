@@ -1,4 +1,8 @@
 .btn {
+  --primary-color: #041c65;
+  --card-color: #dfdff1;
+  --card-color-hover: #f8f5f5;
+
   transition: 0.2s;
   border: 1px solid var(--primary-color);
   border-radius: 0;

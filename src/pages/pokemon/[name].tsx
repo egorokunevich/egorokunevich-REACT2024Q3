@@ -46,7 +46,6 @@ export const getServerSideProps = (async (context) => {
   );
   const pokemonToDisplay: Pokemon = await pokemonToDisplayResponse.json();
 
-  // data.results = pokes;
   // Pass data to the page via props
   return { props: { pokes, totalCount, pokemonToDisplay } };
 }) satisfies GetServerSideProps<{ pokes: Pokemon[] }>;
