@@ -1,19 +1,6 @@
 'use client';
 
-import {
-  createContext,
-  PropsWithChildren,
-  useState,
-  CSSProperties,
-} from 'react';
-
-export interface ColorsCSS extends CSSProperties {
-  '--bg-color': string;
-  '--primary-color': string;
-  '--secondary-color': string;
-  '--card-color': string;
-  '--card-color-hover': string;
-}
+import { createContext, PropsWithChildren, useState } from 'react';
 
 export interface IThemeContext {
   theme: 'light' | 'dark';
