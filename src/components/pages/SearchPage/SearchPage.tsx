@@ -2,7 +2,6 @@ import SearchBar from '@/components/SearchBar';
 import ResultsList from '@/components/ResultsList';
 import styles from './SearchPage.module.scss';
 import Pagination from '@/components/Pagination';
-import { Outlet } from 'react-router-dom';
 import useTabTitle, { TabTitles } from '@/hooks/useTabTitle';
 import { Pokemon } from '@/api/reduxApi';
 import { useAppSelector } from '@/hooks/reduxHooks';
@@ -69,8 +68,6 @@ function SearchPage({
             />
           )}
         </div>
-
-        <Outlet />
         {selectedPokemons.length > 0 && (
           <Flyout selectedPokemons={selectedPokemons} />
         )}
