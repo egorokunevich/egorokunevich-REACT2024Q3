@@ -8,6 +8,7 @@ import { setCurrentDetails } from '@/store/pokemonsSlice';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import noImage from '../../../../public/assets/icons/no-image.png';
+import Link from 'next/link';
 
 function DetailsPage({ pokemon }: { pokemon: Pokemon }) {
   const router = useRouter();
@@ -27,12 +28,7 @@ function DetailsPage({ pokemon }: { pokemon: Pokemon }) {
     <div className={styles.pageWrapper} data-testid="details-page">
       <div className={styles.pageContent}>
         <div className={styles.buttonContainer}>
-          <button
-            className={styles.closeBtn}
-            onClick={() => {
-              router.push(`/?page=${currentPage}`);
-            }}
-          >
+          <Link className={styles.closeBtn} href={`/?page=${currentPage}`}>
             <div
               className={styles.closeIcon}
               style={{
@@ -40,7 +36,7 @@ function DetailsPage({ pokemon }: { pokemon: Pokemon }) {
                 WebkitMaskImage: 'url(../../../assets/icons/cancel.svg)',
               }}
             />
-          </button>
+          </Link>
         </div>
         <h1 className={styles.name}>{pokemon.name}</h1>
         {pokemon.sprites.other['official-artwork'].front_default ? (

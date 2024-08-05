@@ -38,11 +38,15 @@ export const getServerSideProps = (async (context) => {
     // Pass data to the page via props
     return { props: { pokes, totalCount } };
   }
-  const pokemonResponse = await fetch(
-    `https://pokeapi.co/api/v2/pokemon/${searchQuery}`
-  );
-  const poke: Pokemon = await pokemonResponse.json();
-  const pokes = [poke];
-  const totalCount = 1;
-  return { props: { pokes, totalCount } };
+  try {
+    const pokemonResponse = await fetch(
+      `https://pokeapi.co/api/v2/pokemon/${searchQuery}`
+    );
+    const poke: Pokemon = await pokemonResponse.json();
+    const pokes = [poke];
+    const totalCount = 1;
+    return { props: { pokes, totalCount } };
+  } catch {
+    return { props: { pokes: [], totalCount: 0 } };
+  }
 }) satisfies GetServerSideProps<{ pokes: Pokemon[] }>;

@@ -7,11 +7,11 @@ import { Provider } from 'react-redux';
 import Layout from '@/components/Layout/Layout';
 import Router from 'next/router';
 import Loader from '@/components/Loader';
-import React from 'react';
+import { useEffect, useState } from 'react';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
-  const [loading, setLoading] = React.useState(false);
-  React.useEffect(() => {
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
     const start = () => {
       setLoading(true);
     };

@@ -1,5 +1,5 @@
 import useLocalStorage, { LocalStorageKeys } from '@/hooks/useLocalStorage';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './SearchBar.module.scss';
 import { useRouter } from 'next/router';
 
@@ -12,13 +12,17 @@ function SearchBar(props: SearchBarProps) {
   const [query, , saveQuery] = useLocalStorage(LocalStorageKeys.LastQuery, '');
   const [searchParam, setSearchParam] = useState(query ? query.toString() : '');
   const router = useRouter();
-
+  console.log(searchParam);
   const handleSearch = () => {
     saveQuery(searchParam);
-    const page = router.query.page;
+    const page = router.query.page || 1;
     router.push(`?page=${page}${searchParam ? `&search=${searchParam}` : ''}`);
     onSearch(searchParam);
   };
+
+  useEffect(() => {
+    setSearchParam(query.toString());
+  }, [query]);
 
   return (
     <div className={styles.searchWrapper} data-testid="search-bar">
