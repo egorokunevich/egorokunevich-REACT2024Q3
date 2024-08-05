@@ -18,7 +18,7 @@ const Pagination = (props: PaginationProps) => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.pagination}>
+      <div className={styles.pagination} data-testid="pagination">
         {paginationRange?.map((item, i) => (
           <PageButton
             key={i}

@@ -12,7 +12,6 @@ function SearchBar(props: SearchBarProps) {
   const [query, , saveQuery] = useLocalStorage(LocalStorageKeys.LastQuery, '');
   const [searchParam, setSearchParam] = useState(query ? query.toString() : '');
   const router = useRouter();
-  console.log(searchParam);
   const handleSearch = () => {
     saveQuery(searchParam);
     const page = router.query.page || 1;
@@ -48,6 +47,7 @@ function SearchBar(props: SearchBarProps) {
           onClick={() => {
             handleSearch();
           }}
+          data-testid="search-btn"
         >
           <div
             className={styles.iconMask}
