@@ -54,7 +54,7 @@ function DetailsPage({ pokemon }: { pokemon: Pokemon }) {
             sizes="100vw"
             style={{ width: '100%', height: 'auto' }}
             alt={pokemon.name + ' official artwork'}
-            priority={false}
+            priority={true}
           />
         ) : (
           <Image
@@ -63,7 +63,7 @@ function DetailsPage({ pokemon }: { pokemon: Pokemon }) {
             width={96}
             height={96}
             alt={pokemon.name + 'No icon'}
-            priority={false}
+            priority={true}
           />
         )}
 

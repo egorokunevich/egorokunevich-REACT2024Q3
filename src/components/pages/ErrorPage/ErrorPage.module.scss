@@ -24,3 +24,25 @@
   background-color: rgb(236, 115, 111);
   color: rgb(240, 255, 251);
 }
+
+.errorBtn {
+  --primary-color: #041c65;
+  --card-color: #dfdff1;
+  --card-color-hover: #f8f5f5;
+
+  padding: 0.6em 1.2em;
+  transition: 0.2s;
+  border: 1px solid var(--primary-color);
+  border-radius: 0;
+  background-color: var(--card-color);
+  color: var(--primary-color);
+  &:hover {
+    border: 1px solid var(--primary-color);
+    background-color: var(--card-color-hover);
+    color: var(--primary-color);
+  }
+
+  &:focus {
+    outline: none;
+  }
+}

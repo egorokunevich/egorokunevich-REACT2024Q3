@@ -39,7 +39,7 @@ function PokeCard({ pokemon, isSelected }: PokeCardProps) {
             width={96}
             height={96}
             alt={pokemon.name + ' front_default'}
-            priority={false}
+            priority={true}
           />
           <Image
             className={styles.picShiny}
@@ -47,7 +47,7 @@ function PokeCard({ pokemon, isSelected }: PokeCardProps) {
             width={96}
             height={96}
             alt={pokemon.name + ' front_shiny'}
-            priority={false}
+            priority={true}
           />
         </>
       );
@@ -62,7 +62,7 @@ function PokeCard({ pokemon, isSelected }: PokeCardProps) {
           sizes="100vw"
           style={{ width: '100%', height: 'auto' }}
           alt={pokemon.name + ' official artwork'}
-          priority={false}
+          priority={true}
         />
       );
     }
@@ -73,7 +73,7 @@ function PokeCard({ pokemon, isSelected }: PokeCardProps) {
         width={96}
         height={96}
         alt={pokemon.name + 'No image'}
-        priority={false}
+        priority={true}
       />
     );
   };
@@ -84,7 +84,6 @@ function PokeCard({ pokemon, isSelected }: PokeCardProps) {
       onClick={(e) => {
         e.stopPropagation();
         const searchQuery = searchParams.get('search');
-        console.log('searchParam: ', searchQuery);
         router.push(
           `/pokemon/${pokemon.name}?page=${page}${searchQuery ? `&search=${searchQuery}` : ''}`
         );
