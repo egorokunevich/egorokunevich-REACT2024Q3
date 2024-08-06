@@ -14,7 +14,7 @@
   text-transform: uppercase;
 }
 
-.home-btn {
+.homeBtn {
   position: relative;
   width: 50px;
   height: 50px;
@@ -24,6 +24,7 @@
   background-color: transparent;
   scale: 100%;
   transition: 0.2s;
+  cursor: pointer;
 
   &::after {
     content: '';

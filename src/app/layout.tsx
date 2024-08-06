@@ -21,7 +21,9 @@ function Layout({ children }: PropsWithChildren) {
               <Header>
                 <ThemeToggler />
               </Header>
-              <div style={{ paddingTop: '4rem' }}>{children}</div>
+              <div style={{ paddingTop: '4rem', height: '100%' }}>
+                {children}
+              </div>
             </div>
           </ThemeProvider>
         </Provider>

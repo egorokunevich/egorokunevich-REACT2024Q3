@@ -18,8 +18,8 @@ function PokeCard({ pokemon, isSelected }: PokeCardProps) {
   const dispatch = useAppDispatch();
 
   const router = useRouter();
-  const params = useSearchParams();
-  const page = params.get('page') ? params.get('page') : 1;
+  const searchParams = useSearchParams();
+  const page = searchParams.get('page') ? searchParams.get('page') : 1;
 
   if (!pokemon) {
     return (
@@ -83,7 +83,11 @@ function PokeCard({ pokemon, isSelected }: PokeCardProps) {
       className={styles.card}
       onClick={(e) => {
         e.stopPropagation();
-        router.push(`/pokemon/${pokemon.name}?page=${page}`);
+        const searchQuery = searchParams.get('search');
+        console.log('searchParam: ', searchQuery);
+        router.push(
+          `/pokemon/${pokemon.name}?page=${page}${searchQuery ? `&search=${searchQuery}` : ''}`
+        );
       }}
       data-testid={'poke-card'}
     >

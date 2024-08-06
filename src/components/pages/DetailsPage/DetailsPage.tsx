@@ -15,6 +15,7 @@ import Link from 'next/link';
 function DetailsPage({ pokemon }: { pokemon: Pokemon }) {
   const params = useSearchParams();
   const currentPage = params.get('page') || 1;
+  const searchQuery = params.get('search');
 
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -30,7 +31,10 @@ function DetailsPage({ pokemon }: { pokemon: Pokemon }) {
     <div className={styles.pageWrapper} data-testid="details-page">
       <div className={styles.pageContent}>
         <div className={styles.buttonContainer}>
-          <Link className={styles.closeBtn} href={`/?page=${currentPage}`}>
+          <Link
+            className={styles.closeBtn}
+            href={`/?page=${currentPage}${searchQuery ? `&search=${searchQuery}` : ''}`}
+          >
             <div
               className={styles.closeIcon}
               style={{

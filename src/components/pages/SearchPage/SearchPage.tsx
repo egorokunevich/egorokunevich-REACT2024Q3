@@ -10,7 +10,7 @@ import { useAppSelector } from '@/hooks/reduxHooks';
 import { getSelectedPokemonsSelector } from '@/store/selectors';
 import useLocalStorage, { LocalStorageKeys } from '@/hooks/useLocalStorage';
 import Flyout from '@/components/Flyout';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useSearchParams, useRouter, useParams } from 'next/navigation';
 
 export const PAGE_LIMIT = 12;
 
@@ -22,8 +22,9 @@ function SearchPage({
   totalCount: number;
 }) {
   const router = useRouter();
-  const params = useSearchParams();
-  const currentPage = params.get('page') || 1;
+  const searchParams = useSearchParams();
+  const params = useParams();
+  const currentPage = searchParams.get('page') || 1;
 
   const [searchValue, setSearchValue] = useLocalStorage(
     LocalStorageKeys.LastQuery,
@@ -42,8 +43,8 @@ function SearchPage({
         <div
           className={styles.mainSection}
           onClick={() => {
-            if (params.get('name')) {
-              router.push(
+            if (params.name) {
+              router.replace(
                 `/?page=${currentPage}${searchValue ? `&search=${searchValue}` : ''}`
               );
             }
