@@ -27,6 +27,7 @@ export const getProps = async ({
     offset = (+page - 1) * PAGE_LIMIT;
   }
   if (!search) {
+    console.log('no search query');
     const res = await fetch(
       `https://pokeapi.co/api/v2/pokemon/?limit=${PAGE_LIMIT}&offset=${offset}`
     );
@@ -42,7 +43,7 @@ export const getProps = async ({
       })
     );
     // Pass data to the page via props
-    return { props: { pokes, totalCount } };
+    return { pokes, totalCount };
   }
   try {
     const pokemonResponse = await fetch(

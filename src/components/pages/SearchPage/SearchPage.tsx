@@ -10,7 +10,7 @@ import { useAppSelector } from '@/hooks/reduxHooks';
 import { getSelectedPokemonsSelector } from '@/store/selectors';
 import useLocalStorage, { LocalStorageKeys } from '@/hooks/useLocalStorage';
 import Flyout from '@/components/Flyout';
-import { useParams, useRouter } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 
 export const PAGE_LIMIT = 12;
 
@@ -22,8 +22,8 @@ function SearchPage({
   totalCount: number;
 }) {
   const router = useRouter();
-  const params = useParams<{ page: number; search: string }>();
-  const currentPage = params.query || 1;
+  const params = useSearchParams();
+  const currentPage = params.get('page') || 1;
 
   const [searchValue, setSearchValue] = useLocalStorage(
     LocalStorageKeys.LastQuery,
@@ -33,7 +33,8 @@ function SearchPage({
   useTabTitle(TabTitles.PokemonWiki);
 
   const updatePage = (pageNumber: number) => {
-    router.replace({ query: { ...router.query, page: pageNumber } });
+    const searchQuery = params.get('search') || '';
+    router.replace(`?page=${pageNumber}&search=${searchQuery}`);
   };
 
   const selectedPokemons = useAppSelector(getSelectedPokemonsSelector);
@@ -46,7 +47,7 @@ function SearchPage({
         <div
           className={styles.mainSection}
           onClick={() => {
-            if (router.query.name) {
+            if (params.get('name')) {
               router.push(
                 `/?page=${currentPage}${searchValue ? `&search=${searchValue}` : ''}`
               );

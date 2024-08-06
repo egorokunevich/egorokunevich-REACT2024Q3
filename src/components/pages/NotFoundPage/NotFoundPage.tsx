@@ -1,3 +1,5 @@
+'use client';
+
 import styles from './NotFoundPage.module.scss';
 import useTabTitle, { TabTitles } from 'hooks/useTabTitle';
 import Link from 'next/link';

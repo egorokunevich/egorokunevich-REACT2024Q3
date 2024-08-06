@@ -1,9 +1,11 @@
+'use client';
+
 import styles from './PokeCard.module.scss';
 import Loader from '@/components/Loader';
 import { Pokemon } from '@/api/reduxApi';
 import { useAppDispatch } from '@/hooks/reduxHooks';
 import { toggleSelectedPokemons } from '@/store/pokemonsSlice';
-import { useRouter } from 'next/router';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import noImage from '../../../public/assets/icons/no-image.png';
 
@@ -16,7 +18,8 @@ function PokeCard({ pokemon, isSelected }: PokeCardProps) {
   const dispatch = useAppDispatch();
 
   const router = useRouter();
-  const page = router.query.page || 1;
+  const params = useSearchParams();
+  const page = params.get('page') ? params.get('page') : 1;
 
   if (!pokemon) {
     return (
