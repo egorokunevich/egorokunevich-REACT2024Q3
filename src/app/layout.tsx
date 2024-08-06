@@ -17,7 +17,7 @@ function Layout({ children }: PropsWithChildren) {
       <body>
         <Provider store={store}>
           <ThemeProvider>
-            <div className={`app ${theme}`}>
+            <div className={`app ${theme}`} style={{ width: '100%' }}>
               <Header>
                 <ThemeToggler />
               </Header>

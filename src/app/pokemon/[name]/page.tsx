@@ -1,14 +1,22 @@
 import DetailsPage from '@/components/pages/DetailsPage';
-import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
 import { Pokemon, Pokemons } from '@/api/reduxApi';
 import SearchPage from '@/components/pages/SearchPage';
-import { PAGE_LIMIT } from '@/components/pages/SearchPage/SearchPage';
 
-const Details = ({
-  pokes,
-  totalCount,
-  pokemonToDisplay,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const PAGE_LIMIT = 12;
+
+const Details = async ({
+  searchParams,
+  params,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+  params: { name: string };
+}) => {
+  const page = searchParams['page'] ? +searchParams['page'] : 1;
+  const pokeName = params.name;
+  const { pokes, totalCount, pokemonToDisplay } = await getProps({
+    pokeName,
+    page,
+  });
   return (
     <div style={{ display: 'flex', width: '100%' }}>
       <SearchPage pokemons={pokes} totalCount={totalCount} />
@@ -19,11 +27,16 @@ const Details = ({
 
 export default Details;
 
-export const getServerSideProps = (async (context) => {
+const getProps = async ({
+  pokeName,
+  page,
+}: {
+  pokeName: string;
+  page: number;
+}) => {
   let offset = 0;
-  const query = context.query;
-  if (query.page) {
-    offset = (+query.page - 1) * PAGE_LIMIT;
+  if (page) {
+    offset = (+page - 1) * PAGE_LIMIT;
   }
 
   const res = await fetch(
@@ -40,12 +53,11 @@ export const getServerSideProps = (async (context) => {
       return pokemonData;
     })
   );
-
   const pokemonToDisplayResponse = await fetch(
-    `https://pokeapi.co/api/v2/pokemon/${context.params?.name}`
+    `https://pokeapi.co/api/v2/pokemon/${pokeName}`
   );
   const pokemonToDisplay: Pokemon = await pokemonToDisplayResponse.json();
 
   // Pass data to the page via props
-  return { props: { pokes, totalCount, pokemonToDisplay } };
-}) satisfies GetServerSideProps<{ pokes: Pokemon[] }>;
+  return { pokes, totalCount, pokemonToDisplay };
+};

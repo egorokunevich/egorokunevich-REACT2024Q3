@@ -30,16 +30,8 @@ describe('Pagination', () => {
       <Pagination
         totalPages={mockedPaginationProps.totalPages}
         currentPage={mockedPaginationProps.currentPage}
-        handleClick={mockedPaginationProps.handleClick}
       />
     );
-    // render(
-    //   <Pagination
-    //     totalPages={mockedPaginationProps.totalPages}
-    //     currentPage={mockedPaginationProps.currentPage}
-    //     handleClick={mockedPaginationProps.handleClick}
-    //   />
-    // );
     const btns = await screen.findAllByTestId('page-btn');
     await user.click(btns[1]);
     expect(mockedPaginationProps.handleClick).toHaveBeenCalled();

@@ -1,6 +1,7 @@
 import SearchPage from '../components/pages/SearchPage';
 import { Pokemon, Pokemons } from '@/api/reduxApi';
-import { PAGE_LIMIT } from '@/components/pages/SearchPage/SearchPage';
+
+const PAGE_LIMIT = 12;
 
 const IndexPage = async ({
   searchParams,
@@ -15,7 +16,7 @@ const IndexPage = async ({
 
 export default IndexPage;
 
-export const getProps = async ({
+const getProps = async ({
   search,
   page,
 }: {
@@ -27,7 +28,6 @@ export const getProps = async ({
     offset = (+page - 1) * PAGE_LIMIT;
   }
   if (!search) {
-    console.log('no search query');
     const res = await fetch(
       `https://pokeapi.co/api/v2/pokemon/?limit=${PAGE_LIMIT}&offset=${offset}`
     );

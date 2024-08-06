@@ -18,7 +18,6 @@ function SearchBar(props: SearchBarProps) {
     const page = params.get('page') ? params.get('page') : 1;
     router.push(`?page=${page}${searchParam ? `&search=${searchParam}` : ''}`);
     onSearch(searchParam);
-    console.log('page: ', page);
   };
 
   useEffect(() => {

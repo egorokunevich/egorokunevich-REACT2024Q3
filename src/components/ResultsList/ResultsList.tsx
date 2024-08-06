@@ -1,3 +1,5 @@
+'use client';
+
 import { Pokemon } from '@/api/reduxApi';
 import PokeCard from '@/components/PokeCard';
 import styles from './ResultsList.module.scss';

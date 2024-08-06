@@ -32,11 +32,6 @@ function SearchPage({
 
   useTabTitle(TabTitles.PokemonWiki);
 
-  const updatePage = (pageNumber: number) => {
-    const searchQuery = params.get('search') || '';
-    router.replace(`?page=${pageNumber}&search=${searchQuery}`);
-  };
-
   const selectedPokemons = useAppSelector(getSelectedPokemonsSelector);
 
   const shouldRenderPagination = pokemons && pokemons.length > 1;
@@ -66,9 +61,6 @@ function SearchPage({
             <Pagination
               totalPages={Math.ceil(totalCount / PAGE_LIMIT)}
               currentPage={+currentPage}
-              handleClick={(pageNumber: number) => {
-                updatePage(pageNumber);
-              }}
             />
           )}
         </div>

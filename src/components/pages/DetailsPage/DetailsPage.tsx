@@ -1,3 +1,5 @@
+'use client';
+
 import styles from './DetailsPage.module.scss';
 import useTabTitle, { TabTitles } from '@/hooks/useTabTitle';
 import { CapitalizeFirstLetter } from '@/utils/CapitalizeFirstLetter';
@@ -5,14 +7,14 @@ import { Pokemon } from '@/api/reduxApi';
 import { useAppDispatch } from '@/hooks/reduxHooks';
 import { useEffect } from 'react';
 import { setCurrentDetails } from '@/store/pokemonsSlice';
-import { useRouter } from 'next/router';
+import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import noImage from '../../../../public/assets/icons/no-image.png';
 import Link from 'next/link';
 
 function DetailsPage({ pokemon }: { pokemon: Pokemon }) {
-  const router = useRouter();
-  const currentPage = router.query.page || 1;
+  const params = useSearchParams();
+  const currentPage = params.get('page') || 1;
 
   const dispatch = useAppDispatch();
   useEffect(() => {
