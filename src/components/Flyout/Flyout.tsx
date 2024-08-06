@@ -1,3 +1,5 @@
+'use client';
+
 import { useAppDispatch } from '@/hooks/reduxHooks';
 import Button from '@/components/Buttons/Button';
 import styles from './Flyout.module.scss';

@@ -1,26 +1,32 @@
 import SearchPage from '../components/pages/SearchPage';
-import { GetServerSideProps, InferGetStaticPropsType } from 'next';
 import { Pokemon, Pokemons } from '@/api/reduxApi';
 import { PAGE_LIMIT } from '@/components/pages/SearchPage/SearchPage';
-import { getStaticProps } from 'next/dist/build/templates/pages';
 
-const Index = ({
-  pokes,
-  totalCount,
-}: InferGetStaticPropsType<typeof getStaticProps>) => {
-  return <SearchPage pokemons={pokes} totalCount={totalCount} />;
+const IndexPage = async ({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) => {
+  const page = searchParams['page'] ? +searchParams['page'] : 1;
+  const search = searchParams['search'] || '';
+  const { pokes, totalCount } = await getProps({ search, page });
+  return <SearchPage pokemons={pokes || []} totalCount={totalCount || 1} />;
 };
 
-export default Index;
+export default IndexPage;
 
-export const getServerSideProps = (async (context) => {
+export const getProps = async ({
+  search,
+  page,
+}: {
+  search: string | string[];
+  page: number;
+}) => {
   let offset = 0;
-  const query = context.query;
-  const searchQuery = context.query.search;
-  if (query.page) {
-    offset = (+query.page - 1) * PAGE_LIMIT;
+  if (page) {
+    offset = (+page - 1) * PAGE_LIMIT;
   }
-  if (!searchQuery) {
+  if (!search) {
     const res = await fetch(
       `https://pokeapi.co/api/v2/pokemon/?limit=${PAGE_LIMIT}&offset=${offset}`
     );
@@ -40,13 +46,13 @@ export const getServerSideProps = (async (context) => {
   }
   try {
     const pokemonResponse = await fetch(
-      `https://pokeapi.co/api/v2/pokemon/${searchQuery}`
+      `https://pokeapi.co/api/v2/pokemon/${search}`
     );
     const poke: Pokemon = await pokemonResponse.json();
     const pokes = [poke];
     const totalCount = 1;
-    return { props: { pokes, totalCount } };
+    return { pokes, totalCount };
   } catch {
-    return { props: { pokes: [], totalCount: 0 } };
+    return { pokes: [], totalCount: 0 };
   }
-}) satisfies GetServerSideProps<{ pokes: Pokemon[] }>;
+};
