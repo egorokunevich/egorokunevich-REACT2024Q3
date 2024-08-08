@@ -2,15 +2,18 @@
 
 import { useState } from 'react';
 import styles from './ThemeToggler.module.scss';
-import { useTheme } from '@/theme/useTheme';
+import { toggleLayoutTheme } from '@/store/pokemonsSlice';
+import { useAppDispatch, useAppSelector } from '@/hooks/reduxHooks';
+import { getThemeSelector } from '@/store/selectors';
 
 const ThemeToggler = () => {
-  const { toggleTheme } = useTheme();
   const [isChecked, setIsChecked] = useState(false);
+  const theme = useAppSelector(getThemeSelector);
+  const dispatch = useAppDispatch();
 
   const handleClick = () => {
     setIsChecked(!isChecked);
-    toggleTheme();
+    dispatch(toggleLayoutTheme(theme === 'light' ? 'dark' : 'light'));
   };
 
   return (

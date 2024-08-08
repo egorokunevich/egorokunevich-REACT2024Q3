@@ -34,7 +34,6 @@ function PokeCard({ pokemon, isSelected }: PokeCardProps) {
       return (
         <>
           <Image
-            className={styles.pic}
             src={pokemon.sprites.front_default}
             width={96}
             height={96}
@@ -55,7 +54,6 @@ function PokeCard({ pokemon, isSelected }: PokeCardProps) {
     if (pokemon.sprites.other['official-artwork'].front_default) {
       return (
         <Image
-          className={styles.pic}
           src={pokemon.sprites.other['official-artwork'].front_default}
           width={0}
           height={0}

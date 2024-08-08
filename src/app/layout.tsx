@@ -1,31 +1,17 @@
 'use client';
 
 import '../index.scss';
-import { useTheme } from '@/theme/useTheme';
-import Header from '@/components/Header';
-import ThemeToggler from '@/components/ThemeToggler';
 import { PropsWithChildren } from 'react';
-import ThemeProvider from '@/theme/ThemeProvider';
 import { store } from '@/store';
 import { Provider } from 'react-redux';
+import SubLayout from './SubLayout';
 
 function Layout({ children }: PropsWithChildren) {
-  const { theme } = useTheme();
-
   return (
     <html>
       <body>
         <Provider store={store}>
-          <ThemeProvider>
-            <div className={`app ${theme}`} style={{ width: '100%' }}>
-              <Header>
-                <ThemeToggler />
-              </Header>
-              <div style={{ paddingTop: '4rem', height: '100%' }}>
-                {children}
-              </div>
-            </div>
-          </ThemeProvider>
+          <SubLayout>{children}</SubLayout>
         </Provider>
       </body>
     </html>
