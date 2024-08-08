@@ -3,13 +3,20 @@ import '@testing-library/jest-dom';
 import SearchBar from '@/components/SearchBar';
 import userEvent from '@testing-library/user-event';
 
-jest.mock('next/router', () => {
+jest.mock('next/navigation', () => {
   const router = {
     push: jest.fn(),
+    replace: jest.fn(),
     query: { name: 'pikachu' },
   };
+
+  const searchParams = {
+    get: jest.fn(),
+  };
+
   return {
     useRouter: jest.fn().mockReturnValue(router),
+    useSearchParams: jest.fn().mockReturnValue(searchParams),
   };
 });
 

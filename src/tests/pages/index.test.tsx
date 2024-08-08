@@ -1,9 +1,9 @@
-import Index from '@/pages/index';
 import { render, screen } from '@testing-library/react';
-import { mockedPokemon } from '../mocks/mockedPokemon';
 import { Provider } from 'react-redux';
 import { store } from '@/store';
 import '@testing-library/jest-dom';
+import IndexPage from '@/app/page';
+import SubLayout from '@/app/SubLayout';
 
 jest.mock('next/router', () => {
   const router = {
@@ -14,16 +14,21 @@ jest.mock('next/router', () => {
   };
 });
 
+const mockedSearchParams = {
+  page: '1',
+  search: '',
+};
+
 describe('Index', () => {
   test('Index should render in the document', async () => {
     render(
       <Provider store={store}>
-        <Index pokes={[mockedPokemon]} totalCount={[mockedPokemon].length} />
+        <SubLayout>
+          <IndexPage searchParams={mockedSearchParams} />
+        </SubLayout>
       </Provider>
     );
-    const card = await screen.findByTestId('poke-card');
-    const cardName = await screen.findByText(mockedPokemon.name);
-    expect(card).toBeInTheDocument();
-    expect(cardName).toBeInTheDocument();
+    const page = await screen.findByTestId('searchPage-mainSection');
+    expect(page).toBeInTheDocument();
   });
 });

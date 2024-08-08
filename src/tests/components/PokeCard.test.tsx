@@ -8,13 +8,20 @@ import { Provider } from 'react-redux';
 import { useRouter } from 'next/router';
 
 // Mock useRouter hook
-jest.mock('next/router', () => {
+jest.mock('next/navigation', () => {
   const router = {
     push: jest.fn(),
-    query: {},
+    replace: jest.fn(),
+    query: { name: 'pikachu' },
   };
+
+  const searchParams = {
+    get: jest.fn(),
+  };
+
   return {
     useRouter: jest.fn().mockReturnValue(router),
+    useSearchParams: jest.fn().mockReturnValue(searchParams),
   };
 });
 

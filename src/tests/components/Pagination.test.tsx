@@ -8,7 +8,6 @@ import userEvent from '@testing-library/user-event';
 const mockedPaginationProps: PaginationProps = {
   totalPages: 10,
   currentPage: 1,
-  handleClick: jest.fn(),
 };
 
 describe('Pagination', () => {

@@ -16,11 +16,7 @@ describe('PageButton', () => {
     const user = userEvent.setup();
 
     render(
-      <PageButton
-        txt={mockProps[0].txt}
-        isActive={mockProps[0].isActive}
-        handleClick={mockProps[0].handleClick()}
-      />
+      <PageButton txt={mockProps[0].txt} isActive={mockProps[0].isActive} />
     );
     const buttonByTestId = await screen.findByTestId('page-btn');
     const buttonByText = await screen.findByText(mockProps[0].txt);
