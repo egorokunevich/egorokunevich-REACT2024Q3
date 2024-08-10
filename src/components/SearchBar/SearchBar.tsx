@@ -23,7 +23,7 @@ function SearchBar(props: SearchBarProps) {
   useEffect(() => {
     setSearchParam(query.toString());
     const page = params.get('page') ? params.get('page') : 1;
-    router.replace(`?page=${page}${query ? `&search=${query}` : ''}`);
+    router.push(`?page=${page}${query ? `&search=${query}` : ''}`);
   }, [query]);
 
   return (

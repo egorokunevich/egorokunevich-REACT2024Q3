@@ -5,20 +5,28 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 // Mock useRouter hook
-jest.mock('next/router', () => {
+jest.mock('next/navigation', () => {
   const router = {
     push: jest.fn(),
-    query: { name: 'pikachu' },
   };
+
+  const searchParams = {
+    get: jest.fn(),
+  };
+
+  const params = { name: 'pikachu' };
+
   return {
     useRouter: jest.fn().mockReturnValue(router),
+    useSearchParams: jest.fn().mockReturnValue(searchParams),
+    useParams: jest.fn().mockReturnValue(params),
   };
 });
 
-describe('PokeCard Integration testing', () => {
+describe('SearchPage Integration testing', () => {
   test('Click on a main section should call a navigate function', async () => {
     render(
       <Provider store={store}>
@@ -31,7 +39,7 @@ describe('PokeCard Integration testing', () => {
     const mainSection = await screen.findByTestId('searchPage-mainSection');
     await user.click(mainSection);
 
-    expect(useRouter().push).toHaveBeenCalledTimes(1);
+    expect(useRouter().push).toHaveBeenCalled();
     expect(useRouter().push).toHaveBeenCalledWith(
       `/?page=${mockedPokemons.count}`
     );

@@ -44,7 +44,7 @@ function SearchPage({
           className={styles.mainSection}
           onClick={() => {
             if (params.name) {
-              router.replace(
+              router.push(
                 `/?page=${currentPage}${searchValue ? `&search=${searchValue}` : ''}`
               );
             }

@@ -5,7 +5,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import PokeCard from '@/components/PokeCard';
 import { Provider } from 'react-redux';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 // Mock useRouter hook
 jest.mock('next/navigation', () => {
