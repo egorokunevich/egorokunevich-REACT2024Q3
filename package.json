@@ -4,8 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "remix vite:build",
+    "dev": "remix vite:dev",
+    "start": "remix-serve build/index.js",
+    "typecheck": "tsc",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "format:fix": "npx prettier . --write",
     "preview": "vite preview",
@@ -15,7 +17,11 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "https://pkg.csb.dev/reduxjs/redux-toolkit/commit/beb818cb/@reduxjs/toolkit",
+    "@remix-run/node": "^2.11.1",
+    "@remix-run/react": "^2.11.1",
+    "@remix-run/serve": "^2.11.1",
     "axios": "^1.7.2",
+    "isbot": "^5.1.14",
     "normalize.css": "^8.0.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -25,6 +31,7 @@
     "whatwg-fetch": "^3.6.20"
   },
   "devDependencies": {
+    "@remix-run/dev": "^2.11.1",
     "@testing-library/jest-dom": "^6.4.6",
     "@testing-library/react": "^16.0.0",
     "@testing-library/user-event": "^14.5.2",
