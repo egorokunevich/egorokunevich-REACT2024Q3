@@ -29,10 +29,6 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   return { pokemons, totalCount, pokemonToDisplay };
 };
 
-// export const meta: MetaFunction<typeof loader> = ({ data }) => {
-//   return [{ title: data?.pokemonToDisplay.name }];
-// };
-
 export const meta: MetaFunction<typeof loader> = ({ matches, data }) => {
   const parentMeta = matches
     .flatMap((match) => match.meta ?? [])

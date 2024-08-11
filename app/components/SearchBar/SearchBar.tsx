@@ -1,4 +1,3 @@
-// import useLocalStorage, { LocalStorageKeys } from '@/hooks/useLocalStorage';
 import React, { useState } from 'react';
 import styles from './SearchBar.module.scss';
 
@@ -8,11 +7,9 @@ type SearchBarProps = {
 
 function SearchBar(props: SearchBarProps) {
   const { onSearch } = props;
-  // const [query, , saveQuery] = useLocalStorage(LocalStorageKeys.LastQuery, '');
   const [searchParam, setSearchParam] = useState('');
 
   const handleSearch = () => {
-    // saveQuery(searchParam);
     onSearch(searchParam);
   };
 

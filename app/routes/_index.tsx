@@ -4,11 +4,6 @@ import { getPokemon, getPokemons, Pokemons } from '@/api/api';
 import { PAGE_LIMIT } from '@/pages/SearchPage/SearchPage';
 import { getOffset } from '@/utils/getOffset';
 import { LoaderFunctionArgs } from '@remix-run/node';
-// export interface LoaderData {
-//   pokemons: Pokemon[];
-//   totalCount: number;
-//   pokemonToDisplay?: Pokemon;
-// }
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { searchParams } = new URL(request.url);

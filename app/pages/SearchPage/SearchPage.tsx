@@ -1,7 +1,6 @@
 import SearchBar from '../../components/SearchBar';
 import ResultsList from '../../components/ResultsList';
 import styles from './SearchPage.module.scss';
-// import Loader from '../../components/Loader';
 import Pagination from '../../components/Pagination';
 import {
   Outlet,
@@ -10,8 +9,6 @@ import {
   useParams,
   useSearchParams,
 } from '@remix-run/react';
-// import useTabTitle, { TabTitles } from '@/hooks/useTabTitle';
-// import { Pokemon, Pokemons } from '../../api/api';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { useEffect } from 'react';
 import { setCurrentPokemons } from '../../store/pokemonsSlice';
@@ -28,8 +25,6 @@ function SearchPage() {
   const currentPage = +(searchParams.get('page') || '1');
   const searchQuery = searchParams.get('search') || '';
 
-  // useTabTitle(TabTitles.PokemonWiki);
-
   const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
@@ -38,7 +33,6 @@ function SearchPage() {
     setSearchParams({ page: pageNumber.toString() });
   };
 
-  // const currentPokemons = useAppSelector(getCurrentPokemonsSelector);
   const loaderData = useLoaderData<typeof loader>();
   const pokemons = loaderData.pokemons;
   const selectedPokemons = useAppSelector(getSelectedPokemonsSelector);
@@ -47,10 +41,6 @@ function SearchPage() {
     if (pokemons) {
       dispatch(setCurrentPokemons(pokemons));
     }
-
-    // if (isError) {
-    //   dispatch(setCurrentPokemons([]));
-    // }
   }, [pokemons]);
 
   const shouldRenderPagination = pokemons && pokemons.length > 1;
@@ -76,10 +66,6 @@ function SearchPage() {
               );
             }}
           />
-          {/* {isFetching ? (
-            <Loader />
-          ) : (
-            <> */}
           <ResultsList />
           {shouldRenderPagination && (
             <Pagination
@@ -90,8 +76,6 @@ function SearchPage() {
               }}
             />
           )}
-          {/* </>
-          )} */}
         </div>
         <Outlet />
         {selectedPokemons.length > 0 && (

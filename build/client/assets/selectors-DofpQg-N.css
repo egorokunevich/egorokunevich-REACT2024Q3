@@ -1,1 +1,15 @@
-._btn_1ur6k_1{transition:.2s;border:1px solid var(--primary-color);border-radius:0;background-color:var(--card-color);color:var(--primary-color)}._btn_1ur6k_1:hover{border:1px solid var(--primary-color);background-color:var(--card-color-hover);color:var(--primary-color)}._btn_1ur6k_1:focus{outline:none}
+._btn_1ur6k_1 {
+  transition: 0.2s;
+  border: 1px solid var(--primary-color);
+  border-radius: 0;
+  background-color: var(--card-color);
+  color: var(--primary-color);
+}
+._btn_1ur6k_1:hover {
+  border: 1px solid var(--primary-color);
+  background-color: var(--card-color-hover);
+  color: var(--primary-color);
+}
+._btn_1ur6k_1:focus {
+  outline: none;
+}

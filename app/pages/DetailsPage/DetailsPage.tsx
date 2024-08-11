@@ -3,12 +3,9 @@ import {
   useLoaderData,
   useNavigate,
   useNavigation,
-  // useParams,
   useSearchParams,
 } from '@remix-run/react';
 import styles from './DetailsPage.module.scss';
-// import useTabTitle, { TabTitles } from '@/hooks/useTabTitle';
-// import { CapitalizeFirstLetter } from '@/utils/CapitalizeFirstLetter';
 import { useAppDispatch } from '../../hooks/reduxHooks';
 import { useEffect } from 'react';
 import { setCurrentDetails } from '../../store/pokemonsSlice';
@@ -20,13 +17,6 @@ function DetailsPage() {
   const searchQuery = searchParams.get('search') || '';
   const navigate = useNavigate();
   const navigation = useNavigation();
-  // const { pokeName } = useParams();
-
-  // const {
-  //   data: pokemon,
-  //   isLoading,
-  //   isFetching,
-  // } = useGetPokemonQuery(pokeName || '');
 
   const loaderData = useLoaderData<typeof loader>();
   const pokemon = loaderData.pokemonToDisplay;
@@ -37,9 +27,6 @@ function DetailsPage() {
       dispatch(setCurrentDetails([pokemon]));
     }
   }, [pokemon]);
-
-  // const pokeTabName = pokemon?.name || '';
-  // useTabTitle(TabTitles.Empty, CapitalizeFirstLetter(pokeTabName));
 
   return (
     <div className={styles.pageWrapper} data-testid="details-page">

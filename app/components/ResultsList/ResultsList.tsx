@@ -4,14 +4,10 @@ import { useAppSelector } from '../../hooks/reduxHooks';
 import { getSelectedPokemonsSelector } from '../../store/selectors';
 import { useLoaderData } from '@remix-run/react';
 import { loader } from '@/routes/_layout';
-// import { useLoaderData } from '@remix-run/react';
-// import { LoaderData } from '@/routes/_index';
 
 function ResultsList() {
   const selectedPokemons = useAppSelector(getSelectedPokemonsSelector);
 
-  // const loaderData: LoaderData = useLoaderData();
-  // const detailedPokemons = loaderData.detailedPokemons;
   const loaderData = useLoaderData<typeof loader>();
   const pokemons = loaderData.pokemons;
 
