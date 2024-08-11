@@ -7,29 +7,26 @@ import {
   Outlet,
   useLoaderData,
   useNavigate,
+  useParams,
   useSearchParams,
 } from '@remix-run/react';
 // import useTabTitle, { TabTitles } from '@/hooks/useTabTitle';
-import { Pokemon, Pokemons } from '../../api/api';
+// import { Pokemon, Pokemons } from '../../api/api';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { useEffect } from 'react';
 import { setCurrentPokemons } from '../../store/pokemonsSlice';
 import { getSelectedPokemonsSelector } from '../../store/selectors';
-// import useLocalStorage, { LocalStorageKeys } from '@/hooks/useLocalStorage';
 import Flyout from '../../components/Flyout';
 import { getPagesCount } from '@/utils/getPagesCount';
-import { loader } from '@/routes/_layout.pokemon.$pokeName';
+import { loader } from '@/routes/_index';
 
 export const PAGE_LIMIT = 12;
 
-function SearchPage({ pokemons }: { pokemons: Pokemons | Pokemon }) {
+function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const params = useParams();
   const currentPage = +(searchParams.get('page') || '1');
-
-  // const [searchValue, setSearchValue] = useLocalStorage(
-  //   LocalStorageKeys.LastQuery,
-  //   ''
-  // );
+  const searchQuery = searchParams.get('search') || '';
 
   // useTabTitle(TabTitles.PokemonWiki);
 
@@ -42,20 +39,15 @@ function SearchPage({ pokemons }: { pokemons: Pokemons | Pokemon }) {
   };
 
   // const currentPokemons = useAppSelector(getCurrentPokemonsSelector);
-  const currentPokemons = useLoaderData<typeof loader>().detailedPokemons;
+  const loaderData = useLoaderData<typeof loader>();
+  const pokemons = loaderData.pokemons;
   const selectedPokemons = useAppSelector(getSelectedPokemonsSelector);
 
   useEffect(() => {
     if (pokemons) {
-      if (
-        (pokemons as Pokemons)?.results &&
-        Array.isArray((pokemons as Pokemons).results)
-      ) {
-        dispatch(setCurrentPokemons((pokemons as Pokemons).results));
-      } else {
-        dispatch(setCurrentPokemons([pokemons as Pokemon]));
-      }
+      dispatch(setCurrentPokemons(pokemons));
     }
+
     // if (isError) {
     //   dispatch(setCurrentPokemons([]));
     // }
@@ -64,8 +56,7 @@ function SearchPage({ pokemons }: { pokemons: Pokemons | Pokemon }) {
   // if (isLoading) {
   //   return <Loader />;
   // }
-  const shouldRenderPagination =
-    pokemons && (pokemons as Pokemons)?.results?.length > 1;
+  const shouldRenderPagination = pokemons && pokemons.length > 1;
 
   return (
     <div className={styles.pageContainer}>
@@ -73,26 +64,29 @@ function SearchPage({ pokemons }: { pokemons: Pokemons | Pokemon }) {
         <div
           className={styles.mainSection}
           onClick={() => {
-            navigate(`/?page=${currentPage}`);
+            if (params.pokeName) {
+              navigate(
+                `/?page=${currentPage}${searchQuery ? `&search=${searchQuery}` : ''}`
+              );
+            }
           }}
           data-testid="searchPage-mainSection"
         >
           <SearchBar
-            onSearch={() => {
-              // setSearchValue(name);
+            onSearch={(query: string) => {
+              navigate(
+                `/?page=${currentPage}${query ? `&search=${query}` : ''}`
+              );
             }}
           />
           {/* {isFetching ? (
             <Loader />
           ) : (
             <> */}
-          <ResultsList items={currentPokemons} />
+          <ResultsList />
           {shouldRenderPagination && (
             <Pagination
-              totalPages={getPagesCount(
-                (pokemons as Pokemons).count,
-                PAGE_LIMIT
-              )}
+              totalPages={getPagesCount(loaderData.totalCount, PAGE_LIMIT)}
               currentPage={+currentPage}
               handleClick={(pageNumber: number) => {
                 updatePage(pageNumber);

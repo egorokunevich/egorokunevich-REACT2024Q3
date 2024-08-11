@@ -1,4 +1,4 @@
-import { Pokemon, Pokemons } from '../../api/reduxApi';
+import { Pokemon, Pokemons } from '../../api/api';
 
 export const mockedPokemon: Pokemon = {
   id: 1,

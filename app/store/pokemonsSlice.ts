@@ -1,4 +1,4 @@
-import { Pokemon } from '../api/reduxApi';
+import { Pokemon } from '../api/api';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface PokemonsSliceInitialState {

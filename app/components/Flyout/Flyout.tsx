@@ -3,7 +3,7 @@ import Button from '../Buttons/Button';
 import styles from './Flyout.module.scss';
 import btnStyles from '@/components/Buttons/Button/Button.module.scss';
 import { unselectAllPokemons } from '../../store/pokemonsSlice';
-import { Pokemon } from '../../api/reduxApi';
+import { Pokemon } from '../../api/api';
 
 interface FlyoutProps {
   selectedPokemons: Pokemon[];

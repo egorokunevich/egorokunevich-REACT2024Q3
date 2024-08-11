@@ -1,39 +1,51 @@
-import { Outlet, useLoaderData } from '@remix-run/react';
+import { MetaFunction, Outlet } from '@remix-run/react';
 import SearchPage from '../pages/SearchPage';
-import { getPokemon, getPokemons, Pokemon, Pokemons } from '@/api/api';
+import { getPokemon, getPokemons, Pokemons } from '@/api/api';
 import { PAGE_LIMIT } from '@/pages/SearchPage/SearchPage';
 import { getOffset } from '@/utils/getOffset';
 import { LoaderFunctionArgs } from '@remix-run/node';
-
-export interface LoaderData {
-  pokemons: Pokemons;
-  detailedPokemons: Pokemon[];
-  pokemonToDisplay?: Pokemon;
-}
+// export interface LoaderData {
+//   pokemons: Pokemon[];
+//   totalCount: number;
+//   pokemonToDisplay?: Pokemon;
+// }
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { searchParams } = new URL(request.url);
   const page = searchParams.get('page') || '1';
+  const searchQuery = searchParams.get('search') || '';
+
   const offset = getOffset(+page);
-  const pokemons = (await getPokemons({
+  const pokemonsData = (await getPokemons({
     limit: PAGE_LIMIT,
     offset,
   })) as Pokemons;
 
-  const detailedPokemons = await Promise.all(
-    pokemons.results.map(async (poke) => {
-      return await getPokemon(poke.name);
-    })
-  );
+  const totalCount = pokemonsData.count;
 
-  return { pokemons, detailedPokemons };
+  const pokemons = searchQuery
+    ? [await getPokemon(searchQuery)]
+    : await Promise.all(
+        pokemonsData.results.map(async (poke) => {
+          return await getPokemon(poke.name);
+        })
+      );
+
+  return { pokemons, totalCount };
+};
+
+export const meta: MetaFunction = ({ matches }) => {
+  const parentMeta = matches
+    .flatMap((match) => match.meta ?? [])
+    .filter((meta) => !('title' in meta));
+
+  return [...parentMeta, { title: 'Pokemon Wiki' }];
 };
 
 export default function Index() {
-  const loaderData: LoaderData = useLoaderData();
   return (
     <>
-      <SearchPage pokemons={loaderData.pokemons} />
+      <SearchPage />
       <Outlet />
     </>
   );

@@ -1,6 +1,6 @@
 import Loader from '../../components/Loader';
 import {
-  // useLoaderData,
+  useLoaderData,
   useNavigate,
   // useParams,
   useSearchParams,
@@ -8,14 +8,15 @@ import {
 import styles from './DetailsPage.module.scss';
 // import useTabTitle, { TabTitles } from '@/hooks/useTabTitle';
 // import { CapitalizeFirstLetter } from '@/utils/CapitalizeFirstLetter';
-// import { useGetPokemonQuery } from '../../api/reduxApi';
 import { useAppDispatch } from '../../hooks/reduxHooks';
 import { useEffect } from 'react';
 import { setCurrentDetails } from '../../store/pokemonsSlice';
-import { Pokemon } from '@/api/api';
+import { loader } from '@/routes/_layout';
 
-function DetailsPage({ pokemon }: { pokemon: Pokemon }) {
+function DetailsPage() {
   const [searchParams] = useSearchParams();
+  const currentPage = searchParams.get('page') || '1';
+  const searchQuery = searchParams.get('search') || '';
   const navigate = useNavigate();
   // const { pokeName } = useParams();
 
@@ -25,7 +26,8 @@ function DetailsPage({ pokemon }: { pokemon: Pokemon }) {
   //   isFetching,
   // } = useGetPokemonQuery(pokeName || '');
 
-  // const pokemon = useLoaderData();
+  const loaderData = useLoaderData<typeof loader>();
+  const pokemon = loaderData.pokemonToDisplay;
 
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -52,7 +54,9 @@ function DetailsPage({ pokemon }: { pokemon: Pokemon }) {
           <button
             className={styles.closeBtn}
             onClick={() => {
-              navigate(`/?page=${searchParams.get('page')}`);
+              navigate(
+                `/?page=${currentPage}${searchQuery ? `&search=${searchQuery}` : ''}`
+              );
             }}
           >
             <div

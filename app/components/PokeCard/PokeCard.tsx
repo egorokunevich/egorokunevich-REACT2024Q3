@@ -4,7 +4,6 @@ import Loader from '../Loader';
 import { useAppDispatch } from '../../hooks/reduxHooks';
 import { toggleSelectedPokemons } from '../../store/pokemonsSlice';
 import { Pokemon } from '@/api/api';
-// import { useGetPokemonQuery } from '@/api/reduxApi';
 
 interface PokeCardProps {
   pokemon: Pokemon;
@@ -17,6 +16,7 @@ function PokeCard({ pokemon, isSelected }: PokeCardProps) {
 
   const [searchParams] = useSearchParams();
   const page = searchParams.get('page') || '1';
+  const searchQuery = searchParams.get('search') || '';
   const navigate = useNavigate();
 
   if (!pokemon) {
@@ -49,7 +49,9 @@ function PokeCard({ pokemon, isSelected }: PokeCardProps) {
       className={styles.card}
       onClick={(e) => {
         e.stopPropagation();
-        navigate(`/pokemon/${pokemon.name}?page=${page}`);
+        navigate(
+          `/pokemon/${pokemon.name}?page=${page}${searchQuery ? `&search=${searchQuery}` : ''}`
+        );
       }}
       data-testid={'poke-card'}
     >
