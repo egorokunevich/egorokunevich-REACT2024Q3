@@ -1,9 +1,9 @@
 import { Outlet, useLoaderData } from '@remix-run/react';
 import SearchPage from '../pages/SearchPage';
 import { getPokemon, getPokemons, Pokemon, Pokemons } from '@/api/api';
-import { LoaderFunctionArgs } from 'react-router-dom';
 import { PAGE_LIMIT } from '@/pages/SearchPage/SearchPage';
 import { getOffset } from '@/utils/getOffset';
+import { LoaderFunctionArgs } from '@remix-run/node';
 
 export interface LoaderData {
   pokemons: Pokemons;

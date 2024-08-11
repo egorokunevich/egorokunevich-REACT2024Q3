@@ -22,7 +22,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   );
 
   const pokemonToDisplay = await getPokemon(params.pokeName || '');
-  return { pokemonToDisplay };
+  return { pokemons, detailedPokemons, pokemonToDisplay };
 };
 
 const Details = () => {

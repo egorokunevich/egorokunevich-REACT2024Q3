@@ -12,6 +12,7 @@ interface ResultsListProps {
 
 function ResultsList({ items }: ResultsListProps) {
   const selectedPokemons = useAppSelector(getSelectedPokemonsSelector);
+
   // const loaderData: LoaderData = useLoaderData();
   // const detailedPokemons = loaderData.detailedPokemons;
 
@@ -25,7 +26,7 @@ function ResultsList({ items }: ResultsListProps) {
       {items.map((item, id) => (
         <PokeCard
           key={item.name + id}
-          name={item.name}
+          pokemon={item}
           isSelected={selectedPokemons.some(
             (pokemon) => pokemon.name === item.name
           )}

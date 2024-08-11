@@ -1,5 +1,5 @@
 import { CapitalizeFirstLetter } from '../utils/CapitalizeFirstLetter';
-import { GetPagesCount } from '../utils/GetPagesCount';
+import { getPagesCount } from '@/utils/getPagesCount';
 
 test('Capitalize first letter', () => {
   expect(CapitalizeFirstLetter('asd')).toBe('Asd');
@@ -8,7 +8,7 @@ test('Capitalize first letter', () => {
 });
 
 test('Get pages count', () => {
-  expect(GetPagesCount(12, 13)).toBe(2);
-  expect(GetPagesCount(1, 10)).toBe(10);
-  expect(GetPagesCount(2000, 2)).toBe(1);
+  expect(getPagesCount(12, 13)).toBe(2);
+  expect(getPagesCount(1, 10)).toBe(10);
+  expect(getPagesCount(2000, 2)).toBe(1);
 });

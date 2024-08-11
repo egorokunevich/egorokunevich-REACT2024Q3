@@ -3,15 +3,16 @@ import { useNavigate, useSearchParams } from '@remix-run/react';
 import Loader from '../Loader';
 import { useAppDispatch } from '../../hooks/reduxHooks';
 import { toggleSelectedPokemons } from '../../store/pokemonsSlice';
-import { useGetPokemonQuery } from '@/api/reduxApi';
+import { Pokemon } from '@/api/api';
+// import { useGetPokemonQuery } from '@/api/reduxApi';
 
 interface PokeCardProps {
-  name: string;
+  pokemon: Pokemon;
   isSelected: boolean;
 }
 
-function PokeCard({ name, isSelected }: PokeCardProps) {
-  const { data: pokemon } = useGetPokemonQuery(name);
+function PokeCard({ pokemon, isSelected }: PokeCardProps) {
+  // const { data: pokemon } = useGetPokemonQuery(name);
   const dispatch = useAppDispatch();
 
   const [searchParams] = useSearchParams();

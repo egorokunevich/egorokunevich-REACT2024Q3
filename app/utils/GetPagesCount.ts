@@ -1,3 +1,3 @@
-export const GetPagesCount = (limit: number, totalCount: number) => {
+export const getPagesCount = (totalCount: number, limit: number) => {
   return Math.ceil(totalCount / limit);
 };

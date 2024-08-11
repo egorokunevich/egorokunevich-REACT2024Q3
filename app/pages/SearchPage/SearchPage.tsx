@@ -3,18 +3,22 @@ import ResultsList from '../../components/ResultsList';
 import styles from './SearchPage.module.scss';
 // import Loader from '../../components/Loader';
 import Pagination from '../../components/Pagination';
-import { Outlet, useNavigate, useSearchParams } from '@remix-run/react';
+import {
+  Outlet,
+  useLoaderData,
+  useNavigate,
+  useSearchParams,
+} from '@remix-run/react';
 // import useTabTitle, { TabTitles } from '@/hooks/useTabTitle';
 import { Pokemon, Pokemons } from '../../api/api';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { useEffect } from 'react';
 import { setCurrentPokemons } from '../../store/pokemonsSlice';
-import {
-  getCurrentPokemonsSelector,
-  getSelectedPokemonsSelector,
-} from '../../store/selectors';
+import { getSelectedPokemonsSelector } from '../../store/selectors';
 // import useLocalStorage, { LocalStorageKeys } from '@/hooks/useLocalStorage';
 import Flyout from '../../components/Flyout';
+import { getPagesCount } from '@/utils/getPagesCount';
+import { loader } from '@/routes/_layout.pokemon.$pokeName';
 
 export const PAGE_LIMIT = 12;
 
@@ -37,7 +41,8 @@ function SearchPage({ pokemons }: { pokemons: Pokemons | Pokemon }) {
     setSearchParams({ page: pageNumber.toString() });
   };
 
-  const currentPokemons = useAppSelector(getCurrentPokemonsSelector);
+  // const currentPokemons = useAppSelector(getCurrentPokemonsSelector);
+  const currentPokemons = useLoaderData<typeof loader>().detailedPokemons;
   const selectedPokemons = useAppSelector(getSelectedPokemonsSelector);
 
   useEffect(() => {
@@ -84,7 +89,10 @@ function SearchPage({ pokemons }: { pokemons: Pokemons | Pokemon }) {
           <ResultsList items={currentPokemons} />
           {shouldRenderPagination && (
             <Pagination
-              totalPages={Math.ceil((pokemons as Pokemons).count / PAGE_LIMIT)}
+              totalPages={getPagesCount(
+                (pokemons as Pokemons).count,
+                PAGE_LIMIT
+              )}
               currentPage={+currentPage}
               handleClick={(pageNumber: number) => {
                 updatePage(pageNumber);
