@@ -27,7 +27,7 @@
     "noFallthroughCasesInSwitch": true,
     "paths": {
       "@/*": [
-        "./app/old-app/*"
+        "./app/*"
       ]
     },
     "types": [
@@ -36,7 +36,6 @@
   },
   "include": [
     "app",
-    "app/old-app/",
     "app/routes/.pokemon.$.tsx",
     "app/routes/.pokemon.$pokeName.tsx"
   ]

@@ -7,13 +7,13 @@ import {
   useRouteError,
 } from '@remix-run/react';
 import '@/index.scss';
-import ErrorPage from '@/pages/ErrorPage';
-import { store } from '@/store';
-import ThemeProvider from '@/theme/ThemeProvider';
+import ErrorPage from './pages/ErrorPage';
+import { store } from './store';
+import ThemeProvider from './theme/ThemeProvider';
 import { Provider } from 'react-redux';
-import { useTheme } from '@/theme/useTheme';
-import Header from '@/components/Header';
-import ThemeToggler from '@/components/ThemeToggler';
+import { useTheme } from './theme/useTheme';
+import Header from './components/Header';
+import ThemeToggler from './components/ThemeToggler';
 
 export function ErrorBoundary() {
   const error = useRouteError();
