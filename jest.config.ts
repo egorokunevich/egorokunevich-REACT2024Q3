@@ -13,7 +13,7 @@ const jestConfig: JestConfigWithTsJest = {
   },
   moduleNameMapper: {
     '\\.(gif|ttf|eot|svg|png|css|scss|sass|less)$': 'jest-transform-stub',
-    '^@/(.*)$': '<rootDir>/src/$1',
+    '^@/(.*)$': '<rootDir>/app/$1',
   },
   moduleDirectories: ['node_modules', '<rootDir>'],
   globals: {

@@ -8,7 +8,6 @@
     "module": "ESNext",
     "skipLibCheck": true,
     "noImplicitAny": true,
-    "baseUrl": "./src",
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
@@ -23,9 +22,13 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./app/*"]
     },
     "types": ["@types/jest"]
   },
-  "include": ["src"]
+  "include": [
+    "app",
+    "app/routes/.pokemon.$.tsx",
+    "app/routes/.pokemon.$pokeName.tsx"
+  ]
 }
