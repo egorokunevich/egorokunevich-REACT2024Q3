@@ -11,9 +11,10 @@ import ErrorPage from './pages/ErrorPage';
 import { store } from './store';
 import ThemeProvider from './theme/ThemeProvider';
 import { Provider } from 'react-redux';
-import { useTheme } from './theme/useTheme';
 import Header from './components/Header';
 import ThemeToggler from './components/ThemeToggler';
+import { useAppSelector } from './hooks/reduxHooks';
+import { getThemeSelector } from './store/selectors';
 
 export function ErrorBoundary() {
   const error = useRouteError();
@@ -34,7 +35,6 @@ export function ErrorBoundary() {
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  const { theme } = useTheme();
   return (
     <html lang="en">
       <head>
@@ -46,14 +46,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <Provider store={store}>
-          <ThemeProvider>
-            <div className={`app ${theme}`}>
-              <Header>
-                <ThemeToggler />
-              </Header>
-              {children}
-            </div>
-          </ThemeProvider>
+          <ThemeProvider>{children}</ThemeProvider>
         </Provider>
 
         <ScrollRestoration />
@@ -64,5 +57,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  const theme = useAppSelector(getThemeSelector);
+  return (
+    <div className={`app ${theme}`}>
+      <Header>
+        <ThemeToggler />
+      </Header>
+      <Outlet />
+    </div>
+  );
 }

@@ -57,6 +57,7 @@ const Flyout = ({ selectedPokemons }: FlyoutProps) => {
           style={{ padding: '0.6em 1.2em', lineHeight: '1.15' }}
           className={btnStyles.btn}
           href={getDownloadLink(convertToCSV(selectedPokemons))}
+          onClick={() => dispatch(unselectAllPokemons())}
           download={`${selectedPokemons.length}_pokemons.csv`}
         >
           Download

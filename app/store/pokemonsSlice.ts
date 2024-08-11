@@ -1,16 +1,20 @@
 import { Pokemon } from '../api/api';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+type Theme = 'light' | 'dark';
+
 export interface PokemonsSliceInitialState {
   currentPokemons: Pokemon[];
   selectedPokemons: Pokemon[];
   currentDetails: Pokemon[];
+  theme: Theme;
 }
 
 const initialState: PokemonsSliceInitialState = {
   currentPokemons: [],
   selectedPokemons: [],
   currentDetails: [],
+  theme: 'dark',
 };
 
 const pokemonsSlice = createSlice({
@@ -39,6 +43,9 @@ const pokemonsSlice = createSlice({
     setCurrentDetails: (state, action: PayloadAction<Pokemon[]>) => {
       state.currentDetails = action.payload;
     },
+    toggleLayoutTheme: (state, action: PayloadAction<Theme>) => {
+      state.theme = action.payload;
+    },
   },
 });
 
@@ -47,6 +54,7 @@ export const {
   toggleSelectedPokemons,
   unselectAllPokemons,
   setCurrentDetails,
+  toggleLayoutTheme,
 } = pokemonsSlice.actions;
 
 export default pokemonsSlice.reducer;

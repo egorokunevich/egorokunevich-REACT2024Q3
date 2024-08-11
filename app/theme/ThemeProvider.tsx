@@ -19,12 +19,12 @@ export interface IThemeContext {
 }
 
 export const ThemeContext = createContext<IThemeContext>({
-  theme: 'light',
+  theme: 'dark',
   toggleTheme: () => {},
 });
 
 const ThemeProvider = ({ children }: PropsWithChildren) => {
-  const [theme, setTheme] = useState<IThemeContext['theme']>('light');
+  const [theme, setTheme] = useState<IThemeContext['theme']>('dark');
 
   const toggleTheme = () => {
     setTheme(theme === 'light' ? 'dark' : 'light');
