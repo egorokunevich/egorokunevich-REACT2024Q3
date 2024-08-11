@@ -24,6 +24,7 @@ const ThemeToggler = () => {
           type="checkbox"
           onClick={handleClick}
           aria-checked={isChecked}
+          data-testid="theme-toggler"
         ></input>
         <div className={styles.toggler}></div>
       </label>

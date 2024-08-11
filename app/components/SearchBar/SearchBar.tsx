@@ -34,12 +34,14 @@ function SearchBar(props: SearchBarProps) {
             }
           }}
           value={searchParam}
+          data-testid="search-input"
         />
         <button
           className={styles.searchBtn}
           onClick={() => {
             handleSearch();
           }}
+          data-testid="search-btn"
         >
           <div
             className={styles.iconMask}

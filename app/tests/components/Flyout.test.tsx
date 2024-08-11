@@ -11,6 +11,8 @@ jest.mock('@/hooks/reduxHooks');
 window.URL.createObjectURL = jest.fn();
 
 describe('Flyout', () => {
+  global.URL.createObjectURL = jest.fn();
+
   it('Should render in the document', async () => {
     render(
       <Provider store={store}>

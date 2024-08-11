@@ -2,6 +2,7 @@ import Loader from '../../components/Loader';
 import {
   useLoaderData,
   useNavigate,
+  useNavigation,
   // useParams,
   useSearchParams,
 } from '@remix-run/react';
@@ -18,6 +19,7 @@ function DetailsPage() {
   const currentPage = searchParams.get('page') || '1';
   const searchQuery = searchParams.get('search') || '';
   const navigate = useNavigate();
+  const navigation = useNavigation();
   // const { pokeName } = useParams();
 
   // const {
@@ -39,43 +41,43 @@ function DetailsPage() {
   // const pokeTabName = pokemon?.name || '';
   // useTabTitle(TabTitles.Empty, CapitalizeFirstLetter(pokeTabName));
 
-  if (!pokemon) {
-    return (
-      <div className={styles.loaderContainer}>
-        <Loader />
-      </div>
-    );
-  }
-
   return (
     <div className={styles.pageWrapper} data-testid="details-page">
       <div className={styles.pageContent}>
-        <div className={styles.buttonContainer}>
-          <button
-            className={styles.closeBtn}
-            onClick={() => {
-              navigate(
-                `/?page=${currentPage}${searchQuery ? `&search=${searchQuery}` : ''}`
-              );
-            }}
-          >
-            <div
-              className={styles.closeIcon}
-              style={{
-                maskImage: 'url(../../../assets/icons/cancel.svg)',
-                WebkitMaskImage: 'url(../../../assets/icons/cancel.svg)',
-              }}
+        {navigation.state === 'loading' ? (
+          <div className={styles.loaderContainer}>
+            <Loader />
+          </div>
+        ) : (
+          <>
+            <div className={styles.buttonContainer}>
+              <button
+                className={styles.closeBtn}
+                onClick={() => {
+                  navigate(
+                    `/?page=${currentPage}${searchQuery ? `&search=${searchQuery}` : ''}`
+                  );
+                }}
+              >
+                <div
+                  className={styles.closeIcon}
+                  style={{
+                    maskImage: 'url(../../../assets/icons/cancel.svg)',
+                    WebkitMaskImage: 'url(../../../assets/icons/cancel.svg)',
+                  }}
+                />
+              </button>
+            </div>
+            <h1 className={styles.name}>{pokemon.name}</h1>
+            <img
+              className={styles.pic}
+              src={pokemon.sprites.other['official-artwork'].front_default}
             />
-          </button>
-        </div>
-        <h1 className={styles.name}>{pokemon.name}</h1>
-        <img
-          className={styles.pic}
-          src={pokemon.sprites.other['official-artwork'].front_default}
-        />
 
-        <div className={styles.infoText}>Height: {pokemon.height}</div>
-        <div className={styles.infoText}>Weight: {pokemon.weight}</div>
+            <div className={styles.infoText}>Height: {pokemon.height}</div>
+            <div className={styles.infoText}>Weight: {pokemon.weight}</div>
+          </>
+        )}
       </div>
     </div>
   );

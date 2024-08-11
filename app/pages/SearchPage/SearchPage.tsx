@@ -53,9 +53,6 @@ function SearchPage() {
     // }
   }, [pokemons]);
 
-  // if (isLoading) {
-  //   return <Loader />;
-  // }
   const shouldRenderPagination = pokemons && pokemons.length > 1;
 
   return (

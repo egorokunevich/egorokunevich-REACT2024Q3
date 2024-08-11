@@ -1,5 +1,5 @@
 import styles from './PokeCard.module.scss';
-import { useNavigate, useSearchParams } from '@remix-run/react';
+import { useNavigate, useSearchParams, useNavigation } from '@remix-run/react';
 import Loader from '../Loader';
 import { useAppDispatch } from '../../hooks/reduxHooks';
 import { toggleSelectedPokemons } from '../../store/pokemonsSlice';
@@ -11,15 +11,15 @@ interface PokeCardProps {
 }
 
 function PokeCard({ pokemon, isSelected }: PokeCardProps) {
-  // const { data: pokemon } = useGetPokemonQuery(name);
   const dispatch = useAppDispatch();
 
   const [searchParams] = useSearchParams();
   const page = searchParams.get('page') || '1';
   const searchQuery = searchParams.get('search') || '';
   const navigate = useNavigate();
+  const navigation = useNavigation();
 
-  if (!pokemon) {
+  if (navigation.state !== 'idle') {
     return (
       <div className={styles.card}>
         <Loader />
@@ -67,6 +67,7 @@ function PokeCard({ pokemon, isSelected }: PokeCardProps) {
             e.stopPropagation();
             dispatch(toggleSelectedPokemons(pokemon));
           }}
+          data-testid="card-checkbox"
         />
         {isSelected && <div className={styles.checkboxMarker}></div>}
       </label>
