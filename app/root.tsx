@@ -8,6 +8,12 @@ import {
 } from '@remix-run/react';
 import '@/index.scss';
 import ErrorPage from '@/pages/ErrorPage';
+import { store } from '@/store';
+import ThemeProvider from '@/theme/ThemeProvider';
+import { Provider } from 'react-redux';
+import { useTheme } from '@/theme/useTheme';
+import Header from '@/components/Header';
+import ThemeToggler from '@/components/ThemeToggler';
 
 export function ErrorBoundary() {
   const error = useRouteError();
@@ -28,6 +34,7 @@ export function ErrorBoundary() {
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  const { theme } = useTheme();
   return (
     <html lang="en">
       <head>
@@ -39,7 +46,17 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        {children}
+        <Provider store={store}>
+          <ThemeProvider>
+            <div className={`app ${theme}`}>
+              <Header>
+                <ThemeToggler />
+              </Header>
+              {children}
+            </div>
+          </ThemeProvider>
+        </Provider>
+
         <ScrollRestoration />
         <Scripts />
       </body>

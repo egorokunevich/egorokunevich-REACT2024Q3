@@ -1,8 +1,8 @@
 import Loader from '@/components/Loader';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from '@remix-run/react';
 import styles from './DetailsPage.module.scss';
-import useTabTitle, { TabTitles } from '@/hooks/useTabTitle';
-import { CapitalizeFirstLetter } from '@/utils/CapitalizeFirstLetter';
+// import useTabTitle, { TabTitles } from '@/hooks/useTabTitle';
+// import { CapitalizeFirstLetter } from '@/utils/CapitalizeFirstLetter';
 import { useGetPokemonQuery } from '@/api/reduxApi';
 import { useAppDispatch } from '@/hooks/reduxHooks';
 import { useEffect } from 'react';
@@ -11,13 +11,13 @@ import { setCurrentDetails } from '@/store/pokemonsSlice';
 function DetailsPage() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { id, pokeName } = useParams();
+  const { pokeName } = useParams();
 
   const {
     data: pokemon,
     isLoading,
     isFetching,
-  } = useGetPokemonQuery(id || pokeName || '');
+  } = useGetPokemonQuery(pokeName || '');
 
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -26,8 +26,8 @@ function DetailsPage() {
     }
   }, [pokemon]);
 
-  const pokeTabName = pokemon?.name || '';
-  useTabTitle(TabTitles.Empty, CapitalizeFirstLetter(pokeTabName));
+  // const pokeTabName = pokemon?.name || '';
+  // useTabTitle(TabTitles.Empty, CapitalizeFirstLetter(pokeTabName));
 
   if (isLoading || isFetching || !pokemon) {
     return (

@@ -6,12 +6,12 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from '@remix-run/react';
 
 // Mock navigate function
 const mockedNavigate = jest.fn();
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
+jest.mock('@remix-run/react', () => ({
+  ...jest.requireActual('@remix-run/react'),
   useNavigate: () => mockedNavigate,
 }));
 

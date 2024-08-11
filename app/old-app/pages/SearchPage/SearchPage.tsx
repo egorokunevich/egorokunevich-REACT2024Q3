@@ -3,7 +3,7 @@ import ResultsList from '@/components/ResultsList';
 import styles from './SearchPage.module.scss';
 import Loader from '@/components/Loader';
 import Pagination from '@/components/Pagination';
-import { Outlet, useNavigate, useSearchParams } from 'react-router-dom';
+import { Outlet, useNavigate, useSearchParams } from '@remix-run/react';
 // import useTabTitle, { TabTitles } from '@/hooks/useTabTitle';
 import { Pokemon, Pokemons, useGetPokemonsQuery } from '@/api/reduxApi';
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHooks';

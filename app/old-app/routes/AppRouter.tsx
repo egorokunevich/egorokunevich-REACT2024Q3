@@ -4,7 +4,7 @@ import { useTheme } from '@/theme/useTheme';
 import DetailsPage from '@/pages/DetailsPage';
 import NotFoundPage from '@/pages/NotFoundPage';
 import SearchPage from '@/pages/SearchPage';
-import { Routes, Route, Outlet } from 'react-router-dom';
+import { Routes, Route, Outlet } from '@remix-run/react';
 
 const AppRouter = () => {
   const { theme } = useTheme();
@@ -24,8 +24,6 @@ const AppRouter = () => {
       >
         <Route element={<SearchPage />}>
           <Route index element={<div></div>} />
-
-          <Route path="pokemon/:id" element={<DetailsPage />} />
           <Route path="pokemon/:pokeName" element={<DetailsPage />} />
         </Route>
 

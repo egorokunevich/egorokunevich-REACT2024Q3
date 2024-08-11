@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import { store } from '@/store';
 import SearchPage from '@/pages/SearchPage';
-import { MemoryRouter, Routes, Route } from 'react-router-dom';
+import { MemoryRouter, Routes, Route } from '@remix-run/react';
 
 describe('SearchBar', () => {
   it('Should render in the document', async () => {

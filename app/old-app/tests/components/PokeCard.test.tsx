@@ -5,7 +5,7 @@ import { server } from '@/tests/mocks/server';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { MemoryRouter, Route, Routes } from '@remix-run/react';
 import 'whatwg-fetch';
 import userEvent from '@testing-library/user-event';
 import PokeCard from '@/components/PokeCard';
@@ -50,8 +50,8 @@ describe('PokeCard', () => {
 
 // Mock navigate function
 const mockedNavigate = jest.fn();
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
+jest.mock('@remix-run/react', () => ({
+  ...jest.requireActual('@remix-run/react'),
   useNavigate: () => mockedNavigate,
 }));
 

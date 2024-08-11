@@ -36,6 +36,8 @@
   },
   "include": [
     "app",
-    "app/old-app/"
+    "app/old-app/",
+    "app/routes/.pokemon.$.tsx",
+    "app/routes/.pokemon.$pokeName.tsx"
   ]
 }
