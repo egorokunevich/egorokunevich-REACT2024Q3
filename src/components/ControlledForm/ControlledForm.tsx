@@ -1,14 +1,16 @@
 import { setForm } from '@/store/FormSlice';
-import { useAppDispatch } from '@/store/reduxHooks';
+import { useAppDispatch, useAppSelector } from '@/store/reduxHooks';
+import { getFormDataSelector } from '@/store/selectors';
 import { useState } from 'react';
 
 const ControlledForm = () => {
   const [inputText, setInputText] = useState('');
   const dispatch = useAppDispatch();
+  const savedForm = useAppSelector(getFormDataSelector);
 
   const handleInput = (txt: string) => {
     setInputText(txt);
-    dispatch(setForm({ name: txt }));
+    dispatch(setForm({ ...savedForm, name: txt }));
   };
 
   return (

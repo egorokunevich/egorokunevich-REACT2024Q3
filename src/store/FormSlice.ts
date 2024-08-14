@@ -2,6 +2,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface FormSliceData {
   name: string;
+  age: number;
+  email: string;
+  password: string;
+  gender: 'male' | 'female';
+  image: string;
+  country: 'Belarus' | 'Ukraine';
 }
 
 interface FormsSliceInitialState {
@@ -11,6 +17,12 @@ interface FormsSliceInitialState {
 const initialState: FormsSliceInitialState = {
   formData: {
     name: 'John Doe',
+    age: 25,
+    email: 'test@test.com',
+    password: 'qwerty123',
+    gender: 'male',
+    image: '',
+    country: 'Belarus',
   },
 };
 
