@@ -6,6 +6,7 @@ interface FormSliceData {
   email: string;
   password: string;
   gender: 'male' | 'female';
+  agreement: boolean;
   image: string;
   country: 'Belarus' | 'Ukraine';
 }
@@ -21,6 +22,7 @@ const initialState: FormsSliceInitialState = {
     email: 'test@test.com',
     password: 'qwerty123',
     gender: 'male',
+    agreement: false,
     image: '',
     country: 'Belarus',
   },
