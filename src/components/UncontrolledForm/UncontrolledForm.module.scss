@@ -53,6 +53,11 @@
   }
 }
 
+.dropdownMenu {
+  max-height: 130px;
+  overflow: auto;
+}
+
 .dropdownOption {
   padding: 0 0.5rem;
   cursor: pointer;

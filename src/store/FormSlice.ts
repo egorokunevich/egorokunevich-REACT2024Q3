@@ -17,30 +17,8 @@ interface FormsSliceInitialState {
 }
 
 const initialState: FormsSliceInitialState = {
-  controlledForms: [
-    {
-      name: 'John Doe',
-      age: 25,
-      email: 'test@test.com',
-      password: 'qwerty123',
-      gender: 'male',
-      agreement: false,
-      image: '',
-      country: 'Belarus',
-    },
-  ],
-  uncontrolledForms: [
-    {
-      name: 'John Doe',
-      age: 25,
-      email: 'test@test.com',
-      password: 'qwerty123',
-      gender: 'male',
-      agreement: false,
-      image: '',
-      country: 'Belarus',
-    },
-  ],
+  controlledForms: [],
+  uncontrolledForms: [],
 };
 
 const FormSlice = createSlice({

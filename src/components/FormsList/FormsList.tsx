@@ -10,7 +10,9 @@ const FormsList = ({ forms }: FormsListProps) => {
   return (
     <div className={styles.list}>
       {forms.map((form, i) => {
-        return (
+        return form.name === 'initial' ? (
+          <div></div>
+        ) : (
           <div
             style={{ width: '100%' }}
             key={i + form.age + form.name}
