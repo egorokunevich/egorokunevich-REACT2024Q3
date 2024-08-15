@@ -6,7 +6,7 @@
 
 .newest {
   position: relative;
-  background-color: rgb(212, 235, 255);
+  background-color: rgb(234, 245, 255);
 
   &::after {
     position: absolute;
@@ -15,6 +15,6 @@
     right: 1px;
     padding: 0.5rem;
     color: white;
-    background-color: rgb(0, 153, 255);
+    background-color: rgb(39, 169, 255);
   }
 }
