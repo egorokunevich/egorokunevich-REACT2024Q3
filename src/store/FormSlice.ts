@@ -1,3 +1,4 @@
+import { Country, mockCountries } from '@/mocks/mockCountries';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface FormSliceData {
@@ -14,11 +15,13 @@ export interface FormSliceData {
 interface FormsSliceInitialState {
   controlledForms: FormSliceData[];
   uncontrolledForms: FormSliceData[];
+  countries: Country[];
 }
 
 const initialState: FormsSliceInitialState = {
   controlledForms: [],
   uncontrolledForms: [],
+  countries: mockCountries,
 };
 
 const FormSlice = createSlice({

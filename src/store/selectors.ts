@@ -5,3 +5,6 @@ export const getControlledFormSelector = (store: RootState) =>
 
 export const getUncontrolledFormSelector = (store: RootState) =>
   store.formReducer.uncontrolledForms;
+
+export const getCountriesSelector = (store: RootState) =>
+  store.formReducer.countries;

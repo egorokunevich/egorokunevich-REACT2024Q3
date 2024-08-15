@@ -1,13 +1,14 @@
 import { useRef, useState } from 'react';
 import styles from './UncontrolledForm.module.scss';
-import { useAppDispatch } from '@/store/reduxHooks';
+import { useAppDispatch, useAppSelector } from '@/store/reduxHooks';
 import { addUncontrolledForm } from '@/store/FormSlice';
 import { useNavigate } from 'react-router-dom';
-import { mockCountries } from '@/mocks/mockCountries';
+import { getCountriesSelector } from '@/store/selectors';
 
 const UncontrolledForm = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const mockCountries = useAppSelector(getCountriesSelector);
 
   const nameRef = useRef<HTMLInputElement>(null);
   const ageRef = useRef<HTMLInputElement>(null);

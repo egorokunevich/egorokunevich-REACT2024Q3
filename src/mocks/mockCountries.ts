@@ -1,3 +1,7 @@
+export interface Country {
+  country: string;
+}
+
 export const mockCountries = [
   {
     country: 'Aruba',
