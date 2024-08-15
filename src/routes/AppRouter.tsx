@@ -1,6 +1,6 @@
 import ControlledForm from '@/components/ControlledForm';
 import UncontrolledForm from '@/components/UncontrolledForm';
-import Index from '@/pages';
+import Index from '@/pages/Index/Index';
 import NotFoundPage from '@/pages/NotFoundPage';
 import { Route, Routes } from 'react-router-dom';
 
