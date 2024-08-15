@@ -1,7 +1,13 @@
 import { useRef } from 'react';
 import styles from './UncontrolledForm.module.scss';
+import { useAppDispatch } from '@/store/reduxHooks';
+import { addUncontrolledForm } from '@/store/FormSlice';
+import { useNavigate } from 'react-router-dom';
 
 const UncontrolledForm = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const nameRef = useRef<HTMLInputElement>(null);
   const ageRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
@@ -11,6 +17,22 @@ const UncontrolledForm = () => {
   const agreementRef = useRef<HTMLInputElement>(null);
   const imageRef = useRef<HTMLInputElement>(null);
   const countryRef = useRef<HTMLInputElement>(null);
+
+  const submit = () => {
+    dispatch(
+      addUncontrolledForm({
+        name: nameRef.current?.value || '',
+        age: +(ageRef.current?.value || ''),
+        email: emailRef.current?.value || '',
+        password: passwordRef.current?.value || '',
+        gender: genderRef.current?.value || '',
+        agreement: agreementRef.current?.checked ? true : false,
+        image: imageRef.current?.value || '',
+        country: countryRef.current?.value || '',
+      }),
+    );
+    navigate('/');
+  };
 
   return (
     <form className={styles.form}>
@@ -56,6 +78,14 @@ const UncontrolledForm = () => {
         Country
         <input type="text" ref={countryRef} autoComplete="country" />
       </label>
+      <button
+        onClick={(e) => {
+          e.preventDefault();
+          submit();
+        }}
+      >
+        Submit
+      </button>
     </form>
   );
 };

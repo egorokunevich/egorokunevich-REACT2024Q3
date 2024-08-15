@@ -5,39 +5,57 @@ interface FormSliceData {
   age: number;
   email: string;
   password: string;
-  gender: 'male' | 'female';
+  gender: string;
   agreement: boolean;
   image: string;
-  country: 'Belarus' | 'Ukraine';
+  country: string;
 }
 
 interface FormsSliceInitialState {
-  formData: FormSliceData;
+  controlledForms: FormSliceData[];
+  uncontrolledForms: FormSliceData[];
 }
 
 const initialState: FormsSliceInitialState = {
-  formData: {
-    name: 'John Doe',
-    age: 25,
-    email: 'test@test.com',
-    password: 'qwerty123',
-    gender: 'male',
-    agreement: false,
-    image: '',
-    country: 'Belarus',
-  },
+  controlledForms: [
+    {
+      name: 'John Doe',
+      age: 25,
+      email: 'test@test.com',
+      password: 'qwerty123',
+      gender: 'male',
+      agreement: false,
+      image: '',
+      country: 'Belarus',
+    },
+  ],
+  uncontrolledForms: [
+    {
+      name: 'John Doe',
+      age: 25,
+      email: 'test@test.com',
+      password: 'qwerty123',
+      gender: 'male',
+      agreement: false,
+      image: '',
+      country: 'Belarus',
+    },
+  ],
 };
 
 const FormSlice = createSlice({
   name: 'forms',
   initialState,
   reducers: {
-    setForm: (state, action: PayloadAction<FormSliceData>) => {
-      state.formData = action.payload;
+    addControlledForm: (state, action: PayloadAction<FormSliceData>) => {
+      state.controlledForms.push(action.payload);
+    },
+    addUncontrolledForm: (state, action: PayloadAction<FormSliceData>) => {
+      state.uncontrolledForms.push(action.payload);
     },
   },
 });
 
-export const { setForm } = FormSlice.actions;
+export const { addControlledForm, addUncontrolledForm } = FormSlice.actions;
 
 export default FormSlice.reducer;
