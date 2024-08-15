@@ -15,7 +15,12 @@ const FormCard = ({ form }: FormCardProps) => {
           <div className={styles.row} key={i + key}>
             <h3 className={styles.rowTitle}>{capitalizeFirstLetter(key)}</h3>
             {typeof value === 'boolean' ? (
-              <input type="checkbox" checked={value} disabled />
+              <input
+                type="checkbox"
+                checked={value}
+                disabled
+                className={styles.checkbox}
+              />
             ) : (
               <p className={styles.rowText}>{value ? value : 'none'}</p>
             )}

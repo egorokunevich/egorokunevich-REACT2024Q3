@@ -48,10 +48,10 @@ const FormSlice = createSlice({
   initialState,
   reducers: {
     addControlledForm: (state, action: PayloadAction<FormSliceData>) => {
-      state.controlledForms.push(action.payload);
+      state.controlledForms.unshift(action.payload);
     },
     addUncontrolledForm: (state, action: PayloadAction<FormSliceData>) => {
-      state.uncontrolledForms.push(action.payload);
+      state.uncontrolledForms.unshift(action.payload);
     },
   },
 });
