@@ -57,8 +57,13 @@ const UncontrolledForm = () => {
   const handleError = (fieldName: string) => {
     const error = errors.find((item) => item.path === fieldName);
     if (error) {
-      return <p className={styles.errorMessage}>{error.message}</p>;
+      return (
+        <p className={styles.errorMessage + ' ' + styles.activeError}>
+          {error.message}
+        </p>
+      );
     }
+    return <p className={styles.errorMessage}></p>;
   };
 
   return (

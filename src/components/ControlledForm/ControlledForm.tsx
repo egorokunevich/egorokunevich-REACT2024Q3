@@ -4,7 +4,7 @@ import { getCountriesSelector } from '@/store/selectors';
 import { useState } from 'react';
 import styles from '../UncontrolledForm/UncontrolledForm.module.scss';
 import { useNavigate } from 'react-router-dom';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller, FieldError } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { formSchema } from '@/validations/formValidation';
 import { getBase64String } from '@/utils/getBase64String';
@@ -53,6 +53,17 @@ const ControlledForm = () => {
 
   const { errors } = formState;
 
+  const handleError = (error: FieldError | undefined) => {
+    if (error) {
+      return (
+        <p className={styles.errorMessage + ' ' + styles.activeError}>
+          {error.message}
+        </p>
+      );
+    }
+    return <p className={styles.errorMessage}></p>;
+  };
+
   return (
     <div className={styles.wrapper}>
       <form
@@ -72,9 +83,7 @@ const ControlledForm = () => {
               <input {...field} className={styles.textInput} />
             )}
           />
-          {errors.name && (
-            <p className={styles.errorMessage}>{errors.name?.message}</p>
-          )}
+          {handleError(errors.name)}
         </label>
         <label className={styles.label}>
           Age
@@ -86,7 +95,7 @@ const ControlledForm = () => {
               <input {...field} className={styles.textInput} />
             )}
           />
-          <p className={styles.errorMessage}>{errors.age?.message}</p>
+          {handleError(errors.age)}
         </label>
         <label className={styles.label}>
           Email
@@ -98,7 +107,7 @@ const ControlledForm = () => {
               <input {...field} className={styles.textInput} />
             )}
           />
-          <p className={styles.errorMessage}>{errors.email?.message}</p>
+          {handleError(errors.email)}
         </label>
         <label className={styles.label}>
           Password aA1!
@@ -115,7 +124,7 @@ const ControlledForm = () => {
               />
             )}
           />
-          <p className={styles.errorMessage}>{errors.password?.message}</p>
+          {handleError(errors.password)}
         </label>
         <label className={styles.label}>
           Confirm password
@@ -132,9 +141,7 @@ const ControlledForm = () => {
               />
             )}
           />
-          <p className={styles.errorMessage}>
-            {errors.confirmPassword?.message}
-          </p>
+          {handleError(errors.confirmPassword)}
         </label>
         <label className={styles.label}>
           Gender
@@ -152,7 +159,7 @@ const ControlledForm = () => {
               </select>
             )}
           />
-          <p className={styles.errorMessage}>{errors.gender?.message}</p>
+          {handleError(errors.gender)}
         </label>
         <label className={styles.label}>
           Terms and Conditions agreement
@@ -171,7 +178,7 @@ const ControlledForm = () => {
               />
             )}
           />
-          <p className={styles.errorMessage}>{errors.agreement?.message}</p>
+          {handleError(errors.agreement)}
         </label>
         <label className={styles.label}>
           Image upload
@@ -198,9 +205,7 @@ const ControlledForm = () => {
               />
             )}
           />
-          {errors.image && (
-            <p className={styles.errorMessage}>{errors.image?.message}</p>
-          )}
+          {handleError(errors.image)}
         </label>
         <label className={styles.label}>
           Country
@@ -224,7 +229,7 @@ const ControlledForm = () => {
               </>
             )}
           />
-          <p className={styles.errorMessage}>{errors.country?.message}</p>
+          {handleError(errors.country)}
         </label>
         <button className={styles.formBtn} type="submit">
           Submit
