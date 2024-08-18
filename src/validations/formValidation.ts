@@ -11,8 +11,9 @@ export const formSchema = yup.object().shape({
   age: yup
     .number()
     .typeError('Must be a number')
-    .test('number', 'Must be 0 or more', (value) => {
-      return value! >= 0;
+    .required()
+    .test('number', 'Must be a positive number or 0', (value) => {
+      return value >= 0;
     }),
   email: yup.string().required('Required').email('Must be like test@test.com'),
   password: yup
@@ -39,7 +40,7 @@ export const formSchema = yup.object().shape({
     .mixed<FileList>()
     .required('Required')
     .test('fileFormat', 'Use PNG or JPEG files', (fileList) => {
-      if (fileList.length !== 0) {
+      if (fileList.length > 0) {
         const allowedExtensions = ['png', 'jpeg'];
         return allowedExtensions.includes(
           fileList[0].name.split('.').pop() || 'null',
@@ -48,7 +49,7 @@ export const formSchema = yup.object().shape({
       return false;
     })
     .test('fileSize', 'File should be <= 1MB', (fileList) => {
-      if (fileList.length !== 0) {
+      if (fileList.length > 0) {
         return fileList[0].size <= 1_000_000;
       }
       return false;

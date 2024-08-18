@@ -5,6 +5,8 @@ import { addUncontrolledForm, IImage } from '@/store/FormSlice';
 import { useNavigate } from 'react-router-dom';
 import { getCountriesSelector } from '@/store/selectors';
 import { getBase64String } from '@/utils/getBase64String';
+import { formSchema } from '@/validations/formValidation';
+import { ValidationError } from 'yup';
 
 const UncontrolledForm = () => {
   const dispatch = useAppDispatch();
@@ -23,22 +25,40 @@ const UncontrolledForm = () => {
   const submitRef = useRef<HTMLButtonElement>(null);
 
   const [imageValue, setImageValue] = useState({} as IImage);
+  const [imageFiles, setImageFiles] = useState({} as FileList);
+  const [errors, setErrors] = useState([] as ValidationError[]);
 
-  const submit = () => {
-    dispatch(
-      addUncontrolledForm({
-        name: nameRef.current?.value || '',
-        age: +(ageRef.current?.value || ''),
-        email: emailRef.current?.value || '',
-        password: passwordRef.current?.value || '',
-        confirmPassword: confirmPasswordRef.current?.value || '',
-        gender: genderRef.current?.value || '',
-        agreement: agreementRef.current?.checked ? true : false,
-        image: imageValue,
-        country: countryRef.current?.value || '',
-      }),
-    );
-    navigate('/');
+  const handleSubmit = async () => {
+    const data = {
+      name: nameRef.current?.value || '',
+      age: +(ageRef.current?.value || ''),
+      email: emailRef.current?.value || '',
+      password: passwordRef.current?.value || '',
+      confirmPassword: confirmPasswordRef.current?.value || '',
+      gender: genderRef.current?.value || '',
+      agreement: agreementRef.current?.checked ? true : false,
+      image: imageValue,
+      country: countryRef.current?.value || '',
+    };
+
+    const validationData = { ...data, image: imageFiles };
+    const form = await formSchema
+      .validate(validationData, { abortEarly: false })
+      .catch((e: ValidationError) => {
+        setErrors(e.inner);
+      });
+
+    if (form) {
+      dispatch(addUncontrolledForm(data));
+      navigate('/');
+    }
+  };
+
+  const handleError = (fieldName: string) => {
+    const error = errors.find((item) => item.path === fieldName);
+    if (error) {
+      return <p className={styles.errorMessage}>{error.message}</p>;
+    }
   };
 
   return (
@@ -48,14 +68,17 @@ const UncontrolledForm = () => {
         <label className={styles.label}>
           Name
           <input type="text" ref={nameRef} className={styles.textInput} />
+          {handleError('name')}
         </label>
         <label className={styles.label}>
           Age
           <input type="number" ref={ageRef} className={styles.textInput} />
+          {handleError('age')}
         </label>
         <label className={styles.label}>
           Email
-          <input type="email" ref={emailRef} className={styles.textInput} />
+          <input type="text" ref={emailRef} className={styles.textInput} />
+          {handleError('email')}
         </label>
         <label className={styles.label}>
           Password
@@ -65,6 +88,7 @@ const UncontrolledForm = () => {
             className={styles.textInput}
             autoComplete="on"
           />
+          {handleError('password')}
         </label>
         <label className={styles.label}>
           Confirm password
@@ -74,6 +98,7 @@ const UncontrolledForm = () => {
             className={styles.textInput}
             autoComplete="on"
           />
+          {handleError('confirmPassword')}
         </label>
         <label className={styles.label}>
           Gender
@@ -83,6 +108,7 @@ const UncontrolledForm = () => {
             </option>
             <option value="female">Female</option>
           </select>
+          {handleError('gender')}
         </label>
         <label className={styles.label}>
           Terms and Conditions agreement
@@ -91,6 +117,7 @@ const UncontrolledForm = () => {
             ref={agreementRef}
             className={styles.checkbox}
           />
+          {handleError('agreement')}
         </label>
         <label className={styles.label}>
           Image upload
@@ -104,9 +131,11 @@ const UncontrolledForm = () => {
                   base64: baseString as string,
                   file: e.target.files[0],
                 });
+                setImageFiles(e.target.files);
               }
             }}
           />
+          {handleError('image')}
         </label>
         <label className={styles.label}>
           Country
@@ -121,12 +150,13 @@ const UncontrolledForm = () => {
               return <option key={item.country}>{item.country}</option>;
             })}
           </datalist>
+          {handleError('country')}
         </label>
         <button
           className={styles.formBtn}
           onClick={(e) => {
             e.preventDefault();
-            submit();
+            handleSubmit();
           }}
           ref={submitRef}
         >
