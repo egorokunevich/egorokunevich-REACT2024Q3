@@ -39,7 +39,7 @@ export const formSchema = yup.object().shape({
   image: yup
     .mixed<FileList>()
     .required('Required')
-    .test('fileFormat', 'Use PNG or JPEG files', (fileList) => {
+    .test('fileFormat', 'Must be PNG or JPEG file', (fileList) => {
       if (fileList.length > 0) {
         const allowedExtensions = ['png', 'jpeg'];
         return allowedExtensions.includes(
@@ -48,7 +48,7 @@ export const formSchema = yup.object().shape({
       }
       return false;
     })
-    .test('fileSize', 'File should be <= 1MB', (fileList) => {
+    .test('fileSize', 'File must be less than 1MB', (fileList) => {
       if (fileList.length > 0) {
         return fileList[0].size <= 1_000_000;
       }

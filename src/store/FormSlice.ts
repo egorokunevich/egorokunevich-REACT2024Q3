@@ -10,7 +10,6 @@ export interface FormSliceData {
   age: number;
   email: string;
   password: string;
-  confirmPassword: string;
   gender: string;
   agreement: boolean;
   image: IImage;

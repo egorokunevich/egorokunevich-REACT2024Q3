@@ -13,11 +13,11 @@ const Index = () => {
   return (
     <>
       <div className={styles.listsWrapper}>
-        <div style={{ width: '100%' }} key={'controlled-list'}>
+        <div className={styles.listContainer} key={'controlled-list'}>
           <h2 className={styles.listTitle}>Controlled forms</h2>
           <FormsList forms={controlledForms} />
         </div>
-        <div style={{ width: '100%' }} key={'uncontrolled-list'}>
+        <div className={styles.listContainer} key={'uncontrolled-list'}>
           <h2 className={styles.listTitle}>Uncontrolled forms</h2>
           <FormsList forms={uncontrolledForms} />
         </div>

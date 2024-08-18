@@ -34,14 +34,17 @@ const UncontrolledForm = () => {
       age: +(ageRef.current?.value || ''),
       email: emailRef.current?.value || '',
       password: passwordRef.current?.value || '',
-      confirmPassword: confirmPasswordRef.current?.value || '',
       gender: genderRef.current?.value || '',
       agreement: agreementRef.current?.checked ? true : false,
       image: imageValue,
       country: countryRef.current?.value || '',
     };
 
-    const validationData = { ...data, image: imageFiles };
+    const validationData = {
+      ...data,
+      image: imageFiles,
+      confirmPassword: confirmPasswordRef.current?.value || '',
+    };
     const form = await formSchema
       .validate(validationData, { abortEarly: false })
       .catch((e: ValidationError) => {

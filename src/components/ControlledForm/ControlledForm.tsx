@@ -41,7 +41,6 @@ const ControlledForm = () => {
         age: data.age || 0,
         email: data.email,
         password: data.password,
-        confirmPassword: data.confirmPassword,
         gender: data.gender || 'none',
         agreement: data.agreement,
         image: imageValue,
@@ -51,7 +50,7 @@ const ControlledForm = () => {
     navigate('/');
   };
 
-  const { errors } = formState;
+  const { errors, isValid } = formState;
 
   const handleError = (error: FieldError | undefined) => {
     if (error) {
@@ -110,7 +109,7 @@ const ControlledForm = () => {
           {handleError(errors.email)}
         </label>
         <label className={styles.label}>
-          Password aA1!
+          Password
           <Controller
             name="password"
             control={control}
@@ -231,7 +230,7 @@ const ControlledForm = () => {
           />
           {handleError(errors.country)}
         </label>
-        <button className={styles.formBtn} type="submit">
+        <button className={styles.formBtn} type="submit" disabled={!isValid}>
           Submit
         </button>
       </form>
