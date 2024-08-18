@@ -1,177 +1,232 @@
-import { addControlledForm } from '@/store/FormSlice';
+import { addControlledForm, IImage } from '@/store/FormSlice';
 import { useAppDispatch, useAppSelector } from '@/store/reduxHooks';
 import { getCountriesSelector } from '@/store/selectors';
 import { useState } from 'react';
 import styles from '../UncontrolledForm/UncontrolledForm.module.scss';
 import { useNavigate } from 'react-router-dom';
+import { useForm, Controller } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { formSchema } from '@/validations/formValidation';
+import { getBase64String } from '@/utils/getBase64String';
+
+interface FormData {
+  name: string;
+  age?: number;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  gender?: string;
+  agreement: boolean;
+  image: string;
+  country: string;
+}
 
 const ControlledForm = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const mockCountries = useAppSelector(getCountriesSelector);
 
-  const [nameValue, setNameValue] = useState('');
-  const [ageValue, setAgeValue] = useState('');
-  const [emailValue, setEmailValue] = useState('');
-  const [passwordValue, setPasswordValue] = useState('');
-  const [confirmPasswordValue, setConfirmPasswordValue] = useState('');
-  const [genderValue, setGenderValue] = useState('male');
-  const [agreementValue, setAgreementValue] = useState(false);
-  const [imageValue, setImageValue] = useState('');
-  const [countryValue, setCountryValue] = useState('');
+  const [imageValue, setImageValue] = useState({} as IImage);
 
-  const submit = () => {
+  const { handleSubmit, formState, control } = useForm({
+    resolver: yupResolver(formSchema),
+    mode: 'onChange',
+    reValidateMode: 'onChange',
+  });
+
+  const submit = (data: FormData) => {
     dispatch(
       addControlledForm({
-        name: nameValue,
-        age: +ageValue,
-        email: emailValue,
-        password: passwordValue,
-        gender: genderValue,
-        agreement: agreementValue,
+        name: data.name,
+        age: data.age || 0,
+        email: data.email,
+        password: data.password,
+        confirmPassword: data.confirmPassword,
+        gender: data.gender || 'none',
+        agreement: data.agreement,
         image: imageValue,
-        country: countryValue,
+        country: data.country,
       }),
     );
     navigate('/');
   };
 
+  const { errors } = formState;
+
   return (
     <div className={styles.wrapper}>
-      <form className={styles.form}>
+      <form
+        className={styles.form}
+        onSubmit={handleSubmit((data) => {
+          submit(data as unknown as FormData);
+        })}
+      >
         <h1>Controlled Form</h1>
         <label className={styles.label}>
           Name
-          <input
-            type="text"
-            value={nameValue}
-            className={styles.textInput}
-            onChange={(e) => {
-              setNameValue(e.target.value);
-            }}
+          <Controller
+            name="name"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <input {...field} className={styles.textInput} />
+            )}
           />
+          {errors.name && (
+            <p className={styles.errorMessage}>{errors.name?.message}</p>
+          )}
         </label>
         <label className={styles.label}>
           Age
-          <input
-            type="number"
-            value={ageValue}
-            className={styles.textInput}
-            onChange={(e) => {
-              setAgeValue(e.target.value);
-            }}
+          <Controller
+            name="age"
+            control={control}
+            defaultValue={0}
+            render={({ field }) => (
+              <input {...field} className={styles.textInput} />
+            )}
           />
+          <p className={styles.errorMessage}>{errors.age?.message}</p>
         </label>
         <label className={styles.label}>
           Email
-          <input
-            type="email"
-            value={emailValue}
-            className={styles.textInput}
-            onChange={(e) => {
-              setEmailValue(e.target.value);
-            }}
+          <Controller
+            name="email"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <input {...field} className={styles.textInput} />
+            )}
           />
+          <p className={styles.errorMessage}>{errors.email?.message}</p>
         </label>
         <label className={styles.label}>
-          Password
-          <input
-            type="password"
-            value={passwordValue}
-            className={styles.textInput}
-            onChange={(e) => {
-              setPasswordValue(e.target.value);
-            }}
+          Password aA1!
+          <Controller
+            name="password"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <input
+                {...field}
+                type="password"
+                className={styles.textInput}
+                autoComplete="on"
+              />
+            )}
           />
+          <p className={styles.errorMessage}>{errors.password?.message}</p>
         </label>
         <label className={styles.label}>
           Confirm password
-          <input
-            type="password"
-            value={confirmPasswordValue}
-            className={styles.textInput}
-            onChange={(e) => {
-              setConfirmPasswordValue(e.target.value);
-            }}
+          <Controller
+            name="confirmPassword"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <input
+                {...field}
+                type="password"
+                className={styles.textInput}
+                autoComplete="on"
+              />
+            )}
           />
+          <p className={styles.errorMessage}>
+            {errors.confirmPassword?.message}
+          </p>
         </label>
         <label className={styles.label}>
           Gender
-          <select
-            value={genderValue}
-            className={styles.textInput}
-            onChange={(e) => {
-              setGenderValue(e.target.value);
-            }}
-          >
-            <option value="male" defaultChecked>
-              Male
-            </option>
-            <option value="female">Female</option>
-          </select>
+          <Controller
+            name="gender"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <select {...field} className={styles.textInput}>
+                <option value="" defaultChecked disabled>
+                  Select gender
+                </option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+            )}
+          />
+          <p className={styles.errorMessage}>{errors.gender?.message}</p>
         </label>
         <label className={styles.label}>
           Terms and Conditions agreement
-          <input
-            type="checkbox"
-            checked={agreementValue}
-            className={styles.checkbox}
-            onChange={(e) => {
-              setAgreementValue(e.target.checked);
-            }}
+          <Controller
+            name="agreement"
+            control={control}
+            defaultValue={false}
+            render={({ field: { onChange, onBlur, value, ref } }) => (
+              <input
+                type="checkbox"
+                onBlur={onBlur}
+                className={styles.checkbox}
+                onChange={(e) => onChange(e.target.checked)}
+                checked={value}
+                ref={ref}
+              />
+            )}
           />
+          <p className={styles.errorMessage}>{errors.agreement?.message}</p>
         </label>
         <label className={styles.label}>
           Image upload
-          <input
-            type="file"
-            value={imageValue}
-            onChange={(e) => {
-              setImageValue(e.target.value);
-            }}
+          <Controller
+            name="image"
+            control={control}
+            defaultValue={undefined}
+            render={({ field: { onChange, onBlur } }) => (
+              <input
+                type="file"
+                accept="image/*"
+                onChange={async (e) => {
+                  const files = e.target.files;
+                  onChange(files);
+                  if (e.target.files && e.target.files[0]) {
+                    const baseString = await getBase64String(e.target.files[0]);
+                    setImageValue({
+                      base64: baseString as string,
+                      file: e.target.files[0],
+                    });
+                  }
+                }}
+                onBlur={onBlur}
+              />
+            )}
           />
+          {errors.image && (
+            <p className={styles.errorMessage}>{errors.image?.message}</p>
+          )}
         </label>
         <label className={styles.label}>
           Country
-          <input
-            type="text"
-            value={countryValue}
-            onChange={(e) => setCountryValue(e.target.value)}
-            className={styles.textInput}
+          <Controller
+            name="country"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <>
+                <input
+                  {...field}
+                  list="countryList"
+                  className={styles.textInput}
+                  autoComplete="on"
+                />
+                <datalist id="countryList">
+                  {mockCountries.map((item) => {
+                    return <option key={item.country}>{item.country}</option>;
+                  })}
+                </datalist>
+              </>
+            )}
           />
-          <div className={styles.dropdownMenu}>
-            {mockCountries
-              .filter((item) => {
-                const searchQuery = countryValue.toLowerCase() || '';
-                const country = item.country.toLowerCase();
-
-                return (
-                  countryValue &&
-                  country.startsWith(searchQuery) &&
-                  country !== searchQuery
-                );
-              })
-              .map((option) => {
-                return (
-                  <div
-                    className={styles.dropdownOption}
-                    onClick={() => {
-                      setCountryValue(option.country);
-                    }}
-                  >
-                    {option.country}
-                  </div>
-                );
-              })}
-          </div>
+          <p className={styles.errorMessage}>{errors.country?.message}</p>
         </label>
-        <button
-          className={styles.formBtn}
-          onClick={(e) => {
-            e.preventDefault();
-            submit();
-          }}
-        >
+        <button className={styles.formBtn} type="submit">
           Submit
         </button>
       </form>

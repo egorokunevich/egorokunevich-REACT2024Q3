@@ -65,3 +65,11 @@
     background-color: rgb(223, 223, 223);
   }
 }
+
+datalist {
+  max-height: 200px;
+}
+
+.errorMessage {
+  color: red;
+}

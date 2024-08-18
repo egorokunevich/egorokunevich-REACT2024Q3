@@ -1,9 +1,10 @@
 import { useRef, useState } from 'react';
 import styles from './UncontrolledForm.module.scss';
 import { useAppDispatch, useAppSelector } from '@/store/reduxHooks';
-import { addUncontrolledForm } from '@/store/FormSlice';
+import { addUncontrolledForm, IImage } from '@/store/FormSlice';
 import { useNavigate } from 'react-router-dom';
 import { getCountriesSelector } from '@/store/selectors';
+import { getBase64String } from '@/utils/getBase64String';
 
 const UncontrolledForm = () => {
   const dispatch = useAppDispatch();
@@ -19,7 +20,9 @@ const UncontrolledForm = () => {
   const agreementRef = useRef<HTMLInputElement>(null);
   const imageRef = useRef<HTMLInputElement>(null);
   const countryRef = useRef<HTMLInputElement>(null);
-  const [countryInputText, setCountryInputText] = useState('');
+  const submitRef = useRef<HTMLButtonElement>(null);
+
+  const [imageValue, setImageValue] = useState({} as IImage);
 
   const submit = () => {
     dispatch(
@@ -28,9 +31,10 @@ const UncontrolledForm = () => {
         age: +(ageRef.current?.value || ''),
         email: emailRef.current?.value || '',
         password: passwordRef.current?.value || '',
+        confirmPassword: confirmPasswordRef.current?.value || '',
         gender: genderRef.current?.value || '',
         agreement: agreementRef.current?.checked ? true : false,
-        image: imageRef.current?.value || '',
+        image: imageValue,
         country: countryRef.current?.value || '',
       }),
     );
@@ -59,6 +63,7 @@ const UncontrolledForm = () => {
             type="password"
             ref={passwordRef}
             className={styles.textInput}
+            autoComplete="on"
           />
         </label>
         <label className={styles.label}>
@@ -67,6 +72,7 @@ const UncontrolledForm = () => {
             type="password"
             ref={confirmPasswordRef}
             className={styles.textInput}
+            autoComplete="on"
           />
         </label>
         <label className={styles.label}>
@@ -88,44 +94,33 @@ const UncontrolledForm = () => {
         </label>
         <label className={styles.label}>
           Image upload
-          <input type="file" ref={imageRef} />
+          <input
+            type="file"
+            ref={imageRef}
+            onChange={async (e) => {
+              if (e.target.files && e.target.files[0]) {
+                const baseString = await getBase64String(e.target.files[0]);
+                setImageValue({
+                  base64: baseString as string,
+                  file: e.target.files[0],
+                });
+              }
+            }}
+          />
         </label>
         <label className={styles.label}>
           Country
           <input
             type="text"
+            list="countryList"
             ref={countryRef}
-            onChange={(e) => setCountryInputText(e.target.value)}
             className={styles.textInput}
           />
-          <div className={styles.dropdownMenu}>
-            {mockCountries
-              .filter((item) => {
-                const searchQuery = countryInputText.toLowerCase() || '';
-                const country = item.country.toLowerCase();
-
-                return (
-                  countryInputText &&
-                  country.startsWith(searchQuery) &&
-                  country !== searchQuery
-                );
-              })
-              .map((option) => {
-                return (
-                  <div
-                    className={styles.dropdownOption}
-                    onClick={() => {
-                      setCountryInputText(option.country);
-                      if (countryRef.current?.value) {
-                        countryRef.current.value = option.country;
-                      }
-                    }}
-                  >
-                    {option.country}
-                  </div>
-                );
-              })}
-          </div>
+          <datalist id="countryList">
+            {mockCountries.map((item) => {
+              return <option key={item.country}>{item.country}</option>;
+            })}
+          </datalist>
         </label>
         <button
           className={styles.formBtn}
@@ -133,6 +128,7 @@ const UncontrolledForm = () => {
             e.preventDefault();
             submit();
           }}
+          ref={submitRef}
         >
           Submit
         </button>

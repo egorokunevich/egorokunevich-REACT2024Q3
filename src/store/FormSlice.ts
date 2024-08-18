@@ -1,14 +1,19 @@
 import { Country, mockCountries } from '@/mocks/mockCountries';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+export interface IImage {
+  base64: string;
+  file: File;
+}
 export interface FormSliceData {
   name: string;
   age: number;
   email: string;
   password: string;
+  confirmPassword: string;
   gender: string;
   agreement: boolean;
-  image: string;
+  image: IImage;
   country: string;
 }
 
