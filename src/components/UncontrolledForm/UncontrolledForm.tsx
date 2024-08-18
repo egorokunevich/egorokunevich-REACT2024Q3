@@ -81,7 +81,12 @@ const UncontrolledForm = () => {
         </label>
         <label className={styles.label}>
           Age
-          <input type="number" ref={ageRef} className={styles.textInput} />
+          <input
+            type="number"
+            defaultValue={0}
+            ref={ageRef}
+            className={styles.textInput}
+          />
           {handleError('age')}
         </label>
         <label className={styles.label}>
@@ -114,10 +119,11 @@ const UncontrolledForm = () => {
         </label>
         <label className={styles.label}>
           Gender
-          <select ref={genderRef} className={styles.textInput}>
-            <option value="male" defaultChecked>
-              Male
+          <select ref={genderRef} defaultValue="" className={styles.textInput}>
+            <option value="" defaultChecked disabled>
+              Select gender
             </option>
+            <option value="male">Male</option>
             <option value="female">Female</option>
           </select>
           {handleError('gender')}

@@ -92,7 +92,7 @@ const ControlledForm = () => {
             control={control}
             defaultValue={0}
             render={({ field }) => (
-              <input {...field} className={styles.textInput} />
+              <input {...field} type="number" className={styles.textInput} />
             )}
           />
           {handleError(errors.age)}
