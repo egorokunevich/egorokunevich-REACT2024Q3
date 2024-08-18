@@ -7,6 +7,7 @@ import { getCountriesSelector } from '@/store/selectors';
 import { getBase64String } from '@/utils/getBase64String';
 import { formSchema } from '@/validations/formValidation';
 import { ValidationError } from 'yup';
+import PasswordStrengthIndicator from '../PowerStrengthIndicator';
 
 const UncontrolledForm = () => {
   const dispatch = useAppDispatch();
@@ -95,6 +96,9 @@ const UncontrolledForm = () => {
             ref={passwordRef}
             className={styles.textInput}
             autoComplete="on"
+          />
+          <PasswordStrengthIndicator
+            password={passwordRef.current?.value || ''}
           />
           {handleError('password')}
         </label>

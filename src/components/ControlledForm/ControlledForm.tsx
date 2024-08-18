@@ -8,6 +8,7 @@ import { useForm, Controller, FieldError } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { formSchema } from '@/validations/formValidation';
 import { getBase64String } from '@/utils/getBase64String';
+import PasswordStrengthIndicator from '../PowerStrengthIndicator';
 
 interface FormData {
   name: string;
@@ -115,12 +116,15 @@ const ControlledForm = () => {
             control={control}
             defaultValue=""
             render={({ field }) => (
-              <input
-                {...field}
-                type="password"
-                className={styles.textInput}
-                autoComplete="on"
-              />
+              <>
+                <input
+                  {...field}
+                  type="password"
+                  className={styles.textInput}
+                  autoComplete="on"
+                />
+                <PasswordStrengthIndicator password={field.value} />
+              </>
             )}
           />
           {handleError(errors.password)}
